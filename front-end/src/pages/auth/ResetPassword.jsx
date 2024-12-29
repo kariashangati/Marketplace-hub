@@ -5,4 +5,3 @@ export const ResetPassword = () => {
     <div>ResetPassword</div>
   )
 }
-
