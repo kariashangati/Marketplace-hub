@@ -21,10 +21,10 @@ export const ResetPassword = () => {
     }))
   }
   const handleSubmit = (e)=>{
-    e.preventDefault()1
+    e.preventDefault()
   }
   return (
-    <div className='bg-black'>
+    <div className="bg-black">
       <div className='bg-dark w-[90%] md:w-[45%] mx-auto mt-32 px-6 py-8'>
         <h1 className='text-4xl '>Reset your password</h1>
         <h4 className=''>Complete this credentials to reset your password</h4>
