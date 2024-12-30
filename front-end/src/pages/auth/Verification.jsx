@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { Label } from "../../components/ui/Label";
 import { Input } from "../../components/ui/Input";
 import { Link } from "react-router-dom";
@@ -18,8 +18,8 @@ const Verification = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="flex items-center h-screen">
-        <div className="bg-dark flex flex-col gap-5 justify-center p-5 pt-6 mx-auto">
+      <div className="flex items-center mt-32">
+        <div className="bg-dark flex flex-col gap-5 justify-center p-5 pt-6 w-[90%] md:w-[40%] mx-auto ">
           <div className="mb-6">
             <h1 className="text-4xl mb-2">Verification code</h1>
             <h4>
@@ -42,7 +42,7 @@ const Verification = () => {
           </div>
 
           <div>
-            <Button type="Submit" text="Registre" />
+            <Button type="Submit" text="Submit" />
           </div>
         </div>
       </div>
