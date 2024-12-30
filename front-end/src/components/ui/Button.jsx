@@ -9,7 +9,7 @@ export const Button = ({type,loading,onClick,text,bg,color,width}) => {
         {
             loading?
                 <CircularProgress size={"22px"} color="white"/>
-            :{text}
+            :text
         }
     </button>
   )
