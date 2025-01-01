@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Exception;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -13,6 +13,20 @@ use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
+
+    public function validateToken(Request $request){
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+            return response()->json([
+                'user' => $user,
+                'role' => $user->role,
+                ], 200);
+        } catch (Exception $ex) {
+            return response()->json(['message' => $ex->getMessage()], 500);
+        }
+    }
+
+
     public function checkUserLogin(Request $request){
         $request->validate([
             'email' => 'required|email',
@@ -22,24 +36,24 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
         if (!$token = JWTAuth::attempt($credentials)) {
             return response()->json([
-                'message' => 'invalid credentials',
+                'message' => 'Invalid credentials',
             ],401);
         }
 
         if(JWTAuth::user()->role === 'admin'){
             return response()->json([
-                'message' => 'Login successful',
                 'userData' => JWTAuth::user(),
                 'role' => 'admin',
-            ])->cookie('token', $token, 60);
+                'token' => $token,
+            ]);
         }
 
         if(JWTAuth::user()->role === 'user'){
             return response()->json([
-                'message' => 'Login successful',
                 'userData' => JWTAuth::user(),
                 'role' => 'user',
-            ])->cookie('token', $token, 60);
+                'token' => $token,
+            ]);
         }
     }
 
@@ -74,6 +88,7 @@ class AuthController extends Controller
 
             return response()->json([
                 "message" => "Verification code sent successfully",
+                "sended" => true,
             ],200);
 
         } catch (Exception $ex) {
