@@ -23,7 +23,7 @@ class AuthController extends Controller
         if (!$token = JWTAuth::attempt($credentials)) {
             return response()->json([
                 'message' => 'invalid credentials',
-            ]);
+            ],401);
         }
 
         if(JWTAuth::user()->role === 'admin'){
@@ -79,7 +79,7 @@ class AuthController extends Controller
         } catch (Exception $ex) {
             return response()->json([
                 "message" => $ex->getMessage(),
-            ]);
+            ],500);
         }
     }
 
@@ -123,7 +123,7 @@ class AuthController extends Controller
         }catch(Exception $ex){
             return response()->json([
                 "message" => $ex->getMessage(),
-            ]);
+            ],500);
         }
     }
 
@@ -152,7 +152,7 @@ class AuthController extends Controller
         }catch(Exception $ex){
             return response()->json([
                 "message" => $ex->getMessage(),
-            ]);
+            ],500);
         }
     }
 
@@ -178,7 +178,7 @@ class AuthController extends Controller
         }catch(Exception $ex){
             return response()->json([
                 "message" => $ex->getMessage(),
-            ]);
+            ],500);
         }
     }
 }
