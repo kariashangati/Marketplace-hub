@@ -2,17 +2,36 @@ import { Label } from "../../components/ui/Label";
 import { Input } from "../../components/ui/Input";
 import { Button } from "../../components/ui/Button";
 import { useState } from "react";
+import { forgotPassword } from "../../services/authServices";
+import { Notification } from "../../components/ui/Notification";
 
 const ForgotPassword = () => {
-  const [inputVerification, setInputVerification] = useState();
 
-  const handleChange = (e) => {
-    setInputVerification(e.target.value);
-  };
+  const [email, setEmail] = useState();
+  const [loading,setLoading] = useState(false);
+  const [notification,setNotification] = useState({});
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("said");
+    setNotification(null);
+    const formData = new FormData();
+    formData.append("email",email);
+
+    setLoading(true);
+    try {
+      const response = await forgotPassword(formData);
+      setLoading(false);
+      if(response.status === 200){
+        setNotification({type:"success",message:response.data.message});
+      }
+    } catch (error) {
+      setLoading(false);
+      if(error.response){
+        setNotification({type:"error",message:error.response.data.message})
+      }else{
+        setNotification({type:"error",message:"Try again later"})
+      }
+    }
   };
 
   return (
@@ -27,18 +46,20 @@ const ForgotPassword = () => {
           </div>
 
           <div>
-            <Label text={"Verification code"} />
+            <Label text={"Email"} />
             <Input
-              type={"number"}
-              name={"numberVerification"}
-              placholder={"max: 6 chars"}
-              value={inputVerification}
-              onChange={handleChange}
+              type={"email"}
+              name={"email"}
+              placholder={"ex:john00.0@exemple.com"}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
+            {
+              notification && <Notification type={notification.type} message={notification.message} />
+            }
           </div>
-
           <div>
-            <Button type="Submit" text="Send reset link" />
+            <Button type="Submit" text="Send reset link" loading={loading}/>
           </div>
         </div>
       </div>

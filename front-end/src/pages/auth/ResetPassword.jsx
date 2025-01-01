@@ -1,14 +1,23 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Label } from '../../components/ui/Label'
 import { Input } from '../../components/ui/Input'
 import { Button } from '../../components/ui/Button'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useParams } from 'react-router-dom'
+import { resetPassword } from '../../services/authServices'
+import { Notification } from '../../components/ui/Notification'
 
 export const ResetPassword = () => {
 
+  const {token} = useParams();
+  const location = useLocation();
+  const emailSearch = new URLSearchParams(location.search);
+  const email = emailSearch.get("email");
+
   const [formData,setFormData] = useState({
+    token:token,
+    email:email,
     password : '',
-    r_password :''
+    password_confirmation :''
   })
   const [loading,setLoading] = useState(false);
   const [notification,setNotification] = useState({});
@@ -20,8 +29,27 @@ export const ResetPassword = () => {
       [name] : value
     }))
   }
-  const handleSubmit = (e)=>{
-    e.preventDefault()
+  const handleSubmit = async (e)=>{
+    e.preventDefault();
+    setNotification(null);
+    if(formData.password !== formData.password_confirmation){
+      return;
+    }
+    setLoading(true);
+    try {
+      const response = await resetPassword(formData);
+      setLoading(false);
+      if(response.status === 200 && response.data.message){
+        setNotification({type:"success",message:response.data.message});
+      }
+    } catch (error) {
+      setLoading(false);
+      if(error.response){
+        setNotification({type:"error",message:error.response.data.message})
+      }else{
+        setNotification({type:"error",message:"Try again later"})
+      }
+    }
   }
   return (
     <div className="bg-black">
@@ -37,12 +65,14 @@ export const ResetPassword = () => {
             </div>
             <div className='mt-4'>
               <Label text={'Retype Password'} />
-              <Input type={'password'} name={'r_password'} placholder={'●●●●●●●●'} value={formData.r_password} onChange={handleChange}/>
+              <Input type={'password'} name={'password_confirmation'} placholder={'●●●●●●●●'} value={formData.password_confirmation} onChange={handleChange}/>
             </div>
             <div className='mt-10'>
               <Button type={'submit'} text={'Reset password'} loading={loading}/>
             </div>
-            
+            {
+              notification && <Notification type={notification.type} message={notification.message} />
+            }
           </div>
         </form>
       </div>

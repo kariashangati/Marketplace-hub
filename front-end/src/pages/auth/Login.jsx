@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { Label } from "../../components/ui/Label";
 import { Input } from "../../components/ui/Input";
 import { Button } from "../../components/ui/Button";
+import { checkUserLogin } from "../../services/authServices";
+import { Notification } from "../../components/ui/Notification";
 
 export const Login = () => {
   const [formData, setFormData] = useState({
@@ -20,10 +22,36 @@ export const Login = () => {
       [name]: value,
     }));
   };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
 
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setNotification(null);
+    setLoading(true);
+    try{
+      const response = await checkUserLogin(formData);
+      setLoading(false);
+      if(response.status === 200){
+        if(response.data.role === "admin"){
+          localStorage.setItem("token",response.data.token);
+          localStorage.setItem("user",JSON.stringify(response.data.userData));
+          navigate("/admin/dashboard");
+        }
+        else if(response.data.role === "user"){
+          localStorage.setItem("token",response.data.token);
+          localStorage.setItem("user",JSON.stringify(response.data.userData));
+          navigate("/user/dashboard");
+        }
+      }
+    }catch(error){
+      setLoading(false);
+      if(error.response){
+        setNotification({type: "error",message: error.response.data.message});
+      }else{
+        setNotification({type: "error",message: "Try again later"});
+      }
+    };
+  }
   return (
     <div className="bg-black">
       <div className="bg-dark w-[90%] md:w-[45%] mx-auto mt-32 px-6 py-8">
@@ -66,6 +94,9 @@ export const Login = () => {
             <div className="mt-14">
               <Button type={"submit"} text={"Sign in"} loading={loading} />
             </div>
+            {
+              notification && <Notification type={notification.type} message={notification.message} />
+            }
           </div>
         </form>
       </div>
