@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('email');
             $table->integer('verificationCode');
-            $table->date('expires_at');
+            $table->dateTime('expires_at');
             $table->timestamps();
         });
     }
