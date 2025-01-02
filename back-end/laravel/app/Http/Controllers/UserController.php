@@ -12,7 +12,7 @@ class UserController extends Controller
         try{
             $users = User::paginate(8);
             return response()->json([
-                'users' => $users, 
+                'users' => $users,
             ]);
 
         }catch(Exception $ex){
@@ -46,12 +46,12 @@ class UserController extends Controller
             $user = User::find($id);
             if($user){
                 return response()->json([
-                    'message' => 'User found successfully'
+                    "user" => $user,
                 ]);
             }else{
                 return response()->json([
                     'message' => 'User not found'
-                ]);
+                ],401);
             }
         }catch(Exception $ex){
             return response()->json([
@@ -59,5 +59,5 @@ class UserController extends Controller
             ],500);
         }
     }
-    
+
 }
