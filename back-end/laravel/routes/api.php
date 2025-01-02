@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +17,10 @@ Route::prefix("auth")->group(function(){
     Route::post("/checkVerificationCode",[AuthController::class,"checkVerificationCode"]);
     Route::post("/forgotPassword",[AuthController::class,"sendForgotPasswordLink"]);
     Route::post("/resetPassword",[AuthController::class,"resetPassword"]);
+});
+
+Route::prefix("user")->group(function(){
+    Route::get("/users",[UserController::class,"getUsers"]);
+    Route::delete("/deleteUser/{id}",[UserController::class,"deletUser"]);
+    Route::get("/viewUser/{id}",[UserController::class,"viewUser"]);
 });
