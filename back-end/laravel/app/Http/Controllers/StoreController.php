@@ -2,25 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use App\Models\Save;
+use App\Models\Store;
 use Exception;
 use Illuminate\Http\Request;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
-class ProductController extends Controller
+class StoreController extends Controller
 {
-    public function getSavedProducts()
-    {
+    public function getUserStores(){
         try {
             $user = JWTAuth::parseToken()->authenticate();
-            $savedProducts = Save::where("user_id",$user->id)
-                                ->with("product")
-                                ->paginate(10);
+            $stores = Store::where("user_id",$user->id)
+                            ->latest()
+                            ->paginate(8);
 
             return response()->json([
-                'savedProducts' => $savedProducts,
+                "stores" => $stores,
             ]);
+
+            return response()->json([
+                'stores' => $stores,
+            ]);
+
         } catch (Exception $ex) {
             return response()->json([
                 'message' => $ex->getMessage(),

@@ -3,6 +3,9 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\StoreController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\CheckRole;
 use Illuminate\Http\Request;
@@ -23,22 +26,39 @@ Route::prefix("auth")->group(function () {
     Route::post("/resetPassword", [AuthController::class, "resetPassword"]);
 });
 
+
+// ->middleware(CheckRole::class . ":admin") this middleware is used to check the role of the user
+
 Route::prefix("user")->group(function () {
-    Route::get("/users", [UserController::class, "getUsers"]);
-    Route::delete("/deleteUser/{id}", [UserController::class, "deletUser"]);
+    Route::get("/getUsers", [UserController::class, "getUsers"]);
+    Route::delete("/deleteUser/{id}", [UserController::class, "deleteUser"]);
     Route::get("/viewUser/{id}", [UserController::class, "viewUser"]);
+    Route::post("/editProfile", [UserController::class, "editProfile"]);
 });
-// ->middleware(CheckRole::class . ":admin")
+
 
 Route::prefix("category")->group(function () {
     Route::get("/viewcategories", [CategoryController::class, "viewCategories"]);
     Route::post("/addcategory", [CategoryController::class, "addCategory"]);
 });
-// ->middleware(CheckRole::class . ":admin")
+
+
+Route::prefix("product")->group(function(){
+    Route::get("/getSavedProducts", [ProductController::class, "getSavedProducts"]);
+});
+
 
 Route::prefix("admin")->group(function () {
     Route::get("/getAdmins", [AdminController::class, "getAdmins"]);
     Route::post("/addAdmin", [AdminController::class, "addAdmin"]);
 });
 
-// ->middleware(CheckRole::class . ":admin")
+Route::prefix("store")->group(function(){
+    Route::get("/getUserStores", [StoreController::class, "getUserStores"]);
+});
+
+Route::prefix("search")->group(function(){
+    Route::post("/postSearch", [SearchController::class, "postSearch"]);
+    Route::get("/getSearches", [SearchController::class, "getSearches"]);
+    Route::delete("/deleteSearch/{id}", [SearchController::class, "deleteSearch"]);
+});
