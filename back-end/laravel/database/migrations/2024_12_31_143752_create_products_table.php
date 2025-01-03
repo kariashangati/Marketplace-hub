@@ -19,10 +19,10 @@ return new class extends Migration
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->unsignedBigInteger('store_id');
             $table->foreign('store_id')->references('id')->on('stores')->onDelete('cascade');
-            $table->string('productImage');
+            $table->string('productImage')->nullable();
             $table->float('price');
             $table->integer('likes');
-            $table->integer('stock');
+            $table->enum('status',['pending','accepted']);
             $table->string('location');
             $table->boolean('delivry');
             $table->timestamps();
