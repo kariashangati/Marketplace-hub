@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserController;
@@ -22,19 +23,22 @@ Route::prefix("auth")->group(function () {
     Route::post("/resetPassword", [AuthController::class, "resetPassword"]);
 });
 
-Route::prefix("user")->middleware(CheckRole::class . ":admin")->group(function () {
+Route::prefix("user")->group(function () {
     Route::get("/users", [UserController::class, "getUsers"]);
     Route::delete("/deleteUser/{id}", [UserController::class, "deletUser"]);
     Route::get("/viewUser/{id}", [UserController::class, "viewUser"]);
 });
+// ->middleware(CheckRole::class . ":admin")
 
 Route::prefix("category")->group(function () {
     Route::get("/viewcategories", [CategoryController::class, "viewCategories"]);
     Route::post("/addcategory", [CategoryController::class, "addCategory"]);
 });
+// ->middleware(CheckRole::class . ":admin")
 
-
-Route::prefix("admin")->middleware(CheckRole::class . ":admin")->group(function () {
-    Route::get("/getadmin", [UserController::class, "getAdmin"]);
-    Route::post("/addadmin", [UserController::class, "addAdmin"]);
+Route::prefix("admin")->group(function () {
+    Route::get("/getAdmins", [AdminController::class, "getAdmins"]);
+    Route::post("/addAdmin", [AdminController::class, "addAdmin"]);
 });
+
+// ->middleware(CheckRole::class . ":admin")

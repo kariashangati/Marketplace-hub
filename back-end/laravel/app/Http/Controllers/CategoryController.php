@@ -11,6 +11,9 @@ class CategoryController extends Controller
     public function addCategory(Request $request)
     {
         try {
+            $request->validate([
+                'categoryName' => 'required',
+            ]);
             $categoryName = $request->input('categoryName');
             Category::create([
                 "categoryName" => $categoryName,
@@ -36,7 +39,7 @@ class CategoryController extends Controller
             } else {
                 return response()->json([
                     'message' => 'Catregory not found',
-                ]);
+                ], 401);
             }
         } catch (Exception $ex) {
             return response()->json([
