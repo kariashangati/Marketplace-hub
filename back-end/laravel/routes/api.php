@@ -28,13 +28,13 @@ Route::prefix("user")->middleware(CheckRole::class . ":admin")->group(function (
     Route::get("/viewUser/{id}", [UserController::class, "viewUser"]);
 });
 
-Route::prefix("category")->group(function () {
+Route::prefix("category")->middleware(CheckRole::class . ":admin")->group(function () {
     Route::get("/viewcategories", [CategoryController::class, "viewCategories"]);
     Route::post("/addcategory", [CategoryController::class, "addCategory"]);
 });
 
 
 Route::prefix("admin")->middleware(CheckRole::class . ":admin")->group(function () {
-    Route::get("/getadmin", [UserController::class, "getAdmin"]);
+    Route::get("/getadmin", [UserController::class, "getAdmins"]);
     Route::post("/addadmin", [UserController::class, "addAdmin"]);
 });

@@ -14,20 +14,22 @@ use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 class AuthController extends Controller
 {
 
-    public function validateToken(Request $request){
+    public function validateToken(Request $request)
+    {
         try {
             $user = JWTAuth::parseToken()->authenticate();
             return response()->json([
                 'user' => $user,
                 'role' => $user->role,
-                ], 200);
+            ], 200);
         } catch (Exception $ex) {
             return response()->json(['message' => $ex->getMessage()], 500);
         }
     }
 
 
-    public function checkUserLogin(Request $request){
+    public function checkUserLogin(Request $request)
+    {
         $request->validate([
             'email' => 'required|email',
             'password' => 'required'
@@ -37,10 +39,10 @@ class AuthController extends Controller
         if (!$token = JWTAuth::attempt($credentials)) {
             return response()->json([
                 'message' => 'Invalid credentials',
-            ],401);
+            ], 401);
         }
 
-        if(JWTAuth::user()->role === 'admin'){
+        if (JWTAuth::user()->role === 'admin') {
             return response()->json([
                 'userData' => JWTAuth::user(),
                 'role' => 'admin',
@@ -48,7 +50,7 @@ class AuthController extends Controller
             ]);
         }
 
-        if(JWTAuth::user()->role === 'user'){
+        if (JWTAuth::user()->role === 'user') {
             return response()->json([
                 'userData' => JWTAuth::user(),
                 'role' => 'user',
@@ -58,21 +60,22 @@ class AuthController extends Controller
     }
 
 
-    public function sendVerificationCode(Request $request){
+    public function sendVerificationCode(Request $request)
+    {
         try {
             $request->validate([
                 "email" => "required|email",
             ]);
 
             $email = $request->email;
-            $userAlreadyExists = User::where("email",$email)->first();
-            if($userAlreadyExists){
+            $userAlreadyExists = User::where("email", $email)->first();
+            if ($userAlreadyExists) {
                 return response()->json([
                     "message" => "User with this email already exists",
-                ],401);
+                ], 401);
             }
 
-            $verificationCode = rand(100000,999999);
+            $verificationCode = rand(100000, 999999);
             $firstName = $request->firstName;
 
             DB::table('verification_codes')->insert([
@@ -81,7 +84,7 @@ class AuthController extends Controller
                 'expires_at' => now()->addMinutes(5),
             ]);
 
-            Mail::send('email.verification_code', ['verificationCode' => $verificationCode, 'firstName' => $firstName], function($message) use ($email){
+            Mail::send('email.verification_code', ['verificationCode' => $verificationCode, 'firstName' => $firstName], function ($message) use ($email) {
                 $message->to($email);
                 $message->subject('Verification Code');
             });
@@ -89,18 +92,18 @@ class AuthController extends Controller
             return response()->json([
                 "message" => "Verification code sent successfully",
                 "sended" => true,
-            ],200);
-
+            ], 200);
         } catch (Exception $ex) {
             return response()->json([
                 "message" => $ex->getMessage(),
-            ],500);
+            ], 500);
         }
     }
 
 
-    public function checkVerificationCode(Request $request){
-        try{
+    public function checkVerificationCode(Request $request)
+    {
+        try {
             $request->validate([
                 "email" => "required|email",
                 "verificationCode" => "required",
@@ -110,90 +113,91 @@ class AuthController extends Controller
             ]);
 
             $validCode = DB::table("verification_codes")
-                                ->where("email",$request->email)
-                                ->where("verificationCode",$request->verificationCode)
-                                ->where("expires_at",">",now())
-                                ->first();
+                ->where("email", $request->email)
+                ->where("verificationCode", $request->verificationCode)
+                ->where("expires_at", ">", now())
+                ->first();
 
-            if(!$validCode){
+            if (!$validCode) {
                 return response()->json([
                     "message" => "Invalid verification code or expired!",
-                ],401);
+                ], 401);
             }
             $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            $defaultUsername = substr(str_shuffle($chars),0,8);
+            $defaultUsername = substr(str_shuffle($chars), 0, 8);
 
             User::create([
                 "email" => $request->email,
                 "password" => Hash::make($request->password),
-                "fullName" => $request->firstName." ".$request->lastName,
+                "fullName" => $request->firstName . " " . $request->lastName,
                 "username" => $defaultUsername,
                 "role" => "user",
             ]);
 
             return response()->json([
                 "message" => "User created successfully",
-            ],200);
-
-        }catch(Exception $ex){
+            ], 200);
+        } catch (Exception $ex) {
             return response()->json([
                 "message" => $ex->getMessage(),
-            ],500);
+            ], 500);
         }
     }
 
 
-    public function sendForgotPasswordLink(Request $request){
-        try{
+    public function sendForgotPasswordLink(Request $request)
+    {
+        try {
 
-            $userExists = User::where("email",$request->email)->first();
-            if(!$userExists){
+            $userExists = User::where("email", $request->email)->first();
+            if (!$userExists) {
                 return response()->json([
                     "message" => "User with this email does not exist",
-                ],401);
+                ], 401);
             }
 
             $status = Password::sendResetLink($request->only('email'));
-            if($status === Password::RESET_LINK_SENT){
+            if ($status === Password::RESET_LINK_SENT) {
                 return response()->json([
                     "message" => __($status),
-                ],200);
+                ], 200);
             }
 
             return response()->json([
                 "message" => __($status),
-            ],401);
-
-        }catch(Exception $ex){
+            ], 401);
+        } catch (Exception $ex) {
             return response()->json([
                 "message" => $ex->getMessage(),
-            ],500);
+            ], 500);
         }
     }
 
 
-    public function resetPassword(Request $request){
-        try{
-            $status = Password::reset($request->only('email','password','password_confirmation','token'),
-            function($user, $password){
-                $user->password = Hash::make($password);
-                $user->save();
-            });
+    public function resetPassword(Request $request)
+    {
+        try {
+            $status = Password::reset(
+                $request->only('email', 'password', 'password_confirmation', 'token'),
+                function ($user, $password) {
+                    $user->password = Hash::make($password);
+                    $user->save();
+                }
+            );
 
-            if($status === Password::PASSWORD_RESET){
+            if ($status === Password::PASSWORD_RESET) {
                 return response()->json([
                     "message" => __($status),
-                ],200);
+                ], 200);
             }
 
             return response()->json([
                 "message" => __($status),
-            ],401);
-
-        }catch(Exception $ex){
+            ], 401);
+        } catch (Exception $ex) {
             return response()->json([
                 "message" => $ex->getMessage(),
-            ],500);
+            ], 500);
         }
     }
 }
