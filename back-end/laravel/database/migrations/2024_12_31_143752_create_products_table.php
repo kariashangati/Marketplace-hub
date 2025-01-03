@@ -21,8 +21,8 @@ return new class extends Migration
             $table->foreign('store_id')->references('id')->on('stores')->onDelete('cascade');
             $table->string('productImage')->nullable();
             $table->float('price');
-            $table->integer('likes');
-            $table->enum('status',['pending','accepted']);
+            $table->integer('likes')->default(0);
+            $table->enum('status',['pending','accepted'])->default('pending');
             $table->string('location');
             $table->boolean('delivry');
             $table->timestamps();

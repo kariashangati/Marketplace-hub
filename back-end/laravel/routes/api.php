@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\CheckRole;
 use Illuminate\Http\Request;
@@ -42,3 +43,9 @@ Route::prefix("admin")->group(function () {
 });
 
 // ->middleware(CheckRole::class . ":admin")
+
+Route::prefix("product")->group(function () {
+    Route::get("/getProducts", [ProductController::class, "getProducts"]);
+    Route::delete("/deleteProduct/{id}", [ProductController::class, "deleteProduct"]);
+    Route::post("/addProduct", [ProductController::class, "addProduct"]);
+});
