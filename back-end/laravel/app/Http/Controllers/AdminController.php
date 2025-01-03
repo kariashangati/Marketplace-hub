@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
+use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
 class AdminController extends Controller
 {
@@ -13,27 +14,21 @@ class AdminController extends Controller
         try {
             $request->validate([
                 'fullName' => 'required',
-                'username' => 'required',
-                'email' => 'required|email',
+                'username' => 'required|unique:users',
+                'email' => 'required|email|unique:users',
                 'password' => 'required'
             ]);
             $fullName = $request->input('fullName');
             $username = $request->input('username');
-            // $birthday = $request->input('birthday');
-            // $role = $request->input('role');
             $email = $request->input('email');
             $password = $request->input('password');
-            // $bio = $request->input('bio');
-            // $profile_picture = $request->input('profile_picture');
+
             User::create([
                 'fullName' => $fullName,
                 'username' => $username,
-                // 'birthday' => $birthday,
-                // 'role' => $role,
+                'role' => 'admin',
                 'email' => $email,
                 'password' => $password,
-                // 'bio' => $bio,
-                // 'profile_picture'=>$profile_picture,
             ]);
             return response()->json([
                 "message" => "Admin created"
@@ -48,7 +43,11 @@ class AdminController extends Controller
     public function getAdmins()
     {
         try {
-            $admins = User::all();
+            $user = JWTAuth::parseToken()->authenticate();
+            $admins = User::where('role', 'admin')
+                            ->where('id', '!=', $user->id)
+                            ->get();
+                            
             if ($admins) {
                 return response()->json([
                     'admins' => $admins
