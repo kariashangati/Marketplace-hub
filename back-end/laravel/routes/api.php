@@ -45,11 +45,6 @@ Route::prefix("category")->group(function () {
 });
 
 
-Route::prefix("product")->group(function () {
-    Route::get("/getSavedProducts", [ProductController::class, "getSavedProducts"]);
-});
-
-
 
 Route::prefix("admin")->group(function () {
     Route::get("/getAdmins", [AdminController::class, "getAdmins"]);
@@ -60,10 +55,11 @@ Route::prefix("admin")->group(function () {
 
 Route::prefix("product")->group(function () {
     Route::get("/getProducts", [ProductController::class, "getProducts"]);
-    Route::get("/getProductspending", [ProductController::class, "getProductspending"]);
+    Route::get("/getPendingProducts", [ProductController::class, "getPendingProducts"]);
     Route::get("/getSavedProducts", [ProductController::class, "getSavedProducts"]);
     Route::delete("/deleteProduct/{id}", [ProductController::class, "deleteProduct"]);
     Route::post("/addProduct", [ProductController::class, "addProduct"]);
+    Route::get("/getSavedProducts", [ProductController::class, "getSavedProducts"]);
 });
 
 Route::prefix("store")->group(function () {

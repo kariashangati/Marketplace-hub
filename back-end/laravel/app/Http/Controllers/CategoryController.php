@@ -49,15 +49,15 @@ class CategoryController extends Controller
     }
     public function deleteCategory($id) {
         try{
-            $categories = Category::find($id);
-            if($categories){
-                $categories->delete();
+            $category = Category::find($id);
+            if($category){
+                $category->delete();
                 return response()->json([
-                    'message' => 'deleted categories successfully'
+                    'message' => 'Category deleted successfully'
                 ]);
             }else {
                 return response()->json([
-                    'message' => 'categories not found'
+                    'message' => 'Cannot delete category'
                 ],400);
             }
         }catch (Exception $ex) {

@@ -30,15 +30,17 @@ class StoreController extends Controller
     }
     public function deleteStore($id){
         try{
-            $store = Store::find($id);
+            $user = JWTAuth::parseToken()->authenticate();
+            $store = Store::where("id",$id)
+                            ->where("user_id",$user->id)->first();
             if($store){
                 $store->delete();
                 return response()->json([
-                    'message'  => 'deleted store successfully'
+                    'message'  => 'Store deleted successfully'
                 ]);
             }else{
                 return response()->json([
-                    'message' => 'store not found'
+                    'message' => 'Cannot delete store'
                 ],400);
             }
         }catch (Exception $ex){
@@ -46,8 +48,8 @@ class StoreController extends Controller
                 'message' => $ex->getMessage(),
             ], 500);
         }
-
     }
+
     public function getStoresUsers()
     {
         try {
