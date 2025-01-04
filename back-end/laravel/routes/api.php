@@ -48,9 +48,19 @@ Route::prefix("product")->group(function () {
 });
 
 
+
 Route::prefix("admin")->group(function () {
     Route::get("/getAdmins", [AdminController::class, "getAdmins"]);
     Route::post("/addAdmin", [AdminController::class, "addAdmin"]);
+});
+
+
+
+Route::prefix("product")->group(function () {
+    Route::get("/getProducts", [ProductController::class, "getProducts"]);
+    Route::get("/getSavedProducts", [ProductController::class, "getSavedProducts"]);
+    Route::delete("/deleteProduct/{id}", [ProductController::class, "deleteProduct"]);
+    Route::post("/addProduct", [ProductController::class, "addProduct"]);
 });
 
 Route::prefix("store")->group(function () {
