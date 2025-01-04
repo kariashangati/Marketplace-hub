@@ -40,6 +40,8 @@ Route::prefix("user")->group(function () {
 Route::prefix("category")->group(function () {
     Route::get("/viewcategories", [CategoryController::class, "viewCategories"]);
     Route::post("/addcategory", [CategoryController::class, "addCategory"]);
+    Route::delete("/deleteCategory/{id}", [CategoryController::class, "deleteCategory"]);
+
 });
 
 
@@ -52,12 +54,14 @@ Route::prefix("admin")->group(function () {
 
 Route::prefix("product")->group(function () {
     Route::get("/getProducts", [ProductController::class, "getProducts"]);
+    Route::get("/getProductspending", [ProductController::class, "getProductspending"]);
     Route::get("/getSavedProducts", [ProductController::class, "getSavedProducts"]);
     Route::delete("/deleteProduct/{id}", [ProductController::class, "deleteProduct"]);
     Route::post("/addProduct", [ProductController::class, "addProduct"]);
 });
 Route::prefix("store")->group(function(){
     Route::get("/getUserStores", [StoreController::class, "getUserStores"]);
+    Route::delete("/deleteStore/{id}", [StoreController::class, "deleteStore"]);
 });
 
 Route::prefix("search")->group(function(){

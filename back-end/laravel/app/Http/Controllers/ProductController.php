@@ -35,6 +35,31 @@ class ProductController extends Controller
         }
         
     }
+    public function getProductspending(){
+        try{
+            $products = Product::where("status","pending")
+                            ->with("store")
+                            ->latest()
+                            ->paginate(10);
+                            
+
+            if($products) {
+                return response()->json([
+                    'products' => $products ,
+                ]);
+            }else {
+                return response()->json([
+                    'message' => 'products not found'
+                ],401);
+            };
+        }
+        catch (Exception $ex) {
+            return response()->json([
+                "message" => $ex->getMessage(),
+            ],500);
+        }
+        
+    }
     public function addProduct(Request $request){
         try{
             $request->validate([
