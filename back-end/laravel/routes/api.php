@@ -43,7 +43,7 @@ Route::prefix("category")->group(function () {
 });
 
 
-Route::prefix("product")->group(function(){
+Route::prefix("product")->group(function () {
     Route::get("/getSavedProducts", [ProductController::class, "getSavedProducts"]);
 });
 
@@ -53,11 +53,16 @@ Route::prefix("admin")->group(function () {
     Route::post("/addAdmin", [AdminController::class, "addAdmin"]);
 });
 
-Route::prefix("store")->group(function(){
+Route::prefix("store")->group(function () {
     Route::get("/getUserStores", [StoreController::class, "getUserStores"]);
 });
 
-Route::prefix("search")->group(function(){
+Route::prefix("store")->group(function () {
+    Route::get("/searchStoresName", [StoreController::class, "searchStoresName"]);
+    Route::get("/searchUsersByUserName", [UserController::class, "searchUsersByUserName"]);
+});
+
+Route::prefix("search")->group(function () {
     Route::post("/postSearch", [SearchController::class, "postSearch"]);
     Route::get("/getSearches", [SearchController::class, "getSearches"]);
     Route::delete("/deleteSearch/{id}", [SearchController::class, "deleteSearch"]);
