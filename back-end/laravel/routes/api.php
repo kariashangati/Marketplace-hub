@@ -65,12 +65,11 @@ Route::prefix("product")->group(function () {
 
 Route::prefix("store")->group(function () {
     Route::get("/getUserStores", [StoreController::class, "getUserStores"]);
+    Route::get("/searchStoresByName", [StoreController::class, "searchStoresByName"]);
+    Route::get("/searchUsersByUsername", [UserController::class, "searchUsersByUsername"]);
+    Route::get("/getStoresUsers", [StoreController::class, "getStoresUsers"]); // this function is used to get the stores of the users
 });
 
-Route::prefix("store")->group(function () {
-    Route::get("/searchStoresName", [StoreController::class, "searchStoresName"]);
-    Route::get("/searchUsersByUserName", [UserController::class, "searchUsersByUserName"]);
-});
 
 Route::prefix("search")->group(function () {
     Route::post("/postSearch", [SearchController::class, "postSearch"]);

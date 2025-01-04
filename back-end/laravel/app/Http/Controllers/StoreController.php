@@ -22,9 +22,6 @@ class StoreController extends Controller
                 "stores" => $stores,
             ]);
 
-            return response()->json([
-                'stores' => $stores,
-            ]);
         } catch (Exception $ex) {
             return response()->json([
                 'message' => $ex->getMessage(),
@@ -32,31 +29,35 @@ class StoreController extends Controller
         }
     }
 
-    /*
-    public function getStores()
+    public function getStoresUsers()
     {
         try {
+            $stores = Store::with('user')
+                            ->latest()
+                            ->paginate(10);
 
-            $stores = Store::where('user_id')
-                ->with('users');
-            return response()->json([
+            if($stores){
+                return response()->json([
+                    'stores' => $stores,
+                ]);}else{
+                    return response()->json([
+                        'message' => 'Stores not found',
+                    ], 401);
+                }
 
-                "stores" => $stores
-            ]);
         } catch (Exception $ex) {
             return response()->json([
                 "message" => $ex->getMessage(),
             ], 500);
         }
     }
-        */
 
-    public function searchStoresName(Request $request)
+    public function searchStoresByName(Request $request)
     {
         try {
             $name = $request->input("name");
             $storesSearched = Store::where('storeName', 'LIKE', '%' . $name . '%')
-                ->paginate(5);
+                ->limit(5);
             if ($storesSearched) {
                 return response()->json([
                     'storesSearched' => $storesSearched

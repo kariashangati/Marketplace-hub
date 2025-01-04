@@ -117,12 +117,12 @@ class UserController extends Controller
         }
     }
 
-    public function searchUsersByUserName(Request $request)
+    public function searchUsersByUsername(Request $request)
     {
         try {
             $userName = $request->input("username");
             $users = User::where('username', 'LIKE', '%' . $userName . '%')
-                ->paginate(5);
+                ->limit(5);
             if ($users) {
                 return response()->json([
                     "user" => $users

@@ -64,7 +64,7 @@ class ProductController extends Controller
                 'delivry' => $delivry,
             ]);
             return response()->json([
-                'message' => 'create product successfully'
+                'message' => 'Product create successfully'
             ]);
         } catch (Exception $ex) {
             return response()->json([
