@@ -10,30 +10,29 @@ use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
 class ProductController extends Controller
 {
-    public function getProducts(){
-        try{
-            $products = Product::where("status","accepted")
-                            ->with("store")
-                            ->latest()
-                            ->paginate(15);
-                            
+    public function getProducts()
+    {
+        try {
+            $products = Product::where("status", "accepted")
+                ->with("store")
+                ->latest()
+                ->paginate(15);
 
-            if($products) {
+
+            if ($products) {
                 return response()->json([
-                    'products' => $products ,
+                    'products' => $products,
                 ]);
-            }else {
+            } else {
                 return response()->json([
                     'message' => 'products not found'
-                ],401);
+                ], 401);
             };
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             return response()->json([
                 "message" => $ex->getMessage(),
-            ],500);
+            ], 500);
         }
-        
     }
     public function getProductspending(){
         try{
@@ -60,8 +59,10 @@ class ProductController extends Controller
         }
         
     }
-    public function addProduct(Request $request){
-        try{
+    
+    public function addProduct(Request $request)
+    {
+        try {
             $request->validate([
                 'productName' => 'required',
                 'description' => 'required',
@@ -89,28 +90,29 @@ class ProductController extends Controller
                 'delivry' => $delivry,
             ]);
             return response()->json([
-                'message' => 'create product successfully'
+                'message' => 'Product create successfully'
             ]);
-        }catch (Exception $ex){
+        } catch (Exception $ex) {
             return response()->json([
                 'messsage' => $ex->getMessage(),
             ], 500);
         }
     }
-    public function deleteProduct($id) {
-        try{
+    public function deleteProduct($id)
+    {
+        try {
             $product = Product::find($id);
-            if($product){
+            if ($product) {
                 $product->delete();
                 return response()->json([
                     'message' => 'product deleted successfully'
                 ]);
-            }else {
+            } else {
                 return response()->json([
                     'message' => 'Product not found'
-                ],400);
+                ], 400);
             }
-        }catch (Exception $ex) {
+        } catch (Exception $ex) {
             return response()->json([
                 'message' => $ex->getMessage(),
             ], 500);
@@ -120,9 +122,9 @@ class ProductController extends Controller
     {
         try {
             $user = JWTAuth::parseToken()->authenticate();
-            $savedProducts = Save::where("user_id",$user->id)
-                                ->with("product")
-                                ->paginate(10);
+            $savedProducts = Save::where("user_id", $user->id)
+                ->with("product")
+                ->paginate(10);
 
             return response()->json([
                 'savedProducts' => $savedProducts,
