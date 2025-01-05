@@ -41,7 +41,6 @@ Route::prefix("category")->group(function () {
     Route::get("/viewcategories", [CategoryController::class, "viewCategories"]);
     Route::post("/addcategory", [CategoryController::class, "addCategory"]);
     Route::delete("/deleteCategory/{id}", [CategoryController::class, "deleteCategory"]);
-
 });
 
 
@@ -60,6 +59,8 @@ Route::prefix("product")->group(function () {
     Route::delete("/deleteProduct/{id}", [ProductController::class, "deleteProduct"]);
     Route::post("/addProduct", [ProductController::class, "addProduct"]);
     Route::get("/getSavedProducts", [ProductController::class, "getSavedProducts"]);
+    Route::delete("/deleteSavedProduct/{product_id}", [ProductController::class, "deleteSavedProduct"]); // Route for delete saved product. verifier this route
+    Route::put("/acceptedPendingProduct/{id}", [ProductController::class, "acceptedPendingProduct"]); //Route for accepted pending product
 });
 
 Route::prefix("store")->group(function () {

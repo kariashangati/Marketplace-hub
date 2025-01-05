@@ -10,6 +10,47 @@ use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
 class ProductController extends Controller
 {
+    public function deleteSavedProduct($product_id)
+    {
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+            $save = Save::where('user_id', $user->id)
+                ->where("product_id", $product_id)
+                ->delete();
+            return response()->json([
+                'message' => 'product saved is Successfully deleted!! ',
+            ]);
+        } catch (Exception $ex) {
+            return response()->json([
+                "message" => $ex->getMessage()
+            ], 500);
+        }
+    }
+
+    public function acceptedPendingProduct($id)
+    {
+        try {
+            $productPending = Product::find($id);
+            if ($productPending) {
+                $productPending->status = 'accepted';
+                $productPending->save();
+
+                return response()->json([
+                    'message',
+                    'Item updated successfully'
+                ]);
+            } else {
+                return response()->json([
+                    'message' => 'products not found'
+                ], 401);
+            }
+        } catch (Exception $ex) {
+            return response()->json([
+                "message" => $ex->getMessage()
+            ], 500);
+        }
+    }
+
     public function getProducts()
     {
         try {
@@ -34,28 +75,28 @@ class ProductController extends Controller
             ], 500);
         }
     }
-    public function getPendingProducts(){
-        try{
-            $products = Product::where("status","pending")
-                            ->with("store")
-                            ->latest()
-                            ->paginate(10);
+    public function getPendingProducts()
+    {
+        try {
+            $products = Product::where("status", "pending")
+                ->with("store")
+                ->latest()
+                ->paginate(10);
 
 
-            if($products) {
+            if ($products) {
                 return response()->json([
-                    'products' => $products ,
+                    'products' => $products,
                 ]);
-            }else {
+            } else {
                 return response()->json([
                     'message' => 'products not found'
-                ],401);
+                ], 401);
             };
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             return response()->json([
                 "message" => $ex->getMessage(),
-            ],500);
+            ], 500);
         }
     }
 
