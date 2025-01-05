@@ -88,4 +88,9 @@ class User extends Authenticatable implements JWTSubject
                     : asset('storage/users/userDefaultImage.jpg');
     }
 
+    public function getBioAttribute($value){
+        return $value ?
+                    $value
+                    : "hi👋, I am using marketplace hub App!";
+    }
 }

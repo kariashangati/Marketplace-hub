@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'productName',
         'description',
@@ -25,7 +25,13 @@ class Product extends Model
     public function store(){
         return $this->belongsTo(Store::class);
     }
-    public function categories(){
-        return $this->hasOne(Category::class);
+    public function category(){
+        return $this->belongsTo(Category::class);
+    }
+
+    public function getDelivryAttribute($value){
+        return $value === 1?
+            "Possible deleivry"
+            :"Impossible deleivy";
     }
 }

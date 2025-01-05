@@ -15,8 +15,8 @@ class StoreController extends Controller
         try {
             $user = JWTAuth::parseToken()->authenticate();
             $stores = Store::where("user_id", $user->id)
-                ->latest()
-                ->paginate(8);
+                            ->latest()
+                            ->paginate(8);
 
             return response()->json([
                 "stores" => $stores,
@@ -33,6 +33,15 @@ class StoreController extends Controller
             $user = JWTAuth::parseToken()->authenticate();
             $store = Store::where("id",$id)
                             ->where("user_id",$user->id)->first();
+
+            if($user->role === 'admin'){
+                if($store){
+                    $store->delete();
+                    return response()->json([
+                        'message'  => 'Store deleted successfully'
+                    ]);
+                }
+            }
             if($store){
                 $store->delete();
                 return response()->json([
@@ -78,7 +87,8 @@ class StoreController extends Controller
         try {
             $name = $request->input("name");
             $storesSearched = Store::where('storeName', 'LIKE', '%' . $name . '%')
-                ->limit(5);
+                ->limit(5)
+                ->get();
             if ($storesSearched) {
                 return response()->json([
                     'storesSearched' => $storesSearched

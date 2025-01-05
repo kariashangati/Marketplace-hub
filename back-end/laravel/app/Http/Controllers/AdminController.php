@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
 class AdminController extends Controller
@@ -28,14 +29,14 @@ class AdminController extends Controller
                 'username' => $username,
                 'role' => 'admin',
                 'email' => $email,
-                'password' => $password,
+                'password' => Hash::make($password),
             ]);
             return response()->json([
-                "message" => "Admin created"
+                "message" => "New admin created successfully!"
             ]);
         } catch (Exception $ex) {
             return response()->json([
-                'messsage' => $ex->getMessage(),
+                'message' => $ex->getMessage(),
             ], 500);
         }
     }
@@ -47,7 +48,7 @@ class AdminController extends Controller
             $admins = User::where('role', 'admin')
                             ->where('id', '!=', $user->id)
                             ->get();
-                            
+
             if ($admins) {
                 return response()->json([
                     'admins' => $admins

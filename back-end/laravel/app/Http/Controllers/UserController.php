@@ -14,7 +14,8 @@ class UserController extends Controller
     public function getUsers()
     {
         try {
-            $users = User::paginate(8);
+            $users = User::where("role","!=","admin")
+                        ->paginate(8);
             return response()->json([
                 'users' => $users,
             ]);
@@ -91,7 +92,7 @@ class UserController extends Controller
                 $relativePath = parse_url($image_path, PHP_URL_PATH);
                 $filePath = public_path($relativePath);
 
-                if (File::exists($filePath) && $image_path !== 'http://localhost:8000/storage/profile_pictures/default.png') {
+                if (File::exists($filePath) && $image_path !== 'http://localhost:8000/storage/users/userDefaultImage.jpg') {
                     File::delete($filePath);
                 }
 
@@ -120,12 +121,15 @@ class UserController extends Controller
     public function searchUsersByUsername(Request $request)
     {
         try {
-            $userName = $request->input("username");
-            $users = User::where('username', 'LIKE', '%' . $userName . '%')
-                ->limit(5);
+            $user = JWTAuth::parseToken()->authenticate();
+            $username = $request->input("username");
+            $users = User::where('username', 'LIKE', '%' . $username . '%')
+                ->where('id','!=',$user->id)
+                ->limit(5)
+                ->get();
             if ($users) {
                 return response()->json([
-                    "user" => $users
+                    "users" => $users
                 ]);
             } else {
                 return response()->json([

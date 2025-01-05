@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\Save;
+use App\Models\Store;
 use Exception;
 use Illuminate\Http\Request;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
@@ -14,12 +16,20 @@ class ProductController extends Controller
     {
         try {
             $user = JWTAuth::parseToken()->authenticate();
-            $save = Save::where('user_id', $user->id)
-                ->where("product_id", $product_id)
-                ->delete();
-            return response()->json([
-                'message' => 'product saved is Successfully deleted!! ',
-            ]);
+            $productSaved = Save::where('user_id', $user->id)
+                                ->where("product_id", $product_id)
+                                ->first();
+
+            if($productSaved){
+                $productSaved->delete();
+                return response()->json([
+                    'message' => 'Product saved is Successfully deleted!!',
+                ]);
+            }else{
+                return response()->json([
+                    'message' => 'Unauthorized',
+                ],401);
+            }
         } catch (Exception $ex) {
             return response()->json([
                 "message" => $ex->getMessage()
@@ -27,7 +37,7 @@ class ProductController extends Controller
         }
     }
 
-    public function acceptedPendingProduct($id)
+    public function acceptPendingProduct($id)
     {
         try {
             $productPending = Product::find($id);
@@ -36,8 +46,7 @@ class ProductController extends Controller
                 $productPending->save();
 
                 return response()->json([
-                    'message',
-                    'Item updated successfully'
+                    'message' => 'Product accepted successfully!'
                 ]);
             } else {
                 return response()->json([
@@ -56,6 +65,7 @@ class ProductController extends Controller
         try {
             $products = Product::where("status", "accepted")
                 ->with("store")
+                ->with("category")
                 ->latest()
                 ->paginate(15);
 
@@ -80,6 +90,7 @@ class ProductController extends Controller
         try {
             $products = Product::where("status", "pending")
                 ->with("store")
+                ->with("category")
                 ->latest()
                 ->paginate(10);
 
@@ -103,15 +114,21 @@ class ProductController extends Controller
     public function addProduct(Request $request)
     {
         try {
+            $user = JWTAuth::parseToken()->authenticate();
             $request->validate([
                 'productName' => 'required',
-                'description' => 'required',
+                'description' => 'required|max:400',
                 'category_id' => 'required',
                 'store_id' => 'required',
-                'price' => 'required',
+                'image' => 'required|mimes:jpeg,jpg,png,webp|max:2048',
+                'price' => 'required|numeric',
                 'location' => 'required',
-                'delivry' => 'required'
+                'delivry' => 'required|in:0,1'
             ]);
+
+            $file = $request->file("image");
+            $fileName = time() . "_" . $file->getClientOriginalName();
+
             $productName = $request->input('productName');
             $description = $request->input('description');
             $category_id = $request->input('category_id');
@@ -119,6 +136,21 @@ class ProductController extends Controller
             $price = $request->input('price');
             $location = $request->input('location');
             $delivry = $request->input('delivry');
+            $productImage = $fileName;
+
+            $checkStoreUser = Store::where("id",$store_id)
+                                    ->where("user_id",$user->id)
+                                    ->first();
+
+            $categoryExists = Category::find($category_id);
+
+            if(!$checkStoreUser || !$categoryExists){
+                return response()->json([
+                    "message" => "Unauthorized",
+                ],401);
+            }
+
+            $file->move('storage/products', $fileName);
 
             Product::create([
                 'productName' => $productName,
@@ -126,6 +158,7 @@ class ProductController extends Controller
                 'category_id' => $category_id,
                 'store_id' => $store_id,
                 'price' => $price,
+                'productImage' => $productImage,
                 'location' => $location,
                 'delivry' => $delivry,
             ]);
@@ -141,17 +174,35 @@ class ProductController extends Controller
     public function deleteProduct($id)
     {
         try {
-            $product = Product::find($id);
-            if ($product) {
-                $product->delete();
+            $user = JWTAuth::parseToken()->authenticate();
+            $product = Product::where("id",$id)->with("store")->first();
+
+            if($product){
+                if($user->role === 'admin'){
+                    $product->delete();
+                    return response()->json([
+                        'message' => 'Product deleted successfully'
+                    ]);
+                }
+            }
+            if($product->store->user_id === $user->id){
+                if ($product) {
+                    $product->delete();
+                    return response()->json([
+                        'message' => 'Product deleted successfully'
+                    ]);
+                } else {
+                    return response()->json([
+                        'message' => 'Product not found'
+                    ], 400);
+                }
+            }else{
                 return response()->json([
-                    'message' => 'product deleted successfully'
-                ]);
-            } else {
-                return response()->json([
-                    'message' => 'Product not found'
+                    'message' => 'Unauthorized'
                 ], 400);
             }
+
+
         } catch (Exception $ex) {
             return response()->json([
                 'message' => $ex->getMessage(),
@@ -163,8 +214,8 @@ class ProductController extends Controller
         try {
             $user = JWTAuth::parseToken()->authenticate();
             $savedProducts = Save::where("user_id", $user->id)
-                ->with("product")
-                ->paginate(10);
+                                    ->with("product.store")
+                                    ->paginate(10);
 
             return response()->json([
                 'savedProducts' => $savedProducts,

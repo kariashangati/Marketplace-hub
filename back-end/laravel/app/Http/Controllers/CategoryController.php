@@ -12,14 +12,14 @@ class CategoryController extends Controller
     {
         try {
             $request->validate([
-                'categoryName' => 'required',
+                'categoryName' => 'required|max:30|unique:categories',
             ]);
             $categoryName = $request->input('categoryName');
             Category::create([
                 "categoryName" => $categoryName,
             ]);
             return response()->json([
-                'message' => 'Category created',
+                'message' => 'Category added Successfully!',
             ]);
         } catch (Exception $ex) {
             return response()->json([
