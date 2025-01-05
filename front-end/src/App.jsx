@@ -6,7 +6,7 @@ import ForgotPassword from "./pages/auth/ForgotPassword";
 import { UserRoutes } from "./protectRoutes/userRoutes";
 import { AdminRoutes } from "./protectRoutes/AdminRoutes";
 import { UserHome } from "./pages/user/UserHome";
-import { AdminHome } from "./pages/admin/AdminHome";
+import { AdminDashboard } from "./pages/admin/AdminDashboard";
 
 export const App = () => {
   return (
@@ -21,7 +21,7 @@ export const App = () => {
       </Route>
 
       <Route element={<AdminRoutes />}>
-        <Route path="/admin/dashboard" element={<AdminHome />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
       </Route>
     </Routes>
   );
