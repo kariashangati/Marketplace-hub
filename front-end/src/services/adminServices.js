@@ -8,3 +8,12 @@ export const getUsersList = async (token) => {
     });
     return response;
 }
+
+export const getAdminDashboardData = async (token) => {
+    const response = await axios.get("http://localhost:8000/api/admin/getAdminDataDashboard",{
+        headers : {
+            "Authorization" : `Bearer ${token}`
+        }
+    });
+    return response;
+}
