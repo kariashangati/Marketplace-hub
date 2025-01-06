@@ -28,6 +28,8 @@ class ProductFactory extends Factory
             'status' => fake()->randomElement(['pending','accepted']),
             'location' => fake()->city(),
             'delivry' => fake()->boolean(),
+            'created_at' => $this->faker->dateTimeBetween('-6 months', 'now'), // Random date within the last 6 months
+            'updated_at' => now(),
         ];
     }
 }

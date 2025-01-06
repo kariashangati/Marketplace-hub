@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\StoreController;
@@ -46,6 +47,7 @@ Route::prefix("category")->group(function () {
 
 
 Route::prefix("admin")->middleware(CheckRole::class . ":admin")->group(function () {
+    Route::get("/getAdminDataDashboard",[DashboardController::class, "getAdminDashboardData"]); // get the admin dashboard data
     Route::get("/getAdmins", [AdminController::class, "getAdmins"]); // only admins can see each others
     Route::post("/addAdmin", [AdminController::class, "addAdmin"]); // only admins can add other admins
 });
