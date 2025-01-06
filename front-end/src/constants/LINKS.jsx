@@ -2,7 +2,7 @@ import { BookmarkIcon, ArrowRightOnRectangleIcon, BuildingStorefrontIcon, InboxS
 
 export const LINKS = [
     {SVG:<Squares2X2Icon strokeWidth="1" className="w-10 h-10"/>,TEXT:"Dashboard",LINK:"/admin/dashboard"},
-    {SVG:<UsersIcon strokeWidth="1" className="w-10 h-10"/>,TEXT:"Users",LINK:"/admin/users"},
+    {SVG:<UsersIcon strokeWidth="1" className="w-10 h-10"/>,TEXT:"Users",LINK:"/admin/usersList"},
     {SVG:<ShoppingBagIcon strokeWidth="1" className="w-10 h-10"/>,TEXT:"Products",LINK:"/admin/products"},
     {SVG:<InboxStackIcon strokeWidth="1" className="w-10 h-10"/>,TEXT:"Pending products",LINK:"/admin/pendingProducts"},
     {SVG:<TagIcon strokeWidth="1" className="w-10 h-10"/>,TEXT:"Categories",LINK:"/admin/categories"},

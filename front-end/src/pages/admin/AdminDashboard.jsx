@@ -29,7 +29,7 @@ const chartConfig = {
     title: {
       show: "",
     },
-    dataLabels: {
+    dataLabels: { 
       enabled: false,
     },
     colors: ["#00ff00"],

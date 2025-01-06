@@ -7,6 +7,7 @@ import { UserRoutes } from "./protectRoutes/userRoutes";
 import { AdminRoutes } from "./protectRoutes/AdminRoutes";
 import { UserHome } from "./pages/user/UserHome";
 import { AdminDashboard } from "./pages/admin/AdminDashboard";
+import { UsersList } from "./pages/admin/UsersList";
 
 export const App = () => {
   return (
@@ -22,6 +23,8 @@ export const App = () => {
 
       <Route element={<AdminRoutes />}>
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/usersList" element={<UsersList />} />
+        
       </Route>
     </Routes>
   );
