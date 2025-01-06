@@ -8,6 +8,7 @@ import { AdminRoutes } from "./protectRoutes/AdminRoutes";
 import { UserHome } from "./pages/user/UserHome";
 import { AdminDashboard } from "./pages/admin/AdminDashboard";
 import { UsersList } from "./pages/admin/UsersList";
+import StoresList from "./pages/admin/StoresList";
 
 export const App = () => {
   return (
@@ -16,7 +17,7 @@ export const App = () => {
       <Route path={"/register"} element={<SignUp />} />
       <Route path={"/forgotPassword"} element={<ForgotPassword />} />
       <Route path={"/password-reset/:token"} element={<ResetPassword />} />
-      
+
       <Route element={<UserRoutes />}>
         <Route path="/user/dashboard" element={<UserHome />} />
       </Route>
@@ -24,7 +25,7 @@ export const App = () => {
       <Route element={<AdminRoutes />}>
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/usersList" element={<UsersList />} />
-        
+        <Route path="/admin/stores" element={<StoresList />} />
       </Route>
     </Routes>
   );

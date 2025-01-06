@@ -15,44 +15,44 @@ class StoreController extends Controller
         try {
             $user = JWTAuth::parseToken()->authenticate();
             $stores = Store::where("user_id", $user->id)
-                            ->latest()
-                            ->paginate(8);
+                ->latest()
+                ->paginate(8);
 
             return response()->json([
                 "stores" => $stores,
             ]);
-
         } catch (Exception $ex) {
             return response()->json([
                 'message' => $ex->getMessage(),
             ], 500);
         }
     }
-    public function deleteStore($id){
-        try{
+    public function deleteStore($id)
+    {
+        try {
             $user = JWTAuth::parseToken()->authenticate();
-            $store = Store::where("id",$id)
-                            ->where("user_id",$user->id)->first();
+            $store = Store::where("id", $id)
+                ->where("user_id", $user->id)->first();
 
-            if($user->role === 'admin'){
-                if($store){
+            if ($user->role === 'admin') {
+                if ($store) {
                     $store->delete();
                     return response()->json([
                         'message'  => 'Store deleted successfully'
                     ]);
                 }
             }
-            if($store){
+            if ($store) {
                 $store->delete();
                 return response()->json([
                     'message'  => 'Store deleted successfully'
                 ]);
-            }else{
+            } else {
                 return response()->json([
                     'message' => 'Cannot delete store'
-                ],400);
+                ], 400);
             }
-        }catch (Exception $ex){
+        } catch (Exception $ex) {
             return response()->json([
                 'message' => $ex->getMessage(),
             ], 500);
@@ -63,18 +63,18 @@ class StoreController extends Controller
     {
         try {
             $stores = Store::with('user')
-                            ->latest()
-                            ->paginate(10);
+                ->latest()
+                ->paginate(10);
 
-            if($stores){
+            if ($stores) {
                 return response()->json([
                     'stores' => $stores,
-                ]);}else{
-                    return response()->json([
-                        'message' => 'Stores not found',
-                    ], 401);
-                }
-
+                ]);
+            } else {
+                return response()->json([
+                    'message' => 'Stores not found',
+                ], 401);
+            }
         } catch (Exception $ex) {
             return response()->json([
                 "message" => $ex->getMessage(),
@@ -87,6 +87,7 @@ class StoreController extends Controller
         try {
             $name = $request->input("name");
             $storesSearched = Store::where('storeName', 'LIKE', '%' . $name . '%')
+                ->with('user')
                 ->limit(5)
                 ->get();
             if ($storesSearched) {
