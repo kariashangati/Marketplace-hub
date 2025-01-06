@@ -32,10 +32,11 @@ const chartConfig = {
     dataLabels: {
       enabled: false,
     },
-    colors: ["#020617"],
+    colors: ["#00ff00"],
     stroke: {
       lineCap: "round",
       curve: "smooth",
+      width: 2
     },
     markers: {
       size: 0,
@@ -49,7 +50,7 @@ const chartConfig = {
       },
       labels: {
         style: {
-          colors: "#616161",
+          colors: "#bfbfbf",
           fontSize: "12px",
           fontFamily: "inherit",
           fontWeight: 400,
@@ -68,7 +69,7 @@ const chartConfig = {
     yaxis: {
       labels: {
         style: {
-          colors: "#616161",
+          colors: "#bfbfbf",
           fontSize: "12px",
           fontFamily: "inherit",
           fontWeight: 400,
@@ -146,7 +147,7 @@ export const AdminDashboard = () => {
         </div>
         <div className="w-[100%] lg:w-[100%] mt-6 lg:flex justify-between">
           <div className="lg:w-[65%]">
-            <Card>
+            <Card className="bg-dark">
               <CardHeader
                 floated={false}
                 shadow={false}
@@ -160,14 +161,14 @@ export const AdminDashboard = () => {
             </Card>
           </div>
           <div className="lg:w-[30%] mt-4 mb-32 lg:mt-0">
-            <Card>
+            <Card className="bg-dark">
               <CardHeader
                 floated={false}
                 shadow={false}
                 color="transparent"
                 className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
               >
-                <span className="text-black font-semibold pl-2">Poducts by categories</span>
+                <span className="text-white font-semibold pl-2">Poducts by categories</span>
               </CardHeader>
               <CardBody className="mt-4 grid place-items-center px-2">
                 <Chart {...chartConfig2} />
