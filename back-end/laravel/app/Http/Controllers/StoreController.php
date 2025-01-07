@@ -34,9 +34,11 @@ class StoreController extends Controller
             $store = Store::where("id", $id)
                 ->where("user_id", $user->id)->first();
 
+            $adminDeleteStore = Store::where("id", $id)->first();
+
             if ($user->role === 'admin') {
-                if ($store) {
-                    $store->delete();
+                if ($adminDeleteStore) {
+                    $adminDeleteStore->delete();
                     return response()->json([
                         'message'  => 'Store deleted successfully'
                     ]);

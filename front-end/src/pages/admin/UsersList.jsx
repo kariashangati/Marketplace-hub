@@ -4,7 +4,10 @@ import { AdminSideBar } from "../../layouts/AdminSideBar";
 import { LinearProgress } from "@mui/material";
 import { EyeIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { searchUsersByUsername } from "../../services/userServices";
-import { deleteUserService, getUsersListByPage } from "../../services/adminServices";
+import {
+  deleteUserService,
+  getUsersListByPage,
+} from "../../services/adminServices";
 import { ResultPagination } from "../../components/ui/ResultPagination";
 import { DeleteModal } from "../../components/modals/DeleteModal";
 import { Notification } from "../../components/ui/Notification";
@@ -13,18 +16,21 @@ export const UsersList = () => {
   const [usersList, setUsersList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [notification, setNotification] = useState({});
-  const [username,setUsername] = useState('');
-  const [page,setPage] = useState(1);
-  const [total,setTotal] = useState();
-  const [lastPage,setLastPage] = useState(0);
-  const [open,setOpen] = useState(false);
-  const [selectedUserId,setSelectedUserId] = useState();
-  const [deleteLoading,setDeleteLoading] = useState(false);
+  const [username, setUsername] = useState("");
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState();
+  const [lastPage, setLastPage] = useState(0);
+  const [open, setOpen] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState();
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   const getUsers = async (page) => {
     setLoading(true);
     try {
-      const response = await getUsersListByPage(localStorage.getItem("token"),page);
+      const response = await getUsersListByPage(
+        localStorage.getItem("token"),
+        page
+      );
       setTotal(response.data.users.total);
       setLastPage(response.data.users.last_page);
       setLoading(false);
@@ -44,40 +50,43 @@ export const UsersList = () => {
     }
   };
 
-  const nextData = async () =>{
-    if(page < lastPage){
-      setPage(page+1);
-      const response = await getUsers(page+1);
-      if(response.data.users.data){
-        setUsersList(response.data.users.data)
+  const nextData = async () => {
+    if (page < lastPage) {
+      setPage(page + 1);
+      const response = await getUsers(page + 1);
+      if (response.data.users.data) {
+        setUsersList(response.data.users.data);
       }
     }
-  }
+  };
 
-  const previusData = async () =>{
-    if(page !== 1){
-      setPage(page-1);
-      const response = await getUsers(page-1);
-      if(response.data.users.data){
-        setUsersList(response.data.users.data)
+  const previusData = async () => {
+    if (page !== 1) {
+      setPage(page - 1);
+      const response = await getUsers(page - 1);
+      if (response.data.users.data) {
+        setUsersList(response.data.users.data);
       }
     }
-  }
+  };
 
-  const deleteUser = async (userId) =>{
+  const deleteUser = async (userId) => {
     setNotification(null);
     setDeleteLoading(true);
-    try{
-      const response = await deleteUserService(localStorage.getItem("token"),userId);
+    try {
+      const response = await deleteUserService(
+        localStorage.getItem("token"),
+        userId
+      );
       setDeleteLoading(false);
-      setOpen(false)
-      if(response.status === 200){
-        getUsers()
-        setNotification({ type: "success", message: response.data.message })
+      setOpen(false);
+      if (response.status === 200) {
+        getUsers();
+        setNotification({ type: "success", message: response.data.message });
       }
-    }catch (error) {
-      setOpen(false)
-      setLoading(false);
+    } catch (error) {
+      setOpen(false);
+      setDeleteLoading(false);
       if (error.response) {
         setNotification({
           type: "error",
@@ -87,28 +96,31 @@ export const UsersList = () => {
         setNotification({ type: "error", message: "Try again later" });
       }
     }
-  }
-  
-  const searchUsers = async () =>{
+  };
+
+  const searchUsers = async () => {
     setLoading(true);
-    const response = await searchUsersByUsername(localStorage.getItem("token"),username);
-    setLoading(false)
-    if(response.data.users){
-      setUsersList(response.data.users)
+    const response = await searchUsersByUsername(
+      localStorage.getItem("token"),
+      username
+    );
+    setLoading(false);
+    if (response.data.users) {
+      setUsersList(response.data.users);
     }
-  }
+  };
 
   useEffect(() => {
     getUsers();
   }, []);
 
-  useEffect(() =>{
-    if(username !== ''){
+  useEffect(() => {
+    if (username !== "") {
       searchUsers();
-    }else{
+    } else {
       getUsers();
     }
-  },[username])
+  }, [username]);
 
   return (
     <div>
@@ -158,7 +170,13 @@ export const UsersList = () => {
                           <td>
                             <div className="flex justify-center gap-2">
                               <EyeIcon className="w-8 h-8 text-green-600 cursor-pointer hover:text-green-800 duration-200" />
-                              <TrashIcon className="w-8 h-8 text-red-600 cursor-pointer hover:text-red-800 duration-200" onClick={() => {setOpen(true);setSelectedUserId(user.id)}}/>
+                              <TrashIcon
+                                className="w-8 h-8 text-red-600 cursor-pointer hover:text-red-800 duration-200"
+                                onClick={() => {
+                                  setOpen(true);
+                                  setSelectedUserId(user.id);
+                                }}
+                              />
                             </div>
                           </td>
                         </tr>
@@ -168,15 +186,29 @@ export const UsersList = () => {
               </tbody>
             </table>
           )}
-          {
-            !loading && username === '' && <ResultPagination firstPage={page} lastPage={lastPage} previus={previusData} next={nextData} total={total}/>
-          }
-          {
-            open && <DeleteModal loading={deleteLoading} setOpen={setOpen} itemType={'User'} deleteUser={() => deleteUser(selectedUserId)}/>
-          }
-          {
-            notification && <Notification type={notification.type} message={notification.message} />
-          }
+          {!loading && username === "" && (
+            <ResultPagination
+              firstPage={page}
+              lastPage={lastPage}
+              previus={previusData}
+              next={nextData}
+              total={total}
+            />
+          )}
+          {open && (
+            <DeleteModal
+              loading={deleteLoading}
+              setOpen={setOpen}
+              itemType={"User"}
+              deleteItem={() => deleteUser(selectedUserId)}
+            />
+          )}
+          {notification && (
+            <Notification
+              type={notification.type}
+              message={notification.message}
+            />
+          )}
         </div>
       </div>
     </div>
