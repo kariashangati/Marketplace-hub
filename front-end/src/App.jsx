@@ -10,6 +10,7 @@ import { AdminDashboard } from "./pages/admin/AdminDashboard";
 import { UsersList } from "./pages/admin/UsersList";
 import StoresList from "./pages/admin/StoresList";
 import { TeamList } from "./pages/admin/TeamList";
+import { CategoryList } from "./pages/admin/CategoryList";
 
 export const App = () => {
   return (
@@ -28,6 +29,7 @@ export const App = () => {
         <Route path="/admin/usersList" element={<UsersList />} />
         <Route path="/admin/stores" element={<StoresList />} />
         <Route path="/admin/team" element={<TeamList />} />
+        <Route path="/admin/categories" element={<CategoryList />} />
       </Route>
     </Routes>
   );
