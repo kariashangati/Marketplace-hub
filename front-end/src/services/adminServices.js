@@ -46,7 +46,7 @@ export const getAdminDashboardData = async (token) => {
     return response;
 }
 
-export const deleteUser = async (token,userId) => {
+export const deleteUserService = async (token,userId) => {
     const response = await axios.delete(`http://localhost:8000/api/user/deleteUser/${userId}`,{
       headers: {
         Authorization : `Bearer ${token}`

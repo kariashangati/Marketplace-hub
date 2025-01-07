@@ -4,9 +4,10 @@ import { AdminSideBar } from "../../layouts/AdminSideBar";
 import { LinearProgress } from "@mui/material";
 import { EyeIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { searchUsersByUsername } from "../../services/userServices";
-import { getUsersListByPage } from "../../services/adminServices";
+import { deleteUserService, getUsersListByPage } from "../../services/adminServices";
 import { ResultPagination } from "../../components/ui/ResultPagination";
 import { DeleteModal } from "../../components/modals/DeleteModal";
+import { Notification } from "../../components/ui/Notification";
 
 export const UsersList = () => {
   const [usersList, setUsersList] = useState([]);
@@ -18,6 +19,7 @@ export const UsersList = () => {
   const [lastPage,setLastPage] = useState(0);
   const [open,setOpen] = useState(false);
   const [selectedUserId,setSelectedUserId] = useState();
+  const [deleteLoading,setDeleteLoading] = useState(false);
 
   const getUsers = async (page) => {
     setLoading(true);
@@ -62,8 +64,29 @@ export const UsersList = () => {
     }
   }
 
-  const deleteUser = (userId) =>{
-    alert("user id to delete". userId);
+  const deleteUser = async (userId) =>{
+    setNotification(null);
+    setDeleteLoading(true);
+    try{
+      const response = await deleteUserService(localStorage.getItem("token"),userId);
+      setDeleteLoading(false);
+      setOpen(false)
+      if(response.status === 200){
+        getUsers()
+        setNotification({ type: "success", message: response.data.message })
+      }
+    }catch (error) {
+      setOpen(false)
+      setLoading(false);
+      if (error.response) {
+        setNotification({
+          type: "error",
+          message: error.response.data.message,
+        });
+      } else {
+        setNotification({ type: "error", message: "Try again later" });
+      }
+    }
   }
   
   const searchUsers = async () =>{
@@ -149,7 +172,10 @@ export const UsersList = () => {
             !loading && username === '' && <ResultPagination firstPage={page} lastPage={lastPage} previus={previusData} next={nextData} total={total}/>
           }
           {
-            open && <DeleteModal setOpen={setOpen} itemType={'User'} deleteUser={() => deleteUser(selectedUserId)}/>
+            open && <DeleteModal loading={deleteLoading} setOpen={setOpen} itemType={'User'} deleteUser={() => deleteUser(selectedUserId)}/>
+          }
+          {
+            notification && <Notification type={notification.type} message={notification.message} />
           }
         </div>
       </div>
