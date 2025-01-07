@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
-  getStoresList,
+  getStoresListByPage,
   searchStoresByName,
 } from "../../services/adminServices";
 import { LinearProgress } from "@mui/material";
@@ -9,18 +9,23 @@ import { Input } from "../../components/ui/Input";
 import { AdminSideBar } from "../../layouts/AdminSideBar";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { ResultPagination } from "../../components/ui/ResultPagination";
 
 export default function StoresList() {
   const [storesList, setStoresList] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [notification, setNotification] = useState({});
+  const [page,setPage] = useState(1);
+  const [total,setTotal] = useState();
+  const [lastPage,setLastPage] = useState(0);
 
-  const getStores = async () => {
+  const getStores = async (page) => {
     setLoading(true);
     try {
-      const response = await getStoresList(localStorage.getItem("token"));
-
+      const response = await getStoresListByPage(localStorage.getItem("token"),page);
+      setTotal(response.stores.total);
+      setLastPage(response.stores.last_page)
       setLoading(false);
       if (response.stores.data) {
         setStoresList(response.stores.data);
@@ -37,6 +42,26 @@ export default function StoresList() {
       }
     }
   };
+
+  const nextData = async () =>{
+    if(page < lastPage){
+      setPage(page+1);
+      const response = await getStores(page+1);
+      if(response.stores.data){
+        setStoresList(response.stores.data)
+      }
+    }
+  }
+
+  const previusData = async () =>{
+    if(page !== 1){
+      setPage(page-1);
+      const response = await getStores(page-1);
+      if(response.stores.data){
+        setStoresList(response.stores.data)
+      }
+    }
+  }
 
   useEffect(() => {
     getStores();
@@ -70,8 +95,11 @@ export default function StoresList() {
         }
       }
     };
-
-    searchInput && storesSearch();
+    if(searchInput !== ''){
+      storesSearch();
+    }else{
+      getStores();
+    }
   }, [searchInput]);
 
   return (
@@ -138,6 +166,9 @@ export default function StoresList() {
               </tbody>
             </table>
           )}
+          {
+            !loading && searchInput === '' && <ResultPagination firstPage={page} lastPage={lastPage} previus={previusData} next={nextData} total={total}/>
+          }
         </div>
       </div>
     </div>

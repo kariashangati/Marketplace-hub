@@ -1,17 +1,18 @@
 import axios from "axios";
 
-export const getUsersList = async (token) => {
-  const response = await axios.get("http://localhost:8000/api/user/getUsers", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+
+export const getUsersListByPage = async (token,page) => {
+  const response = await axios.get(`http://localhost:8000/api/user/getUsers?page=${page}`,{
+    headers:{
+      Authorization : `Bearer ${token}`,
+    }
   });
   return response;
-};
+}
 
-export const getStoresList = async (token) => {
+export const getStoresListByPage = async (token,page) => {
   const response = await axios.get(
-    "http://localhost:8000/api/store/getStoresUsers",
+    `http://localhost:8000/api/store/getStoresUsers?page=${page}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -44,3 +45,13 @@ export const getAdminDashboardData = async (token) => {
     });
     return response;
 }
+
+export const deleteUser = async (token,userId) => {
+    const response = await axios.delete(`http://localhost:8000/api/user/deleteUser/${userId}`,{
+      headers: {
+        Authorization : `Bearer ${token}`
+      }
+    });
+    return response;
+}
+

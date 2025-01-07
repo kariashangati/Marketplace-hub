@@ -66,7 +66,7 @@ Route::prefix("product")->group(function () {
 
 Route::prefix("store")->group(function () {
     Route::get("/getUserStores", [StoreController::class, "getUserStores"])->middleware(CheckAuthentication::class); // get the user stores
-    Route::delete("/deleteStore/{id}", [StoreController::class, "deleteStore"]); // delete a store
+    Route::delete("/deleteStore/{id}", [StoreController::class, "deleteStore"])->middleware(CheckAuthentication::class); // delete a store
     Route::get("/searchStoresByName", [StoreController::class, "searchStoresByName"]); // search stores by name admins and users can do this
     Route::get("/getStoresUsers", [StoreController::class, "getStoresUsers"]); // this function is used to get the stores of the users
 });
