@@ -8,3 +8,12 @@ export const deleteStore = async (token,storeId) => {
     });
     return response;
 }
+
+export const getUserStoresList = async (token,page) => {
+    const response = await axios.get(`http://localhost:8000/api/store/getUserStores?page=${page}`,{
+        headers :{
+            Authorization : `Bearer ${token}`
+        }
+    });
+    return response;
+}

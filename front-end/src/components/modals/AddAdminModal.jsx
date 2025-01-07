@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Button } from "../ui/Button";
 import { Input } from "../ui/Input";
 import { Label } from "../ui/Label";
@@ -13,43 +12,51 @@ export const AddAdminModal = ({ handleSubmit,handleChange,setOpenAddAdmin, loadi
             Fill this inputs to add new admin
           </p>
         </div>
-        <form className="mt-6" onSubmit={handleSubmit}>
-            <Label text={"Full name"} />
-          <Input
-            type="text"
-            name={"fullName"}
-            onChange={handleChange}
-            placholder="ex: joen doe"
-            border="black"
-            text="black"
-          />
-          <Label text={"Email"} />
-          <Input
-            type="email"
-            name={"email"}
-            onChange={handleChange}
-            placholder="ex: joendoe004@gmail.com"
-            border="black"
-            text="black"
-          />
-          <Label text={"Username"} />
-          <Input
-            type="text"
-            name={"username"}
-            onChange={handleChange}
-            placholder="ex: joe004."
-            border="black"
-            text="black"
-          />
-          <Label text={"Password"} />
-          <Input
-            type="password"
-            name={"password"}
-            onChange={handleChange}
-            placholder="●●●●●●●"
-            border="black"
-            text="black"
-          />
+        <form className="mt-6 flex flex-col gap-3" onSubmit={handleSubmit}>
+            <div>
+              <Label text={"Full name"} />
+              <Input
+                type="text"
+                name={"fullName"}
+                onChange={handleChange}
+                placholder="ex: joen doe"
+                border="gray-300"
+                text="black"
+              />
+            </div>
+            <div>
+              <Label text={"Email"} />
+              <Input
+                type="email"
+                name={"email"}
+                onChange={handleChange}
+                placholder="ex: joendoe004@gmail.com"
+                border="gray-300"
+                text="black"
+              />
+            </div>
+            <div>
+              <Label text={"Username"} />
+              <Input
+                type="text"
+                name={"username"}
+                onChange={handleChange}
+                placholder="ex: joe004."
+                border="gray-300"
+                text="black"
+              />
+            </div>
+            <div>
+              <Label text={"Password"} />
+              <Input
+                type="password"
+                name={"password"}
+                onChange={handleChange}
+                placholder="●●●●●●●"
+                border="gray-300"
+                text="black"
+              />
+            </div>
           <div className="flex justify-end gap-4 mt-6">
             <Button
               type="button"

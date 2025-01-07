@@ -8,3 +8,21 @@ export const searchUsersByUsername = async(token,username) =>{
     });
     return response;
 }
+
+export const getAuthenticatedUserData = async (token) =>{
+    const response = await axios.get("http://localhost:8000/api/user/getUserData",{
+        headers:{
+            Authorization : `Bearer ${token}`
+        }
+    });
+    return response;
+}
+
+export const editProfileData = async (token,data) =>{
+    const response = await axios.post("http://localhost:8000/api/user/editProfile",data,{
+        headers : {
+            Authorization : `Bearer ${token}`
+        }
+    });
+    return response;
+}
