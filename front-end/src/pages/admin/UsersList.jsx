@@ -52,7 +52,6 @@ export const UsersList = () => {
         </div>
         <div className="mt-5 pr-5">{loading && <LinearProgress />}</div>
         <div className="mt-6 pr-5">
-<<<<<<< HEAD
           {!loading && (
             <table className="w-[100%] border border-gray-400">
               <thead>
@@ -80,8 +79,8 @@ export const UsersList = () => {
                           <td>{user.username}</td>
                           <td>
                             <div className="flex justify-center gap-2">
-                              <EyeIcon className="w-10 h-10 text-green-600 cursor-pointer hover:text-green-800 duration-200" />
-                              <TrashIcon className="w-10 h-10 text-red-600 cursor-pointer hover:text-red-800 duration-200" />
+                              <EyeIcon className="w-8 h-8 text-green-600 cursor-pointer hover:text-green-800 duration-200" />
+                              <TrashIcon className="w-8 h-8 text-red-600 cursor-pointer hover:text-red-800 duration-200" />
                             </div>
                           </td>
                         </tr>
@@ -91,41 +90,6 @@ export const UsersList = () => {
               </tbody>
             </table>
           )}
-=======
-            {
-                !loading && <table className="w-[100%] border border-gray-400">
-                                <thead>
-                                    <th className="py-2">id</th>
-                                    <th className="py-2">Profile Picture</th>
-                                    <th className="py-2">Full Name</th>
-                                    <th className="py-2">UserName</th>
-                                    <th className="py-2">Actions</th>
-                                </thead>
-                                <tbody>
-                                    {
-                                        usersList && usersList.length ? 
-                                            usersList.map((user)=>{
-                                                return <tr className="text-center">
-                                                    <td>{user.id}</td>
-                                                    <td className="flex justify-center">
-                                                        <img src={user.profile_picture} className="w-10 h-10 rounded-full" />
-                                                    </td>
-                                                    <td>{user.fullName}</td>
-                                                    <td>{user.username}</td>
-                                                    <td>
-                                                        <div className="flex justify-center gap-2">
-                                                            <EyeIcon className='w-8 h-8 text-green-600 cursor-pointer hover:text-green-800 duration-200'/>
-                                                            <TrashIcon className='w-8 h-8 text-red-600 cursor-pointer hover:text-red-800 duration-200'/>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            })
-                                        :null
-                                    }
-                                </tbody>
-                            </table>
-            }
->>>>>>> origin
         </div>
       </div>
     </div>

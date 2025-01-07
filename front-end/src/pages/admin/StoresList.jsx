@@ -8,6 +8,7 @@ import { EyeIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { Input } from "../../components/ui/Input";
 import { AdminSideBar } from "../../layouts/AdminSideBar";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default function StoresList() {
   const [storesList, setStoresList] = useState([]);
@@ -80,7 +81,7 @@ export default function StoresList() {
       </div>
       <div className="lg:ml-[21%] px-2">
         <div className="pt-6">
-          <h1 className="text-3xl font-semibold">Stires List</h1>
+          <h1 className="text-3xl font-semibold">Stores List</h1>
           <div className="w-[60%] pt-6">
             <Input
               value={searchInput}
@@ -114,11 +115,11 @@ export default function StoresList() {
                             {store.storeName}
                           </td>
 
-                          <td>{store.user.fullName}</td>
-                          <td>{store.bio.substring(0, 50)}</td>
+                          <td><Link className="text-blue-500 underline">{store.user.username}</Link></td>
+                          <td>{store.bio.substring(0, 50)}...</td>
                           <td>
                             <div className="flex justify-center gap-2">
-                              <EyeIcon className="w-10 h-10 text-green-600 cursor-pointer hover:text-green-800 duration-200" />
+                              <EyeIcon className="w-8 h-8 text-green-600 cursor-pointer hover:text-green-800 duration-200" />
                               <TrashIcon
                                 onClick={() => {
                                   const newStoreList = storesList.filter(
@@ -126,7 +127,7 @@ export default function StoresList() {
                                   );
                                   setStoresList(newStoreList);
                                 }}
-                                className="w-10 h-10 text-red-600 cursor-pointer hover:text-red-800 duration-200"
+                                className="w-8 h-8 text-red-600 cursor-pointer hover:text-red-800 duration-200"
                               />
                             </div>
                           </td>
