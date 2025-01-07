@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import { AdminSideBar } from "../../layouts/AdminSideBar";
 import { LinearProgress } from "@mui/material";
 import { EyeIcon, TrashIcon } from "@heroicons/react/24/outline";
-import { getTeamMembers } from "../../services/adminServices";
+import { addNewAdmin, deleteUserService, getTeamMembers } from "../../services/adminServices";
 import { Button } from "../../components/ui/Button";
 import { AddAdminModal } from "../../components/modals/AddAdminModal";
+import { Notification } from "../../components/ui/Notification";
+import { DeleteModal } from "../../components/modals/DeleteModal";
 
 
 export const TeamList = () => {
@@ -12,6 +14,26 @@ export const TeamList = () => {
     const [adminsList,setAdminsList] = useState([]);
     const [loading,setLoading] = useState(false);
     const [openAddAdmin,setOpenAddAdmin] = useState(false);
+    const [addLoading,setAddLoading] = useState(false);
+    const [notification, setNotification] = useState({});
+    const [open,setOpen] = useState(false);
+    const [selectedUserId,setSelectedUserId] = useState();
+    const [deleteLoading,setDeleteLoading] = useState(false);
+
+    const [formdata,setFormdata] = useState({
+        fullName : '',
+        email : '',
+        username : '',
+        password : '',
+    })
+    
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormdata((prevState) => ({
+        ...prevState,
+        [name]: value,
+        }));
+    };
 
     const getTeam = async () =>{
         setLoading(true);
@@ -22,6 +44,57 @@ export const TeamList = () => {
             setAdminsList(response.data.admins);
         }
     }
+
+    const handleSubmit = async (e) =>{
+        e.preventDefault()
+        setNotification(null);
+        setAddLoading(true);
+        try{
+            const response = await addNewAdmin(localStorage.getItem('token'),formdata);
+            setAddLoading(false);
+            if(response.status === 200 && response.data.message){
+                setOpenAddAdmin(false);
+                setNotification({type:"success",message:response.data.message})
+                getTeam();
+            }
+        }catch(error){
+            setAddLoading(false);
+            setOpenAddAdmin(false);
+            if(error.response){
+            setNotification({type: "error",message: error.response.data.message});
+            }else{
+            setNotification({type: "error",message: "Try again later"});
+            }
+        };
+    }
+
+    const deleteUser = async (userId) => {
+        setNotification(null);
+        setDeleteLoading(true);
+        try {
+          const response = await deleteUserService(
+            localStorage.getItem("token"),
+            userId
+          );
+          setDeleteLoading(false);
+          setOpen(false);
+          if (response.status === 200) {
+            getTeam();
+            setNotification({ type: "success", message: response.data.message });
+          }
+        } catch (error) {
+          setOpen(false);
+          setDeleteLoading(false);
+          if (error.response) {
+            setNotification({
+              type: "error",
+              message: error.response.data.message,
+            });
+          } else {
+            setNotification({ type: "error", message: "Try again later" });
+          }
+        }
+    };
 
     useEffect(() =>{
         getTeam();
@@ -69,7 +142,11 @@ export const TeamList = () => {
                             <td>
                                 <div className="flex justify-center gap-2">
                                 <EyeIcon className="w-8 h-8 text-green-600 cursor-pointer hover:text-green-800 duration-200" />
-                                <TrashIcon className="w-8 h-8 text-red-600 cursor-pointer hover:text-red-800 duration-200" />
+                                <TrashIcon className="w-8 h-8 text-red-600 cursor-pointer hover:text-red-800 duration-200"
+                                onClick={() => {
+                                    setOpen(true);
+                                    setSelectedUserId(user.id);
+                                  }} />
                                 </div>
                             </td>
                             </tr>
@@ -81,8 +158,19 @@ export const TeamList = () => {
             ) : <span className="text-lg font-semibold">No admins founded except you!</span>}
             </div>
             {
-                openAddAdmin && <AddAdminModal setOpenAddAdmin={setOpenAddAdmin} />
+                openAddAdmin && <AddAdminModal loading={addLoading} handleSubmit={handleSubmit} handleChange={handleChange} setOpenAddAdmin={setOpenAddAdmin} />
             }
+            {
+                notification && <Notification type={notification.type} message={notification.message} />
+            }
+            {open && (
+                <DeleteModal
+                    loading={deleteLoading}
+                    setOpen={setOpen}
+                    itemType={"Admin"}
+                    deleteItem={() => deleteUser(selectedUserId)}
+                />
+            )}
         </div>
     </div>
   );

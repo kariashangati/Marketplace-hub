@@ -83,3 +83,12 @@ export const getTeamMembers = async (token) => {
     });
     return response;
 }
+
+export const addNewAdmin = async (token,data) =>{
+    const response = await axios.post(`http://localhost:8000/api/admin/addAdmin`,data,{
+      headers : {
+        Authorization : `Bearer ${token}`
+      }
+    });
+    return response;
+}
