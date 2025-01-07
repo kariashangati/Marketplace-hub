@@ -74,3 +74,12 @@ export const deleteStoreById = async (token, storeId) => {
   );
   return response.data;
 };
+
+export const getTeamMembers = async (token) => {
+    const response = await axios.get(`http://localhost:8000/api/admin/getAdmins`,{
+      headers:{
+        Authorization : `Bearer ${token}`
+      }
+    });
+    return response;
+}

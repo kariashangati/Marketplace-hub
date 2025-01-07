@@ -9,6 +9,7 @@ import { UserHome } from "./pages/user/UserHome";
 import { AdminDashboard } from "./pages/admin/AdminDashboard";
 import { UsersList } from "./pages/admin/UsersList";
 import StoresList from "./pages/admin/StoresList";
+import { TeamList } from "./pages/admin/TeamList";
 
 export const App = () => {
   return (
@@ -26,6 +27,7 @@ export const App = () => {
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/usersList" element={<UsersList />} />
         <Route path="/admin/stores" element={<StoresList />} />
+        <Route path="/admin/team" element={<TeamList />} />
       </Route>
     </Routes>
   );
