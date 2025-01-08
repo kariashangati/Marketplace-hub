@@ -18,7 +18,7 @@ class CheckRole
      * @param  string $role
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function handle(Request $request, Closure $next,$role): Response
+    public function handle(Request $request, Closure $next, $role): Response
     {
         try {
             $user = JWTAuth::parseToken()->authenticate();
@@ -26,15 +26,14 @@ class CheckRole
             if ($user->role !== $role) {
                 return response()->json([
                     "message" => "Unauthorized"
-                ], 403);
+                ], 401);
             }
         } catch (Exception) {
             return response()->json([
                 "message" => "Unauthorized"
-            ], 403);
+            ], 401);
         }
 
         return $next($request);
     }
 }
-

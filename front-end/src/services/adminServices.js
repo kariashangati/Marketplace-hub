@@ -100,4 +100,27 @@ export const addNewAdmin = async (token, data) => {
   return response;
 };
 
+export const getPendingProducts = async (token, page) => {
+  const response = await axios.get(
+    `http://localhost:8000/api/product/getPendingProducts?page=${page}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.data;
+};
 
+export const acceptedPendingProduct = async (token, productId) => {
+  const response = await axios.put(
+    `http://localhost:8000/api/product/acceptPendingProduct/${productId}`,
+    null,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response;
+};

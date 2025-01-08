@@ -33,6 +33,7 @@ Route::prefix("user")->group(function () {
     Route::get("/getUsers", [UserController::class, "getUsers"])->middleware(CheckRole::class . ":admin"); // get all users only admins can see this
     Route::delete("/deleteUser/{id}", [UserController::class, "deleteUser"])->middleware(CheckRole::class . ":admin"); // delete a user only admins can do this
     Route::get("/searchUsersByUsername", [UserController::class, "searchUsersByUsername"])->middleware(CheckAuthentication::class); // search users by username
+    Route::get("/getUserData", [UserController::class, "getUserData"])->middleware(CheckAuthentication::class);
     Route::get("/viewUser/{id}", [UserController::class, "viewUser"])->middleware(CheckAuthentication::class); // view user data admin,users can see this
     Route::post("/editProfile", [UserController::class, "editProfile"])->middleware(CheckAuthentication::class); // only user authenticated can edit his profile
 });

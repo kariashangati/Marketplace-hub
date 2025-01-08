@@ -11,6 +11,8 @@ import { UsersList } from "./pages/admin/UsersList";
 import { StoresList } from "./pages/admin/StoresList";
 import { TeamList } from "./pages/admin/TeamList";
 import { PendingProducts } from "./pages/admin/PendingProducts";
+import { CategoryList } from "./pages/admin/CategoryList";
+import { ProfileData } from "./pages/admin/ProfileData";
 
 export const App = () => {
   return (
@@ -30,6 +32,8 @@ export const App = () => {
         <Route path="/admin/stores" element={<StoresList />} />
         <Route path="/admin/team" element={<TeamList />} />
         <Route path="/admin/pendingProducts" element={<PendingProducts />} />
+        <Route path="/admin/categories" element={<CategoryList />} />
+        <Route path="/admin/profile" element={<ProfileData />} />
       </Route>
     </Routes>
   );

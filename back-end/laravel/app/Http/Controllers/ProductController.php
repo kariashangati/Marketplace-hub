@@ -177,6 +177,7 @@ class ProductController extends Controller
             $user = JWTAuth::parseToken()->authenticate();
             $product = Product::where("id", $id)->with("store")->first();
 
+
             if ($product) {
                 if ($user->role === 'admin') {
                     $product->delete();

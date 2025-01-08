@@ -11,6 +11,16 @@ use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
 class UserController extends Controller
 {
+
+    public function getUserData(){
+        $user = JWTAuth::parseToken()->authenticate();
+        if($user){
+            return response()->json([
+                "userData" => $user,
+            ]);
+        }
+    }
+
     public function getUsers()
     {
         try {
@@ -72,6 +82,7 @@ class UserController extends Controller
     {
         try {
             $user = JWTAuth::parseToken()->authenticate();
+
 
             $request->validate([
                 'fullName' => 'required',

@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import { ResultPagination } from "../../components/ui/ResultPagination";
 import { DeleteModal } from "../../components/modals/DeleteModal";
 import { Notification } from "../../components/ui/Notification";
+import Layout from "../../components/Layout";
 
 export const StoresList = () => {
   const [storesList, setStoresList] = useState([]);
@@ -33,6 +34,7 @@ export const StoresList = () => {
         localStorage.getItem("token"),
         page
       );
+
       setTotal(response.stores.total);
       setLastPage(response.stores.last_page);
       setLoading(false);
@@ -55,20 +57,14 @@ export const StoresList = () => {
   const nextData = async () => {
     if (page < lastPage) {
       setPage(page + 1);
-      const response = await getStores(page + 1);
-      if (response.stores.data) {
-        setStoresList(response.stores.data);
-      }
+      await getStores(page + 1);
     }
   };
 
   const previusData = async () => {
     if (page !== 1) {
       setPage(page - 1);
-      const response = await getStores(page - 1);
-      if (response.stores.data) {
-        setStoresList(response.stores.data);
-      }
+      await getStores(page - 1);
     }
   };
 
@@ -138,11 +134,101 @@ export const StoresList = () => {
       }
     }
   };
+  // return (
+  //   <div>
+  //     <AdminSideBar />
+
+  //     <div className="lg:ml-[21%] px-2">
+  //       <div className="pt-6">
+  //         <h1 className="text-3xl font-semibold">Stores List</h1>
+  //         <div className="w-[60%] pt-6">
+  //           <Input
+  //             value={searchInput}
+  //             type={"text"}
+  //             name={"storeName"}
+  //             placholder={"Search stores by name"}
+  //             onChange={handlChandeSearch}
+  //           />
+  //         </div>
+  //       </div>
+  //       <div className="mt-5 pr-5">{loading && <LinearProgress />}</div>
+  //       <div className="mt-6 pr-5">
+  //         {!loading && (
+  //           <table className="w-[100%] border border-gray-400">
+  //             <thead>
+  //               <tr>
+  //                 <th className="py-2">id</th>
+  //                 <th className="py-2">storeName</th>
+  //                 <th className="py-2">creator_username</th>
+  //                 <th className="py-2">store description</th>
+  //                 <th className="py-2">Actions</th>
+  //               </tr>
+  //             </thead>
+  //             <tbody>
+  //               {storesList && storesList.length
+  //                 ? storesList.map((store) => {
+  //                     return (
+  //                       <tr key={store.id} className="text-center">
+  //                         <td>{store.id}</td>
+  //                         <td className="flex justify-center">
+  //                           {store.storeName}
+  //                         </td>
+
+  //                         <td>
+  //                           <Link className="text-blue-500 underline">
+  //                             {store.user.username}
+  //                           </Link>
+  //                         </td>
+  //                         <td>{store.bio.substring(0, 50)}...</td>
+  //                         <td>
+  //                           <div className="flex justify-center gap-2">
+  //                             <EyeIcon className="w-8 h-8 text-green-600 cursor-pointer hover:text-green-800 duration-200" />
+  //                             <TrashIcon
+  //                               onClick={() => {
+  //                                 setSelectedUserId(store.id);
+  //                                 setOpen(true);
+  //                               }}
+  //                               className="w-8 h-8 text-red-600 cursor-pointer hover:text-red-800 duration-200"
+  //                             />
+  //                           </div>
+  //                         </td>
+  //                       </tr>
+  //                     );
+  //                   })
+  //                 : null}
+  //             </tbody>
+  //           </table>
+  //         )}
+  //         {!loading && searchInput === "" && (
+  //           <ResultPagination
+  //             firstPage={page}
+  //             lastPage={lastPage}
+  //             previus={previusData}
+  //             next={nextData}
+  //             total={total}
+  //           />
+  //         )}
+  //         {open && (
+  //           <DeleteModal
+  //             loading={deleteLoading}
+  //             setOpen={setOpen}
+  //             itemType={"store"}
+  //             deleteItem={() => deleteStore(selectedStoreId)}
+  //           />
+  //         )}
+  //         {notification && (
+  //           <Notification
+  //             message={notification.message}
+  //             type={notification.type}
+  //           />
+  //         )}
+  //       </div>
+  //     </div>
+  //   </div>
+  // );
+
   return (
-    <div>
-      <div>
-        <AdminSideBar />
-      </div>
+    <Layout>
       <div className="lg:ml-[21%] px-2">
         <div className="pt-6">
           <h1 className="text-3xl font-semibold">Stores List</h1>
@@ -157,7 +243,7 @@ export const StoresList = () => {
           </div>
         </div>
         <div className="mt-5 pr-5">{loading && <LinearProgress />}</div>
-          <div className="mt-6 pr-5">
+        <div className="mt-6 pr-5">
           {!loading && (
             <table className="w-[100%] border border-gray-400">
               <thead>
@@ -229,6 +315,6 @@ export const StoresList = () => {
           )}
         </div>
       </div>
-    </div>
+    </Layout>
   );
 };

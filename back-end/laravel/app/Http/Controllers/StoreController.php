@@ -16,7 +16,7 @@ class StoreController extends Controller
             $user = JWTAuth::parseToken()->authenticate();
             $stores = Store::where("user_id", $user->id)
                 ->latest()
-                ->paginate(8);
+                ->paginate(3);
 
             return response()->json([
                 "stores" => $stores,
