@@ -8,9 +8,15 @@ import {
   UserGroupIcon,
   UsersIcon,
   FlagIcon,
+  ShoppingBagIcon,
+  BellIcon,
+  ChatBubbleLeftRightIcon,
+  BookmarkIcon,
+  MagnifyingGlassIcon,
+  FolderIcon,
 } from "@heroicons/react/24/outline";
 
-export const LINKS = [
+export const ADMINLINKS = [
   {
     SVG: <Squares2X2Icon strokeWidth="1" className="w-10 h-10" />,
     TEXT: "Dashboard",
@@ -50,6 +56,55 @@ export const LINKS = [
     SVG: <UserCircleIcon strokeWidth="1" className="w-10 h-10" />,
     TEXT: "Profile",
     LINK: "/admin/profile",
+  },
+  {
+    SVG: <ArrowRightOnRectangleIcon strokeWidth="1" className="w-10 h-10" />,
+    TEXT: "Logout",
+  },
+];
+
+
+
+export const USERLINKS = [
+  {
+    SVG: <ShoppingBagIcon strokeWidth="1" className="w-10 h-10" />,
+    TEXT: "Products",
+    LINK: "/user/products",
+  },
+  {
+    SVG: <MagnifyingGlassIcon strokeWidth="1" className="w-10 h-10" />,
+    TEXT: "Search",
+    LINK: "/user/search",
+  },
+  {
+    SVG: <BellIcon strokeWidth="1" className="w-10 h-10" />,
+    TEXT: "Notifications",
+    LINK: "/user/notifications",
+  },
+  {
+    SVG: <ChatBubbleLeftRightIcon strokeWidth="1" className="w-10 h-10" />,
+    TEXT: "Messages",
+    LINK: "/user/messages",
+  },
+  {
+    SVG: <BuildingStorefrontIcon strokeWidth="1" className="w-10 h-10" />,
+    TEXT: "Stores",
+    LINK: "/user/stores",
+  },
+  {
+    SVG: <FolderIcon strokeWidth="1" className="w-10 h-10" />,
+    TEXT: "History",
+    LINK: "/user/history",
+  },
+  {
+    SVG: <BookmarkIcon strokeWidth="1" className="w-10 h-10" />,
+    TEXT: "Saves",
+    LINK: "/user/saves",
+  },
+  {
+    SVG: <UserCircleIcon strokeWidth="1" className="w-10 h-10" />,
+    TEXT: "Profile",
+    LINK: "/user/profile",
   },
   {
     SVG: <ArrowRightOnRectangleIcon strokeWidth="1" className="w-10 h-10" />,

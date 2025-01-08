@@ -5,7 +5,6 @@ import { ResetPassword } from "./pages/auth/ResetPassword";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import { UserRoutes } from "./protectRoutes/userRoutes";
 import { AdminRoutes } from "./protectRoutes/AdminRoutes";
-import { UserHome } from "./pages/user/UserHome";
 import { AdminDashboard } from "./pages/admin/AdminDashboard";
 import { UsersList } from "./pages/admin/UsersList";
 import { StoresList } from "./pages/admin/StoresList";
@@ -13,6 +12,7 @@ import { TeamList } from "./pages/admin/TeamList";
 import { PendingProducts } from "./pages/admin/PendingProducts";
 import { CategoryList } from "./pages/admin/CategoryList";
 import { ProfileData } from "./pages/admin/ProfileData";
+import { Products } from "./pages/user/Products";
 
 export const App = () => {
   return (
@@ -23,7 +23,7 @@ export const App = () => {
       <Route path={"/password-reset/:token"} element={<ResetPassword />} />
 
       <Route element={<UserRoutes />}>
-        <Route path="/user/dashboard" element={<UserHome />} />
+        <Route path="/user/products" element={<Products />} />
       </Route>
 
       <Route element={<AdminRoutes />}>

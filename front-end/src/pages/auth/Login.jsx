@@ -40,7 +40,7 @@ export const Login = () => {
         else if(response.data.role === "user"){
           localStorage.setItem("token",response.data.token);
           localStorage.setItem("user",JSON.stringify(response.data.userData));
-          navigate("/user/dashboard");
+          navigate("/user/products");
         }
       }
     }catch(error){
