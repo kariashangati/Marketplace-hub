@@ -76,19 +76,28 @@ export const deleteStoreById = async (token, storeId) => {
 };
 
 export const getTeamMembers = async (token) => {
-    const response = await axios.get(`http://localhost:8000/api/admin/getAdmins`,{
-      headers:{
-        Authorization : `Bearer ${token}`
-      }
-    });
-    return response;
-}
+  const response = await axios.get(
+    `http://localhost:8000/api/admin/getAdmins`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response;
+};
 
-export const addNewAdmin = async (token,data) =>{
-    const response = await axios.post(`http://localhost:8000/api/admin/addAdmin`,data,{
-      headers : {
-        Authorization : `Bearer ${token}`
-      }
-    });
-    return response;
-}
+export const addNewAdmin = async (token, data) => {
+  const response = await axios.post(
+    `http://localhost:8000/api/admin/addAdmin`,
+    data,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response;
+};
+
+

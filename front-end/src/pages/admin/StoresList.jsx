@@ -14,7 +14,7 @@ import { ResultPagination } from "../../components/ui/ResultPagination";
 import { DeleteModal } from "../../components/modals/DeleteModal";
 import { Notification } from "../../components/ui/Notification";
 
-export default function StoresList() {
+export const StoresList = () => {
   const [storesList, setStoresList] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -157,7 +157,7 @@ export default function StoresList() {
           </div>
         </div>
         <div className="mt-5 pr-5">{loading && <LinearProgress />}</div>
-        <div className="mt-6 pr-5">
+          <div className="mt-6 pr-5">
           {!loading && (
             <table className="w-[100%] border border-gray-400">
               <thead>
@@ -231,4 +231,4 @@ export default function StoresList() {
       </div>
     </div>
   );
-}
+};

@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('productImage')->nullable();
             $table->float('price');
             $table->integer('likes')->default(0);
-            $table->enum('status',['pending','accepted'])->default('pending');
+            $table->enum('status', ['pending', 'accepted'])->default('pending');
             $table->string('location');
             $table->boolean('delivry');
             $table->timestamps();

@@ -8,8 +8,9 @@ import { AdminRoutes } from "./protectRoutes/AdminRoutes";
 import { UserHome } from "./pages/user/UserHome";
 import { AdminDashboard } from "./pages/admin/AdminDashboard";
 import { UsersList } from "./pages/admin/UsersList";
-import StoresList from "./pages/admin/StoresList";
+import { StoresList } from "./pages/admin/StoresList";
 import { TeamList } from "./pages/admin/TeamList";
+import { PendingProducts } from "./pages/admin/PendingProducts";
 
 export const App = () => {
   return (
@@ -28,6 +29,7 @@ export const App = () => {
         <Route path="/admin/usersList" element={<UsersList />} />
         <Route path="/admin/stores" element={<StoresList />} />
         <Route path="/admin/team" element={<TeamList />} />
+        <Route path="/admin/pendingProducts" element={<PendingProducts />} />
       </Route>
     </Routes>
   );
