@@ -9,6 +9,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\CheckAuthentication;
+use App\Http\Middleware\CheckIsSuperAdmin;
 use App\Http\Middleware\CheckRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -30,8 +31,8 @@ Route::prefix("auth")->group(function () {
 
 
 Route::prefix("user")->group(function () {
-    Route::get("/getUsers", [UserController::class, "getUsers"])->middleware(CheckRole::class . ":admin"); // get all users only admins can see this
-    Route::delete("/deleteUser/{id}", [UserController::class, "deleteUser"])->middleware(CheckRole::class . ":admin"); // delete a user only admins can do this
+    Route::get("/getUsers", [UserController::class, "getUsers"])->middleware(CheckRole::class . ":admin,super admin"); // get all users only admins can see this
+    Route::delete("/deleteUser/{id}", [UserController::class, "deleteUser"])->middleware(CheckRole::class . ":admin,super admin"); // delete a user only admins can do this
     Route::get("/searchUsersByUsername", [UserController::class, "searchUsersByUsername"])->middleware(CheckAuthentication::class); // search users by username
     Route::get("/getUserData", [UserController::class, "getUserData"])->middleware(CheckAuthentication::class);
     Route::get("/viewUser/{id}", [UserController::class, "viewUser"])->middleware(CheckAuthentication::class); // view user data admin,users can see this
@@ -41,28 +42,30 @@ Route::prefix("user")->group(function () {
 
 Route::prefix("category")->group(function () {
     Route::get("/viewCategories", [CategoryController::class, "viewCategories"])->middleware(CheckAuthentication::class); // admins,users can view categories
-    Route::post("/addCategory", [CategoryController::class, "addCategory"])->middleware(CheckRole::class . ":admin"); // only admins can add category
-    Route::delete("/deleteCategory/{id}", [CategoryController::class, "deleteCategory"])->middleware(CheckRole::class . ":admin"); // only admins can delete category
+    Route::post("/addCategory", [CategoryController::class, "addCategory"])->middleware(CheckRole::class . ":admin,super admin"); // only admins can add category
+    Route::delete("/deleteCategory/{id}", [CategoryController::class, "deleteCategory"])->middleware(CheckRole::class . ":admin,super admin"); // only admins can delete category
 });
 
 
 
-Route::prefix("admin")->middleware(CheckRole::class . ":admin")->group(function () {
-    Route::get("/getAdminDataDashboard",[DashboardController::class, "getAdminDashboardData"]); // get the admin dashboard data
-    Route::get("/getAdmins", [AdminController::class, "getAdmins"]); // only admins can see each others
-    Route::post("/addAdmin", [AdminController::class, "addAdmin"]); // only admins can add other admins
+Route::prefix("admin")->group(function () {
+    Route::get("/getAdminDataDashboard",[DashboardController::class, "getAdminDashboardData"])->middleware(CheckRole::class . ":admin,super admin"); // get the admin dashboard data
+    Route::get("/getAdmins", [AdminController::class, "getAdmins"])->middleware(CheckRole::class . ":admin,super admin"); // only admins can see each others
+    Route::post("/addAdmin", [AdminController::class, "addAdmin"])->middleware(CheckIsSuperAdmin::class . ":super admin"); // only super admins can add other admins
+    Route::delete("/deleteAdmin/{id}", [AdminController::class, "deleteAdmin"])->middleware(CheckIsSuperAdmin::class . ":super admin"); // only super admins can add other admins
 });
 
 
 
 Route::prefix("product")->group(function () {
     Route::get("/getProducts", [ProductController::class, "getProducts"]); // get all accepted products with stores users and admins can see this
-    Route::get("/getPendingProducts", [ProductController::class, "getPendingProducts"])->middleware(CheckRole::class . ":admin"); // get pending products only admins can see this
+    Route::get("/getPendingProducts", [ProductController::class, "getPendingProducts"])->middleware(CheckRole::class . ":admin,super admin"); // get pending products only admins can see this
     Route::get("/getSavedProducts", [ProductController::class, "getSavedProducts"])->middleware(CheckAuthentication::class); // get the authenticated user saved products
     Route::delete("/deleteProduct/{id}", [ProductController::class, "deleteProduct"]); // delete a product
     Route::post("/addProduct", [ProductController::class, "addProduct"])->middleware(CheckAuthentication::class); // add a product users and admins
     Route::delete("/deleteSavedProduct/{product_id}", [ProductController::class, "deleteSavedProduct"])->middleware(CheckAuthentication::class); // delete a saved product
-    Route::put("/acceptPendingProduct/{id}", [ProductController::class, "acceptPendingProduct"])->middleware(CheckRole::class . ":admin"); // accept a pending product by admins
+    Route::put("/acceptPendingProduct/{id}", [ProductController::class, "acceptPendingProduct"])->middleware(CheckRole::class . ":admin,super admin"); // accept a pending product by admins
+    Route::get("/reportedProducts",[ProductController::class, "getReportedProducts"])->middleware(CheckRole::class . ":admin,super admin");
 });
 
 Route::prefix("store")->group(function () {

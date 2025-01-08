@@ -14,7 +14,7 @@ const useAuth = () =>{
                     }
                 })               
                 if(response.status === 200){
-                    if(response.data.role === "admin"){
+                    if(response.data.role === "admin" || response.data.role === 'super admin'){
                         setIsAuth(true);
                     }
                     else{

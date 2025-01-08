@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ReportedProduct;
 use App\Models\Save;
 use App\Models\Store;
 use App\Models\User;
@@ -20,8 +21,9 @@ class DatabaseSeeder extends Seeder
         // User::factory(60)->create();
         // Store::factory(30)->create();
         // Category::factory(10)->create();
-        Product::factory(100)->create();
+        // Product::factory(100)->create();
         // Save::factory(20)->create();
+        ReportedProduct::factory(100)->create();
 
         // User::factory()->create([
         //     'name' => 'Test User',

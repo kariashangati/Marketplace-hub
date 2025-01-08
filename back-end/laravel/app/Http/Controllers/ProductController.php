@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ReportedProduct;
 use App\Models\Save;
 use App\Models\Store;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
 class ProductController extends Controller
@@ -218,6 +220,28 @@ class ProductController extends Controller
 
             return response()->json([
                 'savedProducts' => $savedProducts,
+            ]);
+        } catch (Exception $ex) {
+            return response()->json([
+                'message' => $ex->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function getReportedProducts(){
+        try {
+            $reportedProducts = ReportedProduct::select(
+                                    DB::raw("COUNT(*) as totalReported"),
+                                    "products.productName",
+                                    "reported_products.product_id"
+                                )
+                                ->join('products', 'products.id', '=', 'reported_products.product_id')
+                                ->groupBy("products.productName", "reported_products.product_id")
+                                ->orderBy("totalReported", "desc")
+                                ->paginate(8);
+
+            return response()->json([
+                'reportedProducts' => $reportedProducts,
             ]);
         } catch (Exception $ex) {
             return response()->json([

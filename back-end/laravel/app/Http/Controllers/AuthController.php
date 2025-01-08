@@ -42,10 +42,10 @@ class AuthController extends Controller
             ], 401);
         }
 
-        if (JWTAuth::user()->role === 'admin') {
+        if (JWTAuth::user()->role === 'admin' || JWTAuth::user()->role === 'super admin') {
             return response()->json([
                 'userData' => JWTAuth::user(),
-                'role' => 'admin',
+                'role' => JWTAuth::user()->role,
                 'token' => $token,
             ]);
         }

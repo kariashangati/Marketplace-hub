@@ -32,7 +32,7 @@ export const Login = () => {
       const response = await checkUserLogin(formData);
       setLoading(false);
       if(response.status === 200){
-        if(response.data.role === "admin"){
+        if(response.data.role === "admin" || response.data.role === "super admin"){
           localStorage.setItem("token",response.data.token);
           localStorage.setItem("user",JSON.stringify(response.data.userData));
           navigate("/admin/dashboard");

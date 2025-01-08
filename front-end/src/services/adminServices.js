@@ -63,6 +63,18 @@ export const deleteUserService = async (token, userId) => {
   return response;
 };
 
+export const deleteAdminService = async (token, adminId) => {
+  const response = await axios.delete(
+    `http://localhost:8000/api/admin/deleteAdmin/${adminId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response;
+};
+
 export const deleteStoreById = async (token, storeId) => {
   const response = await axios.delete(
     `http://localhost:8000/api/store/deleteStore/${storeId}`,

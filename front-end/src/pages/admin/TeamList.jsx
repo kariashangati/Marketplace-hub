@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { AdminSideBar } from "../../layouts/AdminSideBar";
 import { LinearProgress } from "@mui/material";
 import { EyeIcon, TrashIcon } from "@heroicons/react/24/outline";
-import { addNewAdmin, deleteUserService, getTeamMembers } from "../../services/adminServices";
+import { addNewAdmin, deleteAdminService, getTeamMembers } from "../../services/adminServices";
 import { Button } from "../../components/ui/Button";
 import { AddAdminModal } from "../../components/modals/AddAdminModal";
 import { Notification } from "../../components/ui/Notification";
@@ -68,13 +68,13 @@ export const TeamList = () => {
         };
     }
 
-    const deleteUser = async (userId) => {
+    const deleteAdmin = async (adminId) => {
         setNotification(null);
         setDeleteLoading(true);
         try {
-          const response = await deleteUserService(
+          const response = await deleteAdminService(
             localStorage.getItem("token"),
-            userId
+            adminId
           );
           setDeleteLoading(false);
           setOpen(false);
@@ -122,6 +122,7 @@ export const TeamList = () => {
                     <th className="py-2">Profile Picture</th>
                     <th className="py-2">Full Name</th>
                     <th className="py-2">UserName</th>
+                    <th className="py-2">Role</th>
                     <th className="py-2">Actions</th>
                     </tr>
                 </thead>
@@ -139,6 +140,9 @@ export const TeamList = () => {
                             </td>
                             <td>{user.fullName}</td>
                             <td>{user.username}</td>
+                            <td>
+                                <span className="text-blue-400 text-lg font-semibold">{user.role}</span>
+                            </td>
                             <td>
                                 <div className="flex justify-center gap-2">
                                 <EyeIcon className="w-8 h-8 text-green-600 cursor-pointer hover:text-green-800 duration-200" />
@@ -168,7 +172,7 @@ export const TeamList = () => {
                     loading={deleteLoading}
                     setOpen={setOpen}
                     itemType={"Admin"}
-                    deleteItem={() => deleteUser(selectedUserId)}
+                    deleteItem={() => deleteAdmin(selectedUserId)}
                 />
             )}
         </div>

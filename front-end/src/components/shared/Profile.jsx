@@ -8,19 +8,14 @@ import {
   getAuthenticatedUserData,
 } from "../../services/userServices";
 import moment from "moment";
-import { CircularProgress, LinearProgress } from "@mui/material";
-import { Store } from "../App/Store";
-import { getUserStoresList } from "../../services/storeServices";
+import { LinearProgress } from "@mui/material";
+
 export const Profile = () => {
   const [userData, setUserData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [openEditProfile, setOpenEditProfile] = useState(false);
   const [notification, setNotification] = useState({});
   const [editLoading, setEditLoading] = useState(false);
-  const [page, setPage] = useState(false);
-  const [stores, setStores] = useState([]);
-  const [lastPage, setLastPage] = useState(0);
-  const [getMoreLoading, setGetMoreLoading] = useState(false);
 
   const [formdata, setFormdata] = useState({
     fullName: "",
@@ -100,35 +95,6 @@ export const Profile = () => {
     }
   };
 
-  const getUserStores = async (page) => {
-    const response = await getUserStoresList(
-      localStorage.getItem("token"),
-      page
-    );
-
-    if (response.data.stores.data) {
-      setLastPage(response.data.stores.last_page);
-      setStores([...stores, ...response.data.stores.data]);
-    }
-  };
-
-  const getMore = async () => {
-    if (getMoreLoading) {
-      return;
-    }
-    if (page < lastPage) {
-      const nextPage = page + 1;
-      setPage(nextPage);
-      setGetMoreLoading(true);
-      await getUserStores(nextPage);
-      setGetMoreLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    getUserStores();
-  }, []);
-
   useEffect(() => {
     getUserData();
   }, []);
@@ -173,26 +139,62 @@ export const Profile = () => {
                 <span className="text-gray-500">{userData.bio}</span>
               </div>
               <div className="border border-gray-700 w-[100%] mt-2"></div>
-
-              <div className="mt-5">
-                <div className="flex justify-between">
-                  <h1 className="text-xl font-semibold">My stores</h1>
-                  <Button text={"New store?"} width={"20%"} />
+              <div className="mt-4">
+                <div>
+                  <h1 className="text-xl font-semibold">Account overview</h1>
                 </div>
-                <div className="flex flex-wrap mt-5 justify-between lg:gap-5">
-                  {stores && stores.length
-                    ? stores.map((store) => {
-                        return <Store storeData={store} />;
-                      })
-                    : null}
-                  <div
-                    className="w-[48%] bg-dark border-2 border-gray-700 rounded-sm border-dashed cursor-pointer flex justify-center items-center"
-                    onClick={() => getMore()}
-                  >
-                    <span className="text-gray-500 text-lg font-semibold">
-                      {getMoreLoading ? <CircularProgress /> : "Get more"}
-                    </span>
-                  </div>
+                <div className="mt-4">
+                  <table className="w-[100%] border-2 border-gray-600">
+                    <thead>
+                      <tr>
+                        <th className="py-2 bg-dark text-lg">Username</th>
+                        <th className="py-2 bg-dark text-lg">Email</th>
+                        <th className="py-2 bg-dark text-lg">Password</th>
+                        <th className="py-2 bg-dark text-lg">Created at</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="text-center">
+                        <td className="font-semibold py-2">{userData.username}</td>
+                        <td className="font-semibold py-2">{userData.email}</td>
+                        <td className="font-semibold py-2">●●●●●●●●●●●●</td>
+                        <td className="font-semibold py-2">{moment(userData.created_at).format("DD-MM-YYYY")}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div className="mt-4">
+                  <table className="w-[100%] border-2 border-gray-600">
+                    <thead>
+                      <tr>
+                        <th className="py-2 bg-dark text-lg">Role</th>
+                        <th className="py-2 bg-dark text-lg w-[70%]">Privileges</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td className="font-semibold py-2 text-center">{userData.role}</td>
+                        <td className="font-semibold py-3 text-start">
+                          {
+                            userData.role === 'super admin' &&<div className="flex gap-2">
+                                <span className="bg-blue-500 text-white border-2 px-3 py-1 rounded-3xl border-blue-800">Read data</span>
+                                <span className="bg-green-500 text-white border-2 px-3 py-1 rounded-3xl border-green-800">Update data</span>
+                                <span className="bg-red-500 text-white border-2 px-3 py-1 rounded-3xl border-red-800">Delete data</span>
+                                <span className="bg-blue-500 text-white border-2 px-3 py-1 rounded-3xl border-blue-800">Add admins</span>
+                                <span className="bg-red-500 text-white border-2 px-3 py-1 rounded-3xl border-red-800">Delete admins</span>
+                              </div>
+                          }
+                          {
+                            userData.role === 'admin' &&<div className="flex gap-2 justify-center">
+                              <span className="bg-blue-500 text-white border-2 px-3 py-1 rounded-3xl border-blue-800">Read data</span>
+                              <span className="bg-green-500 text-white border-2 px-3 py-1 rounded-3xl border-green-800">Update data</span>
+                              <span className="bg-red-500 text-white border-2 px-3 py-1 rounded-3xl border-red-800">Delete data</span>
+                            </div>
+                          }
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>

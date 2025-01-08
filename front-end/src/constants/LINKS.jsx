@@ -1,14 +1,13 @@
 import {
-  BookmarkIcon,
   ArrowRightOnRectangleIcon,
   BuildingStorefrontIcon,
   InboxStackIcon,
-  ShoppingBagIcon,
   Squares2X2Icon,
   TagIcon,
   UserCircleIcon,
   UserGroupIcon,
   UsersIcon,
+  FlagIcon,
 } from "@heroicons/react/24/outline";
 
 export const LINKS = [
@@ -23,9 +22,9 @@ export const LINKS = [
     LINK: "/admin/usersList",
   },
   {
-    SVG: <ShoppingBagIcon strokeWidth="1" className="w-10 h-10" />,
-    TEXT: "Products",
-    LINK: "/admin/products",
+    SVG: <FlagIcon strokeWidth="1" className="w-10 h-10" />,
+    TEXT: "Reported products",
+    LINK: "/admin/reportedProducts",
   },
   {
     SVG: <InboxStackIcon strokeWidth="1" className="w-10 h-10" />,
@@ -41,11 +40,6 @@ export const LINKS = [
     SVG: <BuildingStorefrontIcon strokeWidth="1" className="w-10 h-10" />,
     TEXT: "Stores",
     LINK: "/admin/stores",
-  },
-  {
-    SVG: <BookmarkIcon strokeWidth="1" className="w-10 h-10" />,
-    TEXT: "Saves",
-    LINK: "/admin/saves",
   },
   {
     SVG: <UserGroupIcon strokeWidth="1" className="w-10 h-10" />,

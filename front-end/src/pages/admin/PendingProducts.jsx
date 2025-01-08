@@ -106,14 +106,14 @@ export const PendingProducts = () => {
         productId
       );
       setDeleteLoading(false);
-      setOpen(false);
+      setOpenAccept(false);
       setNotification({ message: response.data.message, type: "success" });
       const newPendingProductsList = pendingProductsList.filter((_product) => {
         return _product.id !== productId;
       });
       setPendingProductsList(newPendingProductsList);
     } catch (error) {
-      setOpen(false);
+      setOpenAccept(false);
       setDeleteLoading(false);
       getProductsPending();
       if (error.response) {

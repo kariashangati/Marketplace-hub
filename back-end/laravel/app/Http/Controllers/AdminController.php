@@ -45,7 +45,7 @@ class AdminController extends Controller
     {
         try {
             $user = JWTAuth::parseToken()->authenticate();
-            $admins = User::where('role', 'admin')
+            $admins = User::whereIn('role', ['admin', 'super admin'])
                             ->where('id', '!=', $user->id)
                             ->get();
 
@@ -62,6 +62,26 @@ class AdminController extends Controller
             return response()->json([
                 "message" => $ex->getMessage(),
             ]);
+        }
+    }
+
+    public function deleteAdmin($id){
+        try {
+            $user = User::find($id);
+            if ($user) {
+                $user->delete();
+                return response()->json([
+                    'message' => 'Admin deleted successfully'
+                ]);
+            } else {
+                return response()->json([
+                    'message' => 'User not found'
+                ], 401);
+            }
+        } catch (Exception $ex) {
+            return response()->json([
+                'message' => $ex->getMessage(),
+            ], 500);
         }
     }
 }

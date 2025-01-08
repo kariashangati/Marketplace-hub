@@ -24,7 +24,7 @@ class UserController extends Controller
     public function getUsers()
     {
         try {
-            $users = User::where("role","!=","admin")
+            $users = User::whereNotIn("role", ["admin", "super admin"])
                         ->paginate(8);
             return response()->json([
                 'users' => $users,

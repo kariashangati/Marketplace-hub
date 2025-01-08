@@ -72,7 +72,7 @@ export const StoresList = () => {
     getStores();
   }, []);
 
-  const handlChandeSearch = (e) => {
+  const handlChangeSearch = (e) => {
     setLoading(true);
     setSearchInput(e.target.value);
   };
@@ -147,7 +147,7 @@ export const StoresList = () => {
   //             type={"text"}
   //             name={"storeName"}
   //             placholder={"Search stores by name"}
-  //             onChange={handlChandeSearch}
+  //             onChange={handlChangeSearch}
   //           />
   //         </div>
   //       </div>
@@ -238,7 +238,7 @@ export const StoresList = () => {
               type={"text"}
               name={"storeName"}
               placholder={"Search stores by name"}
-              onChange={handlChandeSearch}
+              onChange={handlChangeSearch}
             />
           </div>
         </div>
