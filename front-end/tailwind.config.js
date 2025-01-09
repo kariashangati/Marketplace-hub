@@ -8,6 +8,7 @@ export default {
     extend: {
       colors: {
         dark: 'rgb(5, 18, 20)',
+        darkForProduct: 'rgb(33, 47, 61)',
       },
       animation:{
         "notificationAnimation":"notificationAnimation 0.1s ease-in-out"

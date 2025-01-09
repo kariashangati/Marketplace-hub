@@ -66,7 +66,7 @@ class ProductController extends Controller
     {
         try {
             $products = Product::where("status", "accepted")
-                ->with("store")
+                ->with("store.user")
                 ->with("category")
                 ->latest()
                 ->paginate(15);

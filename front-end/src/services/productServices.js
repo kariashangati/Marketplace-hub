@@ -11,3 +11,9 @@ export const deleteProductById = async (token, productId) => {
   );
   return response;
 };
+
+export const getAllProducts = async () => {
+  const response = await axios.get(`http://localhost:8000/api/product/getProducts`);
+  return response;
+
+};
