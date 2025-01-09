@@ -136,3 +136,15 @@ export const acceptedPendingProduct = async (token, productId) => {
   );
   return response;
 };
+export const getreportProductsByPage = async (token,page) => {
+  const response = await axios.get(
+    `http://localhost:8000/api/product/reportedProducts?page=${page}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.data;
+};
+

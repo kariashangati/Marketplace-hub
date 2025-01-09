@@ -13,6 +13,7 @@ import { PendingProducts } from "./pages/admin/PendingProducts";
 import { CategoryList } from "./pages/admin/CategoryList";
 import { ProfileData } from "./pages/admin/ProfileData";
 import { Products } from "./pages/user/Products";
+import { ReporteProducts } from "./pages/admin/ReporteProducts";
 
 export const App = () => {
   return (
@@ -34,6 +35,8 @@ export const App = () => {
         <Route path="/admin/pendingProducts" element={<PendingProducts />} />
         <Route path="/admin/categories" element={<CategoryList />} />
         <Route path="/admin/profile" element={<ProfileData />} />
+        <Route path="/admin/reportedProducts" element={<ReporteProducts />} />
+
       </Route>
     </Routes>
   );
