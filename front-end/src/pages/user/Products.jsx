@@ -4,8 +4,10 @@ import { UserSideBar } from "../../layouts/UserSideBar"
 import { getAllProducts } from "../../services/productServices"
 import { Button } from "../../components/ui/Button"
 import { ProductSkeleton } from "../../components/skeletons/ProductSkeleton"
+import { getCategoryList } from "../../services/categoryServices"
 export const Products = () => {
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [notification, setNotification] = useState({});
   const [page, setPage] = useState(1);
@@ -41,6 +43,23 @@ export const Products = () => {
       }
     }
   };
+  const getCategories = async () => {
+    try {
+      const response = await getCategoryList(localStorage.getItem("token"));
+      if (response.data.categories) {        
+        setCategories(response.data.categories);
+      }
+    } catch (error) {
+      if (error.response) {
+        setNotification({
+          type: "error",
+          message: error.response.data.message,
+        });
+      } else {
+        setNotification({ type: "error", message: "Try again later" });
+      }
+    }
+  };
 
   useEffect(() => {
     const handleScroll = async () => {
@@ -60,6 +79,7 @@ export const Products = () => {
 
   useEffect(() => {
     getProducts(page);
+    getCategories()
   }, [page]);
   return (
     <div>
@@ -71,19 +91,25 @@ export const Products = () => {
         <div>
           <h1 className="text-3xl font-semibold">Filter products by</h1>
           <div className="mt-2 flex gap-4">
-            <select className="bg-blue-500 mb-3 w-[20%] text-center py-2 px-2 cursor-pointer rounded-md" name="category">
-              <option >test1</option>
-              <option >test2</option>
-              <option >test3</option>
-            </select>
+          <select className="bg-blue-500 mb-3 w-[20%] text-center py-2 px-2 cursor-pointer rounded-md" name="category">
+
+            {
+              categories && categories.length ? 
+                categories.map((category)=>{
+                  return (
+                  <option value={category.categoryName}>{category.categoryName}</option>
+                )})
+              : null
+            }
+          </select>
             <select className="bg-blue-500 mb-3 w-[15%] text-center py-2 px-2 cursor-pointer rounded-md" name="category">
-              <option >test1</option>
-              <option >test2</option>
-              <option >test3</option>
+              <option >{"0 -> 100"}</option>
+              <option >{"100 -> 500"}</option>
+              <option >{"> 500"}</option>
             </select><select className="bg-blue-500 mb-3 w-[15%] text-center py-2 px-2 cursor-pointer rounded-md" name="category">
-              <option >test1</option>
-              <option >test2</option>
-              <option >test3</option>
+              <option >possible deleivy</option>
+              <option >Impossible deleivy</option>
+              
             </select>
             <Button type={'submit'} width={'15%'} text={"Filter"} bg={'bg-green-700'}/>
           </div>
