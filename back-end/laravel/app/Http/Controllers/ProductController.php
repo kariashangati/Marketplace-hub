@@ -228,17 +228,18 @@ class ProductController extends Controller
         }
     }
 
-    public function getReportedProducts(){
+    public function getReportedProducts()
+    {
         try {
             $reportedProducts = ReportedProduct::select(
-                                    DB::raw("COUNT(*) as totalReported"),
-                                    "products.productName",
-                                    "reported_products.product_id"
-                                )
-                                ->join('products', 'products.id', '=', 'reported_products.product_id')
-                                ->groupBy("products.productName", "reported_products.product_id")
-                                ->orderBy("totalReported", "desc")
-                                ->paginate(8);
+                DB::raw("COUNT(*) as totalReported"),
+                "products.productName",
+                "reported_products.product_id"
+            )
+                ->join('products', 'products.id', '=', 'reported_products.product_id')
+                ->groupBy("products.productName", "reported_products.product_id")
+                ->orderBy("totalReported", "desc")
+                ->paginate(8);
 
             return response()->json([
                 'reportedProducts' => $reportedProducts,

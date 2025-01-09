@@ -156,16 +156,16 @@ export const PendingProducts = () => {
                       return (
                         <tr key={product.id} className="text-center">
                           <td>{product.id}</td>
-                          <td>
+                          <td>{product.productName.substring(0, 15)} ...</td>
+                          <td className="text-center">
                             <Link className="text-blue-500 underline">
-                              {product.productName.substring(0, 15)} ...
+                              {product.store.storeName.substring(0, 15)} ...
                             </Link>
                           </td>
                           <td className="text-center">
-                            {product.store.storeName.substring(0, 15)} ...
-                          </td>
-                          <td className="text-center">
-                            {product.store.user.fullName.substring(0, 15)} ...
+                            <Link className="text-blue-500 underline">
+                              {product.store.user.fullName.substring(0, 15)} ...
+                            </Link>
                           </td>
                           <td>{moment(product.created_at).fromNow()}</td>
                           <td>

@@ -2,10 +2,7 @@ import { useEffect, useState } from "react";
 import { AdminSideBar } from "../../layouts/AdminSideBar";
 import { LinearProgress } from "@mui/material";
 import { TrashIcon } from "@heroicons/react/24/outline";
-import {
-  getreportProductsByPage,
-  
-} from "../../services/adminServices";
+import { getreportProductsByPage } from "../../services/adminServices";
 import { ResultPagination } from "../../components/ui/ResultPagination";
 import { DeleteModal } from "../../components/modals/DeleteModal";
 import { Notification } from "../../components/ui/Notification";
@@ -21,16 +18,16 @@ export const ReporteProducts = () => {
   const [open, setOpen] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState();
   const [deleteLoading, setDeleteLoading] = useState(false);
- 
+
   const getReporteProducts = async (page) => {
     setLoading(true);
     try {
       const response = await getreportProductsByPage(
-        localStorage.getItem("token"),page
-        
+        localStorage.getItem("token"),
+        page
       );
       setLoading(false);
-      if (response.reportedProducts.data) {        
+      if (response.reportedProducts.data) {
         setLastPage(response.reportedProducts.last_page);
         setTotal(response.reportedProducts.total);
         setReporteProductsList(response.reportedProducts.data);
@@ -65,20 +62,24 @@ export const ReporteProducts = () => {
     }
   };
 
-
-  const deleteReporteProduct = async (ProductId) => {
+  const deleteReporteProduct = async (productId) => {
     setNotification(null);
     setDeleteLoading(true);
     try {
       const response = await deleteProductById(
         localStorage.getItem("token"),
-        ProductId
+        productId
       );
       setDeleteLoading(false);
       setOpen(false);
       if (response.status === 200) {
-        getReporteProducts();
         setNotification({ type: "success", message: response.data.message });
+        const newReporteProductsList = reporteProductsList.filter(
+          (_product) => {
+            return _product.product_id !== productId;
+          }
+        );
+        setReporteProductsList(newReporteProductsList);
       }
     } catch (error) {
       setOpen(false);
@@ -140,7 +141,7 @@ export const ReporteProducts = () => {
               </tbody>
             </table>
           )}
-          {!loading  && (
+          {!loading && (
             <ResultPagination
               firstPage={page}
               lastPage={lastPage}

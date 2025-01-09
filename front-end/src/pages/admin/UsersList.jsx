@@ -80,9 +80,14 @@ export const UsersList = () => {
       );
       setDeleteLoading(false);
       setOpen(false);
+
       if (response.status === 200) {
-        getUsers();
+        // getUsers();
         setNotification({ type: "success", message: response.data.message });
+        const newUsersList = usersList.filter((_user) => {
+          return _user.id !== userId;
+        });
+        setUsersList(newUsersList);
       }
     } catch (error) {
       setOpen(false);
