@@ -4,7 +4,7 @@ import moment from 'moment'
 export const Store = ({storeData}) => {
     
   return (
-    <div className='bg-dark px-3 py-2 rounded-md w-[100%] mb-2 lg:mb-0 lg:w-[48%]'>
+    <div className='bg-dark mx-auto my-3.5 px-3 py-2 rounded-md w-[100%] mb-2 lg:mb-0 lg:w-[48%]'>
         <div className='flex gap-2 justify-between items-start'>
             <div className='flex gap-2 items-center'>
                 <div>
