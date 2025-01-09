@@ -78,7 +78,7 @@ export const ReporteProducts = () => {
       setOpen(false);
       if (response.status === 200) {
         getReporteProducts();
-        setNotification({ type: "success", message: response.reportedProducts.data.message });
+        setNotification({ type: "success", message: response.data.message });
       }
     } catch (error) {
       setOpen(false);
