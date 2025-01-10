@@ -60,3 +60,15 @@ export const viewStoresUser = async (token, userId) => {
   );
   return response.data;
 };
+
+export const viewSavedProducts = async (token, page) => {
+  const response = await axios.get(
+    `http://localhost:8000/api/product/getSavedProducts?page=${page}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response;
+};

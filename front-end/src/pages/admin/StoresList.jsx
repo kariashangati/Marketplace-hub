@@ -7,8 +7,6 @@ import {
 import { LinearProgress } from "@mui/material";
 import { EyeIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { Input } from "../../components/ui/Input";
-import { AdminSideBar } from "../../layouts/AdminSideBar";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import { ResultPagination } from "../../components/ui/ResultPagination";
 import { DeleteModal } from "../../components/modals/DeleteModal";
