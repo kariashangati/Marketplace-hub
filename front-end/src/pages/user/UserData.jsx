@@ -119,15 +119,17 @@ export const UserData = () => {
         ) : null}
         {!Sloading && (
           <div className="py-2 flex flex-wrap justify-start">
-            {storesData.map((storeData) => {
-              return (
-                <Store
-                  key={storeData.id}
-                  storeData={storeData}
-                  viewUser={true}
-                />
-              );
-            })}
+            {storesData && storesData.length
+              ? storesData.map((storeData) => {
+                  return (
+                    <Store
+                      key={storeData.id}
+                      storeData={storeData}
+                      viewUser={true}
+                    />
+                  );
+                })
+              : "This user doesn't any stores"}
           </div>
         )}
 
