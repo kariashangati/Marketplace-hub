@@ -1,8 +1,7 @@
-import React from "react";
 
 export const UserSkeleton = () => {
   return (
-    <div className="mt-6 border-blue-300 shadow rounded-md p-4 max-w-[45%] w-full ">
+    <div className="mt-6 border-blue-300 shadow rounded-md max-w-[45%] w-full items-center">
       <div className="animate-pulse flex space-x-2">
         <div className="rounded-full bg-slate-700 h-20 w-20"></div>
         <div className="flex-1 space-y-6 py-1">
@@ -15,6 +14,7 @@ export const UserSkeleton = () => {
           </div>
         </div>
       </div>
+      <div className="h-2 bg-slate-700 rounded mt-2 animate-pulse"></div>
     </div>
   );
 };

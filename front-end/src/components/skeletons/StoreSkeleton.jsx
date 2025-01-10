@@ -2,7 +2,7 @@ export const StoreSkeleton = () => {
   return (
     <div
       role="status"
-      className="bg-dark mx-auto my-3.5 px-3 py-2 rounded-md w-[100%] mb-2 lg:mb-0 lg:w-[48%]"
+      className="bg-dark my-3.5 px-3 py-2 rounded-md w-[100%] lg:mb-0 lg:w-[48%]"
     >
       <div className="w-20 h-20 rounded-md flex items-center gap-2">
         <div>
@@ -26,7 +26,6 @@ export const StoreSkeleton = () => {
         <div className="animate-pulse h-2 bg-gray-400 rounded-full dark:bg-gray-700 mb-2.5"></div>
         <div className="animate-pulse h-2 bg-gray-400 rounded-full dark:bg-gray-700 max-w-[440px] mb-2.5"></div>
       </div>
-      <span className="sr-only">Loading...</span>
     </div>
   );
 };

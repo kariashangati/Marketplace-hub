@@ -9,8 +9,27 @@ export const deleteStore = async (token,storeId) => {
     return response;
 }
 
-export const getUserStoresList = async (token,page) => {
-    const response = await axios.get(`http://localhost:8000/api/store/getUserStores?page=${page}`,{
+export const getUserStoresList = async (token) => {
+    const response = await axios.get(`http://localhost:8000/api/store/getUserStores`,{
+        headers :{
+            Authorization : `Bearer ${token}`
+        }
+    });
+    return response;
+}
+
+
+export const createStore = async (token,data) => {
+    const response = await axios.post(`http://localhost:8000/api/store/createStore`,data,{
+        headers :{
+            Authorization : `Bearer ${token}`
+        }
+    });
+    return response;
+}
+
+export const updateStore = async (token,data) => {
+    const response = await axios.post(`http://localhost:8000/api/store/updateStore`,data,{
         headers :{
             Authorization : `Bearer ${token}`
         }

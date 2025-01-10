@@ -102,7 +102,7 @@ export const UserData = () => {
           </div>
         )}
         {Sloading ? (
-          <div className="py-2 flex flex-wrap justify-start ">
+          <div className="py-2 flex flex-wrap justify-start gap-4">
             <StoreSkeleton />
             <StoreSkeleton />
             <StoreSkeleton />
