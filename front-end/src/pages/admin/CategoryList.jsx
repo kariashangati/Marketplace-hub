@@ -96,7 +96,6 @@ export const CategoryList = () => {
       setDeleteLoading(false);
       setOpenDelete(false);
       if (response.status === 200) {
-        // getCategories()
         setNotification({ type: "success", message: response.data.message });
         const newCategoriesList = categoriesList.filter((_category) => {
           return _category.id !== categoryId;

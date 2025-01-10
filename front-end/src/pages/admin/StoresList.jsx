@@ -174,7 +174,10 @@ export const StoresList = () => {
                           </td>
 
                           <td>
-                            <Link className="text-blue-500 underline">
+                            <Link
+                              to={`/user/userData/${store.user_id}`}
+                              className="text-blue-500 underline"
+                            >
                               {store.user.username}
                             </Link>
                           </td>

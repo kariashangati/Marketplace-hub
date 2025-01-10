@@ -163,7 +163,10 @@ export const PendingProducts = () => {
                             </Link>
                           </td>
                           <td className="text-center">
-                            <Link className="text-blue-500 underline">
+                            <Link
+                              to={`/user/userData/${product.store.user_id}`}
+                              className="text-blue-500 underline"
+                            >
                               {product.store.user.fullName.substring(0, 15)} ...
                             </Link>
                           </td>

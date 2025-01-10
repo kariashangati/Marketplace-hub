@@ -46,5 +46,17 @@ export const viewUserData = async (token, userId) => {
       },
     }
   );
-  return response;
+  return response.data;
+};
+
+export const viewStoresUser = async (token, userId) => {
+  const response = await axios.get(
+    `http://localhost:8000/api/store/getStoresUser/${userId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.data;
 };

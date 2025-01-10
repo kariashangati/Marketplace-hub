@@ -10,6 +10,27 @@ use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
 class StoreController extends Controller
 {
+    public function getStoresUser($id)
+    {
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+            $stores = Store::where("user_id", $id)->get();
+            if ($stores) {
+                return response()->json([
+                    'stores' => $stores
+                ]);
+            } else {
+                return response()->json([
+                    'message' => 'This user has not created a store'
+                ], 401);
+            }
+        } catch (Exception $ex) {
+            return response()->json([
+                'message' => $ex->getMessage()
+            ], 500);
+        }
+    }
+
     public function getUserStores()
     {
         try {

@@ -12,9 +12,10 @@ use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 class UserController extends Controller
 {
 
-    public function getUserData(){
+    public function getUserData()
+    {
         $user = JWTAuth::parseToken()->authenticate();
-        if($user){
+        if ($user) {
             return response()->json([
                 "userData" => $user,
             ]);
@@ -25,7 +26,7 @@ class UserController extends Controller
     {
         try {
             $users = User::whereNotIn("role", ["admin", "super admin"])
-                        ->paginate(8);
+                ->paginate(8);
             return response()->json([
                 'users' => $users,
             ]);
@@ -135,7 +136,7 @@ class UserController extends Controller
             $user = JWTAuth::parseToken()->authenticate();
             $username = $request->input("username");
             $users = User::where('username', 'LIKE', '%' . $username . '%')
-                ->where('id','!=',$user->id)
+                ->where('id', '!=', $user->id)
                 ->limit(5)
                 ->get();
             if ($users) {
