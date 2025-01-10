@@ -2,11 +2,11 @@ import { Cog6ToothIcon, TrashIcon } from "@heroicons/react/24/outline";
 import storeLogo from "../../../public/assets/storeLogo.png";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
-export const Store = ({ storeData, viewUser }) => {
+export const Store = ({ setSelectedStoreId, storeData, viewUser, setOpen, setOpenUpdate }) => {
   const navigate = useNavigate();
   return (
     <div
-      className="bg-dark mx-auto my-3.5 px-3 py-2 rounded-md w-[100%] mb-2 cursor-pointer lg:mb-0 lg:w-[48%] hover:bg-black duration-200"
+      className="bg-dark my-3.5 px-3 py-2 rounded-md w-[100%] cursor-pointer lg:mb-0 lg:w-[48%] hover:bg-black duration-200"
       onClick={() => navigate(`/store/${storeData.id}`)}
     >
       <div className="flex gap-2 justify-between items-start">
@@ -23,8 +23,8 @@ export const Store = ({ storeData, viewUser }) => {
         </div>
         {viewUser ? null : (
           <div className="flex gap-1">
-            <TrashIcon className="w-8 h-8 text-red-500 cursor-pointer hover:text-red-700 duration-200" />
-            <Cog6ToothIcon className="w-8 h-8 text-blue-500 cursor-pointer hover:text-blue-700 duration-200" />
+            <TrashIcon className="w-8 h-8 text-red-500 cursor-pointer hover:text-red-700 duration-200" 
+            onClick={(e) => {e.stopPropagation(); setSelectedStoreId(storeData.id);setOpen(true)}}/>
           </div>
         )}
       </div>

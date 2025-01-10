@@ -22,7 +22,7 @@ export const DeleteModal = ({ setOpen, deleteItem, itemType, loading }) => {
             onClick={() => setOpen(false)}
             bg={"bg-gray-200 px-3"}
             color={"black"}
-            width={"20%"}
+            width={"25%"}
           />
           <Button
             type={"button"}
@@ -33,7 +33,7 @@ export const DeleteModal = ({ setOpen, deleteItem, itemType, loading }) => {
             }}
             bg={"bg-red-600 px-3"}
             color={"white"}
-            width={"20%"}
+            width={"25%"}
           />
         </div>
       </div>

@@ -37,7 +37,7 @@ class StoreController extends Controller
             $user = JWTAuth::parseToken()->authenticate();
             $stores = Store::where("user_id", $user->id)
                 ->latest()
-                ->paginate(3);
+                ->get();
 
             return response()->json([
                 "stores" => $stores,
@@ -123,6 +123,63 @@ class StoreController extends Controller
                 ], 401);
             }
         } catch (Exception $ex) {
+            return response()->json([
+                "message" => $ex->getMessage()
+            ]);
+        }
+    }
+
+
+    public function createStore(Request $request){
+        try {
+
+            $request->validate([
+                "storeName" => "required|max:50",
+                "storeBio" => "required|max:200",
+            ]);
+
+            $storeName = $request->input("storeName");
+            $storeBio = $request->input("storeBio");
+
+            $user = JWTAuth::parseToken()->authenticate();
+
+            Store::create([
+                "user_id" => $user->id,
+                "storeName" => $storeName,
+                "bio" => $storeBio,
+            ]);
+
+            return response()->json([
+                "message" => "New store created successfully!",
+            ]);
+
+        } catch (Exception $ex) {
+            return response()->json([
+                "message" => $ex->getMessage()
+            ]);
+        }
+    }
+
+    public function updateStore(Request $request){
+        try{
+            $user = JWTAuth::parseToken()->authenticate();
+
+            $store = Store::where('user_id',$user->id)
+                            ->where('id',$request->id)
+                            ->first();
+
+            if($store){
+                $store->storeName = $request->storeName;
+                $store->storeBio = $request->storeBio;
+                return response()->json([
+                    "message" => "Updated successfully!",
+                ]);
+            }else{
+                return response()->json([
+                    "message" => "Not found"
+                ],404);
+            }
+        }catch (Exception $ex){
             return response()->json([
                 "message" => $ex->getMessage()
             ]);

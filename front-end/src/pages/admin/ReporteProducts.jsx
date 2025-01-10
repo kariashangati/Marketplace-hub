@@ -102,7 +102,7 @@ export const ReporteProducts = () => {
       </div>
       <div className="lg:ml-[21%] px-2">
         <div className="pt-6">
-          <h1 className="text-3xl font-semibold">Report Products List</h1>
+          <h1 className="text-3xl font-semibold">Reported Products</h1>
         </div>
         <div className="mt-5 pr-5">{loading && <LinearProgress />}</div>
         <div className="mt-6 pr-5">
@@ -113,6 +113,7 @@ export const ReporteProducts = () => {
                   <th className="py-2">id</th>
                   <th className="py-2">productName</th>
                   <th className="py-2">totalReported</th>
+                  <th className="py-2">Actions</th>
                 </tr>
               </thead>
               <tbody>

@@ -15,6 +15,7 @@ import { ProfileData } from "./pages/admin/ProfileData";
 import { Products } from "./pages/user/Products";
 import { ReporteProducts } from "./pages/admin/ReporteProducts";
 import { UserData } from "./pages/user/UserData";
+import { UserProfile } from "./pages/user/UserProfile";
 
 export const App = () => {
   return (
@@ -27,6 +28,7 @@ export const App = () => {
       <Route element={<UserRoutes />}>
         <Route path="/user/products" element={<Products />} />
         <Route path="/user/userData/:id" element={<UserData />} />
+        <Route path="/user/profile" element={<UserProfile />} />
       </Route>
 
       <Route element={<AdminRoutes />}>
