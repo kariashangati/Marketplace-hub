@@ -69,7 +69,7 @@ class ProductController extends Controller
                 ->with("store.user")
                 ->with("category")
                 ->latest()
-                ->paginate(15);
+                ->paginate(8);
 
 
             if ($products) {

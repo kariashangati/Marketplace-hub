@@ -1,13 +1,12 @@
 import moment from "moment";
-
 import { UserSideBar } from "../../layouts/UserSideBar";
 import { Store } from "../../components/App/Store";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { viewStoresUser, viewUserData } from "../../services/userServices";
-import { UserSkeleton } from "../../components/App/UserSkeleton";
-import { ProductSkeleton } from "../../components/App/ProductSkeleton";
 import { Notification } from "../../components/ui/Notification";
+import { UserSkeleton } from "../../components/skeletons/UserSkeleton";
+import { StoreSkeleton } from "../../components/skeletons/StoreSkeleton";
 
 export const UserData = () => {
   const [userData, setUserData] = useState({});
@@ -94,9 +93,7 @@ export const UserData = () => {
                     {userData.username}
                   </span>
                   <span className="font-semibold text-gray-700">
-                    Joined at
-                    {` ${moment(userData.created_at).format("DD-MM-YYYY")} `}
-                    moment userData created_at format"DD-MM-YYYY"
+                    Joined at {moment(userData.created_at).format("DD-MM-YYYY")}
                   </span>
                 </div>
               </div>
@@ -107,23 +104,29 @@ export const UserData = () => {
             </div>
           </div>
         )}
-
+        {/* "flex gap-2 flex-wrap" */}
         {Sloading ? (
-          <div className="flex gap-2 flex-wrap">
-            <ProductSkeleton />
-            <ProductSkeleton />
-            <ProductSkeleton />
-            <ProductSkeleton />
-            <ProductSkeleton />
-            <ProductSkeleton />
-            <ProductSkeleton />
-            <ProductSkeleton />
+          <div className="py-2 flex flex-wrap justify-start ">
+            <StoreSkeleton />
+            <StoreSkeleton />
+            <StoreSkeleton />
+            <StoreSkeleton />
+            <StoreSkeleton />
+            <StoreSkeleton />
+            <StoreSkeleton />
+            <StoreSkeleton />
           </div>
         ) : null}
         {!Sloading && (
           <div className="py-2 flex flex-wrap justify-start">
             {storesData.map((storeData) => {
-              return <Store key={storeData.id} storeData={storeData} />;
+              return (
+                <Store
+                  key={storeData.id}
+                  storeData={storeData}
+                  viewUser={true}
+                />
+              );
             })}
           </div>
         )}
