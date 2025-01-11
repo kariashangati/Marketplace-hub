@@ -10,7 +10,7 @@ import { deleteProductById } from "../../services/productServices";
 
 export const ReporteProducts = () => {
   const [reporteProductsList, setReporteProductsList] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [notification, setNotification] = useState({});
   const [page, setPage] = useState(1);
   const [lastPage, setLastPage] = useState(0);

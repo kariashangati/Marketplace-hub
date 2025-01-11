@@ -30,3 +30,15 @@ export const deleteSavedProduct = async (token, productId) => {
   );
   return response;
 };
+
+export const getProductsByStore = async (token,id) =>{
+  const response = await axios.get(
+    `http://localhost:8000/api/product/getProductsByStore/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response;
+}

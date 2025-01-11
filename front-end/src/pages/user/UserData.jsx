@@ -114,7 +114,7 @@ export const UserData = () => {
           </div>
         ) : null}
         {!Sloading && (
-          <div className="py-2 flex flex-wrap justify-start">
+          <div className="py-2 flex flex-wrap gap-4 justify-start">
             {storesData && storesData.length
               ? storesData.map((storeData) => {
                   return (

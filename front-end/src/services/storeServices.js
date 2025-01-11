@@ -28,11 +28,12 @@ export const createStore = async (token,data) => {
     return response;
 }
 
-export const updateStore = async (token,data) => {
-    const response = await axios.post(`http://localhost:8000/api/store/updateStore`,data,{
+
+export const getStore = async (token,id) => {
+    const response = await axios.get(`http://localhost:8000/api/store/getStoresData/${id}`,{
         headers :{
             Authorization : `Bearer ${token}`
         }
     });
     return response;
-}
+} 

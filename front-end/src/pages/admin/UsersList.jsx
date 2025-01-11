@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 
 export const UsersList = () => {
   const [usersList, setUsersList] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [notification, setNotification] = useState({});
   const [username, setUsername] = useState("");
   const [page, setPage] = useState(1);

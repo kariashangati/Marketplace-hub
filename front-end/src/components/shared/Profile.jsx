@@ -12,7 +12,7 @@ import { LinearProgress } from "@mui/material";
 
 export const Profile = () => {
   const [userData, setUserData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [openEditProfile, setOpenEditProfile] = useState(false);
   const [notification, setNotification] = useState({});
   const [editLoading, setEditLoading] = useState(false);

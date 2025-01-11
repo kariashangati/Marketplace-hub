@@ -20,7 +20,7 @@ import moment from "moment";
 
 export const AdminDashboard = () => {
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [notification, setNotification] = useState({});  
   const [userFullName,setUserFullName] = useState('');
   const [latestJoinedUsers,setLatestJoinedUsers] = useState([]);
@@ -180,18 +180,18 @@ export const AdminDashboard = () => {
                             {
                               latestJoinedUsers && latestJoinedUsers.length ? 
                                 latestJoinedUsers.map((user) =>{
-                                  return <p className="text-lg">● <Link className="text-blue-400 font-semibold" to={''}>{user.fullName}</Link> Joined the app {moment(user.created_at).fromNow()}</p>
+                                  return <p className="text-lg">● <Link className="text-blue-400 font-semibold" to={`/user/userData/${user.id}`}>{user.fullName}</Link> Joined the app {moment(user.created_at).fromNow()}</p>
                                 })
                               :null
                             }
                           </div>
                           <div className="bg-dark px-4 py-2 w-[100%] lg:w-[60%]">
-                            <h1 className="text-2xl font-semibold">Recently joined users</h1>
+                            <h1 className="text-2xl font-semibold">Recently Posted Products</h1>
                             <br></br>
                             {
                               recentlyPostedProducts && recentlyPostedProducts.length ? 
                               recentlyPostedProducts.map((product) =>{
-                                  return <p className="text-lg">● <Link className="text-blue-400 font-semibold" to={''}>{product.store.user.fullName}</Link> posted a prdoduct on <Link to={''} className="text-blue-400 font-semibold">{product.store.storeName}</Link> store {moment(product.created_at).fromNow()}</p>
+                                  return <p className="text-lg">● <Link className="text-blue-400 font-semibold" to={`/user/userData/${product.store.user.id}`}>{product.store.user.fullName}</Link> posted a prdoduct on <Link to={`/store/storeData/${product.store.id}`} className="text-blue-400 font-semibold">{product.store.storeName}</Link> store {moment(product.created_at).fromNow()}</p>
                                 })
                               :null
                             }

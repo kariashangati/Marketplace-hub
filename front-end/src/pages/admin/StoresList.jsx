@@ -7,7 +7,7 @@ import {
 import { LinearProgress } from "@mui/material";
 import { EyeIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { Input } from "../../components/ui/Input";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ResultPagination } from "../../components/ui/ResultPagination";
 import { DeleteModal } from "../../components/modals/DeleteModal";
 import { Notification } from "../../components/ui/Notification";
@@ -16,7 +16,7 @@ import Layout from "../../components/Layout";
 export const StoresList = () => {
   const [storesList, setStoresList] = useState([]);
   const [searchInput, setSearchInput] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [notification, setNotification] = useState({});
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState();
@@ -24,6 +24,7 @@ export const StoresList = () => {
   const [open, setOpen] = useState(false);
   const [selectedStoreId, setSelectedUserId] = useState(0);
   const [deleteLoading, setdeleteLoading] = useState(0);
+  const navigate = useNavigate();
 
   const getStores = async (page) => {
     setLoading(true);
@@ -182,7 +183,7 @@ export const StoresList = () => {
                           <td>{store.bio.substring(0, 50)}...</td>
                           <td>
                             <div className="flex justify-center gap-2">
-                              <EyeIcon className="w-8 h-8 text-green-600 cursor-pointer hover:text-green-800 duration-200" />
+                              <EyeIcon className="w-8 h-8 text-green-600 cursor-pointer hover:text-green-800 duration-200" onClick={() => navigate(`/store/storeData/${store.id}`)}/>
                               <TrashIcon
                                 onClick={() => {
                                   setSelectedUserId(store.id);

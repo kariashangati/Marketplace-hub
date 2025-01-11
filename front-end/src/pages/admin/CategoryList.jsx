@@ -14,7 +14,7 @@ import { AddCategory } from "../../components/modals/AddCategory";
 
 export const CategoryList = () => {
   const [categoriesList, setCategoriesList] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [notification, setNotification] = useState({});
   const [categoryId, setCategoryId] = useState();
   const [addLoading, setAddLoading] = useState(false);

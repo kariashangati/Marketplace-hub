@@ -10,14 +10,19 @@ use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
 class StoreController extends Controller
 {
-    public function getStoresUser($id)
+    public function getStoresData($id)
     {
         try {
             $user = JWTAuth::parseToken()->authenticate();
-            $stores = Store::where("user_id", $id)->get();
-            if ($stores) {
+
+            $store = Store::where("id", $id)
+                            ->with("user")
+                            ->with("products")
+                            ->first();
+
+            if ($store) {
                 return response()->json([
-                    'stores' => $stores
+                    'store' => $store
                 ]);
             } else {
                 return response()->json([
@@ -129,6 +134,27 @@ class StoreController extends Controller
         }
     }
 
+    public function getStoresUser($id)
+    {
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+            $stores = Store::where("user_id", $id)->get();
+            if ($stores) {
+                return response()->json([
+                    'stores' => $stores
+                ]);
+            } else {
+                return response()->json([
+                    'message' => 'This user has not created a store'
+                ], 401);
+            }
+        } catch (Exception $ex) {
+            return response()->json([
+                'message' => $ex->getMessage()
+            ], 500);
+        }
+    }
+
 
     public function createStore(Request $request){
         try {
@@ -154,32 +180,6 @@ class StoreController extends Controller
             ]);
 
         } catch (Exception $ex) {
-            return response()->json([
-                "message" => $ex->getMessage()
-            ]);
-        }
-    }
-
-    public function updateStore(Request $request){
-        try{
-            $user = JWTAuth::parseToken()->authenticate();
-
-            $store = Store::where('user_id',$user->id)
-                            ->where('id',$request->id)
-                            ->first();
-
-            if($store){
-                $store->storeName = $request->storeName;
-                $store->storeBio = $request->storeBio;
-                return response()->json([
-                    "message" => "Updated successfully!",
-                ]);
-            }else{
-                return response()->json([
-                    "message" => "Not found"
-                ],404);
-            }
-        }catch (Exception $ex){
             return response()->json([
                 "message" => $ex->getMessage()
             ]);

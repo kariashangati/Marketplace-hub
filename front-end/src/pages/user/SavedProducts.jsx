@@ -124,7 +124,7 @@ export const SavedProducts = () => {
                     />
                   );
                 })
-              : "Product not saved"}
+              : "You don't save any products"}
           </div>
         ) : (
           <div className="mt-4">
