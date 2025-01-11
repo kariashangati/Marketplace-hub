@@ -3,6 +3,8 @@ import { viewSavedProducts } from "../../services/userServices";
 import { UserSideBar } from "../../layouts/UserSideBar";
 import { Product } from "../../components/App/Product";
 import { ProductSkeleton } from "../../components/skeletons/ProductSkeleton";
+import { deleteSavedProduct } from "../../services/productServices";
+import { Notification } from "../../components/ui/Notification";
 
 export const SavedProducts = () => {
   const [savedProductsList, setSavedProductsList] = useState([]);
@@ -23,6 +25,7 @@ export const SavedProducts = () => {
         localStorage.getItem("token"),
         page
       );
+
       setLoading(false);
       loadingRef.current = false;
 
@@ -39,23 +42,6 @@ export const SavedProducts = () => {
       loadingRef.current = false;
       if (error.response) {
         setNotification({ typeo: "error", message: error.response.message });
-      }
-    }
-  };
-
-  const deleteSavedProduct = async (productId) => {
-    try {
-      console.log(productId);
-    } catch (error) {
-      setLoading(false);
-      getSavedProducts();
-      if (error.response) {
-        setNotification({
-          type: "error",
-          message: error.response.data.message,
-        });
-      } else {
-        setNotification({ type: "error", message: "Try again later" });
       }
     }
   };
@@ -80,6 +66,40 @@ export const SavedProducts = () => {
     getSavedProducts(page);
   }, [page]);
 
+  useEffect(() => {
+    const deleteProductSaved = async (productId) => {
+      setNotification(null);
+      try {
+        const response = await deleteSavedProduct(
+          localStorage.getItem("token"),
+          productId
+        );
+        setLoading(false);
+        setNotification({ type: "success", message: response.data.message });
+        const newSavedProductsList = savedProductsList.filter(
+          (_savedProduct) => {
+            return _savedProduct.product.id !== productId;
+          }
+        );
+        setSavedProductsList(newSavedProductsList);
+      } catch (error) {
+        setLoading(false);
+        getSavedProducts();
+        if (error.response) {
+          setNotification({
+            type: "error",
+            message: error.response.data.message,
+          });
+        } else {
+          setNotification({ type: "error", message: "Try again later" });
+        }
+      }
+    };
+    if (selectedProductId !== 0) {
+      deleteProductSaved(selectedProductId);
+    }
+  }, [selectedProductId]);
+
   return (
     <div>
       <div>
@@ -95,8 +115,8 @@ export const SavedProducts = () => {
               ? savedProductsList.map((savedProduct) => {
                   return (
                     <Product
-                      deleteItem={() => {
-                        deleteSavedProduct(selectedProductId);
+                      deleteItem={(productId) => {
+                        setSelectedProductId(productId);
                       }}
                       viewUser={true}
                       key={savedProduct.id}
@@ -119,6 +139,12 @@ export const SavedProducts = () => {
               <ProductSkeleton />
             </div>
           </div>
+        )}
+        {notification && (
+          <Notification
+            type={notification.type}
+            message={notification.message}
+          />
         )}
       </div>
     </div>

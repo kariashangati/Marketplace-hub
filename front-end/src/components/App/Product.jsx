@@ -50,7 +50,7 @@ export const Product = ({ productData, viewUser, deleteItem }) => {
                 <TrashIcon
                   className="w-8 h-8 text-red-500 cursor-pointer hover:text-red-700 duration-200"
                   onClick={() => {
-                    deleteItem();
+                    deleteItem(productData.id);
                   }}
                 />
               </div>

@@ -20,7 +20,7 @@ export const getAllProducts = async (page) => {
 };
 
 export const deleteSavedProduct = async (token, productId) => {
-  const response = await axios.get(
+  const response = await axios.delete(
     `http://localhost:8000/api/product/deleteSavedProduct/${productId}`,
     {
       headers: {
