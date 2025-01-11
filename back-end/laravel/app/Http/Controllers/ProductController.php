@@ -250,4 +250,43 @@ class ProductController extends Controller
             ], 500);
         }
     }
+    
+    public function filterProducts(Request $request){
+        try{
+            $request->validate([
+                'category_id' => 'required',  
+                'price' => 'required|string',
+                'delivry' => 'required',  
+            ]);
+
+            // Récupération des valeurs validées
+            $category_id = $request['category_id'];
+            $priceRange = explode('-', $request['price']);
+            $minPrice = $priceRange[0];
+            $maxPrice = $priceRange[1];
+            $delivry = $request['delivry'];
+
+    
+            $filteredProducts = Product::where("category_id", $category_id)
+                ->whereBetween("price",[$minPrice,$maxPrice])
+                ->where('delivry',$delivry)
+                ->latest()
+                ->paginate(8);
+            if($filteredProducts) {
+                return response()->json([
+                    'products' => $filteredProducts,
+                    'message' => 'filter products successfully'
+                ]);
+            }else {
+                return response()->json([
+                    'message' => 'Product not found'
+                ], 400);
+            }
+        }
+    catch (Exception $ex) {
+        return response()->json([
+            'message' => $ex->getMessage(),
+        ], 500);
+        }
+    }
 }
