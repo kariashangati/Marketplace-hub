@@ -181,7 +181,7 @@ class ProductController extends Controller
 
 
             if ($product) {
-                if ($user->role === 'admin') {
+                if ($user->role === 'admin' || $user->role === 'super admin') {
                     $product->delete();
                     return response()->json([
                         'message' => 'Product deleted successfully'
