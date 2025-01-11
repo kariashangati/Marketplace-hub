@@ -118,7 +118,7 @@ export const SavedProducts = () => {
                       deleteItem={(productId) => {
                         setSelectedProductId(productId);
                       }}
-                      viewUser={true}
+                      viewUser
                       key={savedProduct.id}
                       productData={savedProduct.product}
                     />

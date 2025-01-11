@@ -45,11 +45,12 @@ export const Product = ({ productData, viewUser, deleteItem }) => {
                 {productData.price} dh
               </span>
             </div>
-            {!viewUser ? null : (
+            {viewUser && (
               <div>
                 <TrashIcon
                   className="w-8 h-8 text-red-500 cursor-pointer hover:text-red-700 duration-200"
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
                     deleteItem(productData.id);
                   }}
                 />
