@@ -156,7 +156,6 @@ export const CategoryList = () => {
                           <td>{category.categoryName}</td>
                           <td>
                             <div className="flex justify-center gap-2">
-                              <EyeIcon className="w-8 h-8 text-green-600 cursor-pointer hover:text-green-800 duration-200" />
                               <TrashIcon
                                 className="w-8 h-8 text-red-600 cursor-pointer hover:text-red-800 duration-200"
                                 onClick={() => {

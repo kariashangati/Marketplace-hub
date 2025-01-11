@@ -2,11 +2,12 @@ import moment from "moment";
 import { UserSideBar } from "../../layouts/UserSideBar";
 import { Store } from "../../components/App/Store";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { viewStoresUser, viewUserData } from "../../services/userServices";
 import { Notification } from "../../components/ui/Notification";
 import { UserSkeleton } from "../../components/skeletons/UserSkeleton";
 import { StoreSkeleton } from "../../components/skeletons/StoreSkeleton";
+import { AdminSideBar } from "../../layouts/AdminSideBar";
 
 export const UserData = () => {
   const [userData, setUserData] = useState({});
@@ -15,6 +16,7 @@ export const UserData = () => {
   const [Sloading, setSloading] = useState(false);
   const [notification, setNotification] = useState({});
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const getUserData = async () => {
     setLoading(true);
@@ -24,14 +26,7 @@ export const UserData = () => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      if (error.response) {
-        setNotification({
-          type: "error",
-          message: error.response.data.message,
-        });
-      } else {
-        setNotification({ type: "error", message: "Try again later" });
-      }
+      navigate(-1);
     }
   };
 
@@ -45,8 +40,6 @@ export const UserData = () => {
     } catch (error) {
       setSloading(false);
       if (error.response) {
-        console.log("hhhh");
-
         setNotification({
           type: "error",
           message: error.response.data.message,
@@ -65,9 +58,13 @@ export const UserData = () => {
   return (
     <div>
       <div>
-        <UserSideBar />
+        {localStorage.getItem("role") === "admin" ||
+        localStorage.getItem("role") === "super admin" ? (
+          <AdminSideBar />
+        ) : (
+          <UserSideBar />
+        )}
       </div>
-
       <div className="lg:ml-[21%] px-2">
         {loading ? (
           <div>
@@ -104,9 +101,8 @@ export const UserData = () => {
             </div>
           </div>
         )}
-        {/* "flex gap-2 flex-wrap" */}
         {Sloading ? (
-          <div className="py-2 flex flex-wrap justify-start ">
+          <div className="py-2 flex flex-wrap justify-start gap-4">
             <StoreSkeleton />
             <StoreSkeleton />
             <StoreSkeleton />
@@ -119,15 +115,17 @@ export const UserData = () => {
         ) : null}
         {!Sloading && (
           <div className="py-2 flex flex-wrap justify-start">
-            {storesData.map((storeData) => {
-              return (
-                <Store
-                  key={storeData.id}
-                  storeData={storeData}
-                  viewUser={true}
-                />
-              );
-            })}
+            {storesData && storesData.length
+              ? storesData.map((storeData) => {
+                  return (
+                    <Store
+                      key={storeData.id}
+                      storeData={storeData}
+                      viewUser={true}
+                    />
+                  );
+                })
+              : "This user doesn't any stores"}
           </div>
         )}
 

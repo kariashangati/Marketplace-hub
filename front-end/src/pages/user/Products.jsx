@@ -98,7 +98,7 @@ export const Products = () => {
               {categories && categories.length
                 ? categories.map((category) => {
                     return (
-                      <option value={category.categoryName}>
+                      <option value={category.category_id}>
                         {category.categoryName}
                       </option>
                     );
@@ -109,16 +109,16 @@ export const Products = () => {
               className="bg-blue-500 mb-3 w-[15%] text-center py-2 px-2 cursor-pointer rounded-md"
               name="category"
             >
-              <option>{"0 -> 100"}</option>
-              <option>{"100 -> 500"}</option>
-              <option>{"> 500"}</option>
+              <option value='0-100'>{"0 -> 100"}</option>
+              <option value='100-500'>{"100 -> 500"}</option>
+              <option value='500-9999'>{"> 500"}</option>
             </select>
             <select
               className="bg-blue-500 mb-3 w-[15%] text-center py-2 px-2 cursor-pointer rounded-md"
               name="category"
             >
-              <option>possible deleivy</option>
-              <option>Impossible deleivy</option>
+              <option value={1}>possible deleivy</option>
+              <option value={0}>Impossible deleivy</option>
             </select>
             <Button
               type={"submit"}

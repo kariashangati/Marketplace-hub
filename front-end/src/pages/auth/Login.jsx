@@ -23,35 +23,40 @@ export const Login = () => {
     }));
   };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setNotification(null);
     setLoading(true);
-    try{
+    try {
       const response = await checkUserLogin(formData);
       setLoading(false);
-      if(response.status === 200){
-        if(response.data.role === "admin" || response.data.role === "super admin"){
-          localStorage.setItem("token",response.data.token);
-          localStorage.setItem("user",JSON.stringify(response.data.userData));
+      if (response.status === 200) {
+        if (
+          response.data.role === "admin" ||
+          response.data.role === "super admin"
+        ) {
+          localStorage.setItem("token", response.data.token);
+          localStorage.setItem("role", response.data.role);
+          localStorage.setItem("user", JSON.stringify(response.data.userData));
           navigate("/admin/dashboard");
-        }
-        else if(response.data.role === "user"){
-          localStorage.setItem("token",response.data.token);
-          localStorage.setItem("user",JSON.stringify(response.data.userData));
+        } else if (response.data.role === "user") {
+          localStorage.setItem("token", response.data.token);
+          localStorage.setItem("user", JSON.stringify(response.data.userData));
           navigate("/user/products");
         }
       }
-    }catch(error){
+    } catch (error) {
       setLoading(false);
-      if(error.response){
-        setNotification({type: "error",message: error.response.data.message});
-      }else{
-        setNotification({type: "error",message: "Try again later"});
+      if (error.response) {
+        setNotification({
+          type: "error",
+          message: error.response.data.message,
+        });
+      } else {
+        setNotification({ type: "error", message: "Try again later" });
       }
-    };
-  }
+    }
+  };
   return (
     <div className="bg-black">
       <div className="bg-dark w-[90%] md:w-[45%] mx-auto mt-32 px-6 py-8">
@@ -94,9 +99,12 @@ export const Login = () => {
             <div className="mt-14">
               <Button type={"submit"} text={"Sign in"} loading={loading} />
             </div>
-            {
-              notification && <Notification type={notification.type} message={notification.message} />
-            }
+            {notification && (
+              <Notification
+                type={notification.type}
+                message={notification.message}
+              />
+            )}
           </div>
         </form>
       </div>

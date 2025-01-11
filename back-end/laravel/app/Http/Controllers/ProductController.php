@@ -215,7 +215,7 @@ class ProductController extends Controller
         try {
             $user = JWTAuth::parseToken()->authenticate();
             $savedProducts = Save::where("user_id", $user->id)
-                ->with("product.store")
+                ->with("product.store.user")
                 ->paginate(10);
 
             return response()->json([

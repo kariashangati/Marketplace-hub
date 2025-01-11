@@ -77,6 +77,8 @@ Route::prefix("store")->group(function () {
     Route::get("/searchStoresByName", [StoreController::class, "searchStoresByName"]); // search stores by name admins and users can do this
     Route::get("/getStoresUsers", [StoreController::class, "getStoresUsers"]); // this function is used to get the stores of the users
     Route::get("/getStoresUser/{id}", [StoreController::class, "getStoresUser"]); // get store created for user. only user authenticated can edit his profile
+    Route::post("/createStore",[StoreController::class, "createStore"]);
+    Route::put("/updateStore", [StoreController::class, "updateStore"])->middleware(CheckAuthentication::class);
 });
 
 

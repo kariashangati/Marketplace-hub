@@ -11,6 +11,7 @@ import {
 import { ResultPagination } from "../../components/ui/ResultPagination";
 import { DeleteModal } from "../../components/modals/DeleteModal";
 import { Notification } from "../../components/ui/Notification";
+import { useNavigate } from "react-router-dom";
 
 export const UsersList = () => {
   const [usersList, setUsersList] = useState([]);
@@ -23,6 +24,7 @@ export const UsersList = () => {
   const [open, setOpen] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState();
   const [deleteLoading, setDeleteLoading] = useState(false);
+  const navigate = useNavigate();
 
   const getUsers = async (page) => {
     setLoading(true);
@@ -82,7 +84,6 @@ export const UsersList = () => {
       setOpen(false);
 
       if (response.status === 200) {
-        // getUsers();
         setNotification({ type: "success", message: response.data.message });
         const newUsersList = usersList.filter((_user) => {
           return _user.id !== userId;
@@ -174,7 +175,12 @@ export const UsersList = () => {
                           <td>{user.username}</td>
                           <td>
                             <div className="flex justify-center gap-2">
-                              <EyeIcon className="w-8 h-8 text-green-600 cursor-pointer hover:text-green-800 duration-200" />
+                              <EyeIcon
+                                className="w-8 h-8 text-green-600 cursor-pointer hover:text-green-800 duration-200"
+                                onClick={() => {
+                                  navigate(`/user/userData/${user.id}`);
+                                }}
+                              />
                               <TrashIcon
                                 className="w-8 h-8 text-red-600 cursor-pointer hover:text-red-800 duration-200"
                                 onClick={() => {
