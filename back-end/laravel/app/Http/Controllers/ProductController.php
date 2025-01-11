@@ -181,7 +181,7 @@ class ProductController extends Controller
 
 
             if ($product) {
-                if ($user->role === 'admin') {
+                if ($user->role === 'admin' || $user->role === 'super admin') {
                     $product->delete();
                     return response()->json([
                         'message' => 'Product deleted successfully'
@@ -259,12 +259,12 @@ class ProductController extends Controller
                 'delivry' => 'required',  
             ]);
 
-            // Récupération des valeurs validées
-            $category_id = $request['category_id'];
-            $priceRange = explode('-', $request['price']);
-            $minPrice = $priceRange[0];
-            $maxPrice = $priceRange[1];
-            $delivry = $request['delivry'];
+            
+            $category_id = $request->query('category_id');
+            $priceRange = explode('-', $request->query('price'));
+            $minPrice = $priceRange(0);
+            $maxPrice = $priceRange(1);
+            $delivry = $request->query('delivry');
 
     
             $filteredProducts = Product::where("category_id", $category_id)
@@ -283,10 +283,10 @@ class ProductController extends Controller
                 ], 400);
             }
         }
-    catch (Exception $ex) {
-        return response()->json([
-            'message' => $ex->getMessage(),
-        ], 500);
+            catch (Exception $ex) {
+                return response()->json([
+                    'message' => $ex->getMessage(),
+                ], 500);
+                }
         }
-    }
 }

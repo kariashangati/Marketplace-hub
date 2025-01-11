@@ -67,7 +67,7 @@ Route::prefix("product")->group(function () {
     Route::delete("/deleteSavedProduct/{product_id}", [ProductController::class, "deleteSavedProduct"])->middleware(CheckAuthentication::class); // delete a saved product
     Route::put("/acceptPendingProduct/{id}", [ProductController::class, "acceptPendingProduct"])->middleware(CheckRole::class . ":admin,super admin"); // accept a pending product by admins
     Route::get("/reportedProducts", [ProductController::class, "getReportedProducts"])->middleware(CheckRole::class . ":admin,super admin");
-    Route::get("/getFilteredProducts", [ProductController::class, "filterProducts"])->middleware(CheckAuthentication::class);//  get filtred products
+    Route::get("/getProductfiltrer", [ProductController::class, "filterProducts"]);//  get filtred products
 
 });
 

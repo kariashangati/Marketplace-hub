@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Product } from "../../components/App/Product";
 import { UserSideBar } from "../../layouts/UserSideBar";
-import { getAllProducts } from "../../services/productServices";
+import { getAllProducts, getProductsBy } from "../../services/productServices";
 import { Button } from "../../components/ui/Button";
 import { ProductSkeleton } from "../../components/skeletons/ProductSkeleton";
 import { getCategoryList } from "../../services/categoryServices";
@@ -13,7 +13,18 @@ export const Products = () => {
   const [page, setPage] = useState(1);
   const hasMore = useRef(true);
   const loadingRef = useRef(false);
-
+  const [data,setData] = useState({
+    category_id : 0 ,
+    price : "" ,
+    delivry : null,
+  })
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
   const getProducts = async (page) => {
     if (loadingRef.current || !hasMore.current) return;
 
@@ -60,6 +71,31 @@ export const Products = () => {
       }
     }
   };
+  const getProductsFiltrer = async (data) => {
+    setLoading(true);
+    try {
+      const response = await getProductsBy(localStorage.getItem("token"),data);
+      setLoading(false);
+      console.log(response)
+      if (response.products.length === 0) {
+        hasMore.current = false;
+        return;
+      }
+
+      setProducts((prevProducts) => [
+        ...prevProducts,
+        ...response.products,
+      ]);
+    } catch (error) {
+      setLoading(false);
+      loadingRef.current = false;
+      if (error.response) {
+        setNotification({ type: "error", message: error.response.message });
+      } else {
+        setNotification({ type: "error", message: "Try again later" });
+      }
+    }
+  }
 
   useEffect(() => {
     const handleScroll = async () => {
@@ -81,6 +117,11 @@ export const Products = () => {
     getProducts(page);
     getCategories();
   }, [page]);
+
+  useEffect(() => {
+    getProductsFiltrer(data)
+  },[]);
+  
   return (
     <div>
       <div>
@@ -93,12 +134,12 @@ export const Products = () => {
           <div className="mt-2 flex gap-4">
             <select
               className="bg-blue-500 mb-3 w-[20%] text-center py-2 px-2 cursor-pointer rounded-md"
-              name="category"
+              name="category_id" onChange={handleChange}
             >
               {categories && categories.length
                 ? categories.map((category) => {
                     return (
-                      <option value={category.category_id}>
+                      <option value={category.id}>
                         {category.categoryName}
                       </option>
                     );
@@ -107,24 +148,25 @@ export const Products = () => {
             </select>
             <select
               className="bg-blue-500 mb-3 w-[15%] text-center py-2 px-2 cursor-pointer rounded-md"
-              name="category"
+              name="price"  onChange={handleChange}
             >
-              <option value='0-100'>{"0 -> 100"}</option>
-              <option value='100-500'>{"100 -> 500"}</option>
-              <option value='500-9999'>{"> 500"}</option>
+              <option value='0-100' >{"0 -> 100"}</option>
+              <option value='100-500' >{"100 -> 500"}</option>
+              <option value='500-9999' >{"> 500"}</option>
             </select>
             <select
               className="bg-blue-500 mb-3 w-[15%] text-center py-2 px-2 cursor-pointer rounded-md"
-              name="category"
+              name="delivry"  onChange={handleChange}
             >
-              <option value={1}>possible deleivy</option>
-              <option value={0}>Impossible deleivy</option>
+              <option value={1} >possible delivry</option>
+              <option value={0} >Impossible delivry</option>
             </select>
             <Button
               type={"submit"}
               width={"15%"}
               text={"Filter"}
               bg={"bg-green-700"}
+              onClick={getProductsFiltrer}
             />
           </div>
         </div>
