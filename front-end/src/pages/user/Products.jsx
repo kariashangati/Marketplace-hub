@@ -13,11 +13,12 @@ export const Products = () => {
   const [page, setPage] = useState(1);
   const hasMore = useRef(true);
   const loadingRef = useRef(false);
-  const [data,setData] = useState({
-    category_id : 0 ,
-    price : "" ,
-    delivry : null,
-  })
+  const [data, setData] = useState({
+    category_id: 0,
+    price: "",
+    delivry: null,
+  });
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setData((prevState) => ({
@@ -33,6 +34,7 @@ export const Products = () => {
     try {
       const response = await getAllProducts(page);
       setLoading(false);
+
       loadingRef.current = false;
 
       if (response.data.products.data.length === 0) {
@@ -71,31 +73,6 @@ export const Products = () => {
       }
     }
   };
-  const getProductsFiltrer = async (data) => {
-    setLoading(true);
-    try {
-      const response = await getProductsBy(localStorage.getItem("token"),data);
-      setLoading(false);
-      console.log(response)
-      if (response.products.length === 0) {
-        hasMore.current = false;
-        return;
-      }
-
-      setProducts((prevProducts) => [
-        ...prevProducts,
-        ...response.products,
-      ]);
-    } catch (error) {
-      setLoading(false);
-      loadingRef.current = false;
-      if (error.response) {
-        setNotification({ type: "error", message: error.response.message });
-      } else {
-        setNotification({ type: "error", message: "Try again later" });
-      }
-    }
-  }
 
   useEffect(() => {
     const handleScroll = async () => {
@@ -118,10 +95,36 @@ export const Products = () => {
     getCategories();
   }, [page]);
 
-  useEffect(() => {
-    getProductsFiltrer(data)
-  },[]);
-  
+  const getProductsFiltrer = async (data) => {
+    // if (loadingRef.current || !hasMore.current) return;
+    // loadingRef.current = true;
+
+    setLoading(true);
+    try {
+      const response = await getProductsBy(localStorage.getItem("token"), data);
+      setLoading(false);
+      console.log(response);
+
+      if (response.data.products.length === 0) {
+        hasMore.current = false;
+        return;
+      }
+
+      setProducts(() => [...response.data.products.data]);
+    } catch (error) {
+      setLoading(false);
+      loadingRef.current = false;
+      if (error.response) {
+        console.log(error.response);
+        console.log("this a catch");
+
+        setNotification({ type: "error", message: error.response.message });
+      } else {
+        setNotification({ type: "error", message: "Try again later" });
+      }
+    }
+  };
+
   return (
     <div>
       <div>
@@ -134,7 +137,8 @@ export const Products = () => {
           <div className="mt-2 flex gap-4">
             <select
               className="bg-blue-500 mb-3 w-[20%] text-center py-2 px-2 cursor-pointer rounded-md"
-              name="category_id" onChange={handleChange}
+              name="category_id"
+              onChange={handleChange}
             >
               {categories && categories.length
                 ? categories.map((category) => {
@@ -148,25 +152,29 @@ export const Products = () => {
             </select>
             <select
               className="bg-blue-500 mb-3 w-[15%] text-center py-2 px-2 cursor-pointer rounded-md"
-              name="price"  onChange={handleChange}
+              name="price"
+              onChange={handleChange}
             >
-              <option value='0-100' >{"0 -> 100"}</option>
-              <option value='100-500' >{"100 -> 500"}</option>
-              <option value='500-9999' >{"> 500"}</option>
+              <option value="0-100">{"0 -> 100"}</option>
+              <option value="100-500">{"100 -> 500"}</option>
+              <option value="500-9999">{"> 500"}</option>
             </select>
             <select
               className="bg-blue-500 mb-3 w-[15%] text-center py-2 px-2 cursor-pointer rounded-md"
-              name="delivry"  onChange={handleChange}
+              name="delivry"
+              onChange={handleChange}
             >
-              <option value={1} >possible delivry</option>
-              <option value={0} >Impossible delivry</option>
+              <option value={1}>possible delivry</option>
+              <option value={0}>Impossible delivry</option>
             </select>
             <Button
               type={"submit"}
               width={"15%"}
               text={"Filter"}
               bg={"bg-green-700"}
-              onClick={getProductsFiltrer}
+              onClick={() => {
+                getProductsFiltrer(data);
+              }}
             />
           </div>
         </div>
