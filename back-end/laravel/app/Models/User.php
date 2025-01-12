@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Http;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
@@ -50,6 +51,22 @@ class User extends Authenticatable implements JWTSubject
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    protected static function booted()
+    {
+        static::deleting(function ($user) {
+            try {
+                Http::withHeaders([
+                    'Authorization' => "Bearer " . env("API_KEY")
+                ])->delete('http://localhost:3000/api/messages/deleteMany', [
+                    'senderId' => $user->id,
+                ]);
+
+            } catch (\Exception $e) {
+                \Log::error("Error deleting messages for user {$user->id}: " . $e->getMessage());
+            }
+        });
     }
 
     public function getJWTIdentifier()
