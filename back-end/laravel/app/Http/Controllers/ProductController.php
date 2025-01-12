@@ -8,8 +8,10 @@ use App\Models\ReportedProduct;
 use App\Models\Save;
 use App\Models\Store;
 use Exception;
+use GuzzleHttp\Psr7\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PHPOpenSourceSaver\JWTAuth\Claims\JwtId;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
 class ProductController extends Controller
@@ -110,6 +112,39 @@ class ProductController extends Controller
             return response()->json([
                 "message" => $ex->getMessage(),
             ], 500);
+        }
+    }
+
+    public function addSavedProduct(Request $request)
+    {
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+            $request->validate([
+                'product_id' => 'required'
+            ]);
+
+            $user_id = $user->id;
+            $product_id = $request->input('product_id');
+
+            $save = Save::where('user_id', $user_id)->where('product_id', $product_id)->first();
+            if ($save) {
+                $save->delete();
+                return response()->json([
+                    'message' => 'product is seved deja this delete'
+                ]);
+            }
+
+            Save::create([
+                'user_id' => $user_id,
+                'product_id' => $product_id
+            ]);
+            return response()->json([
+                'message' => 'Product is saved'
+            ]);
+        } catch (Exception $ex) {
+            return response()->json([
+                "message" => $ex->getMessage()
+            ]);
         }
     }
 
@@ -290,16 +325,17 @@ class ProductController extends Controller
                 }
         }
 
-    public function getProductsByStore($id){
-        try{
-            $products = Product::where("store_id",$id)
-                                ->with("store.user")
-                                ->get();
+    public function getProductsByStore($id)
+    {
+        try {
+            $products = Product::where("store_id", $id)
+                ->with("store.user")
+                ->get();
 
             return response()->json([
                 "products" => $products,
             ]);
-        }catch(Exception $ex){
+        } catch (Exception $ex) {
             return response()->json([
                 "message" => $ex->getMessage(),
             ]);
