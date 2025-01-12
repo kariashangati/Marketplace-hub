@@ -11,12 +11,13 @@ export const Products = () => {
   const [loading, setLoading] = useState(false);
   const [notification, setNotification] = useState({});
   const [page, setPage] = useState(1);
+
   const hasMore = useRef(true);
   const loadingRef = useRef(false);
   const [data, setData] = useState({
-    category_id: 0,
-    price: "",
-    delivry: null,
+    category_id: 4,
+    price: "0-100",
+    delivry: 1,
   });
 
   const handleChange = (e) => {
@@ -91,18 +92,20 @@ export const Products = () => {
   }, []);
 
   useEffect(() => {
-    getProducts(page);
     getCategories();
+    getProducts(page);
   }, [page]);
 
   const getProductsFiltrer = async (data) => {
-    // if (loadingRef.current || !hasMore.current) return;
-    // loadingRef.current = true;
-
     setLoading(true);
+    if (loadingRef.current || !hasMore.current) return;
+    loadingRef.current = true;
+
     try {
       const response = await getProductsBy(localStorage.getItem("token"), data);
       setLoading(false);
+      loadingRef.current = false;
+
       console.log(response);
 
       if (response.data.products.length === 0) {
@@ -115,9 +118,6 @@ export const Products = () => {
       setLoading(false);
       loadingRef.current = false;
       if (error.response) {
-        console.log(error.response);
-        console.log("this a catch");
-
         setNotification({ type: "error", message: error.response.message });
       } else {
         setNotification({ type: "error", message: "Try again later" });
