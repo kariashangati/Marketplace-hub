@@ -16,7 +16,7 @@ import { AcceptModal } from "../../components/modals/AcceptModal";
 
 export const PendingProducts = () => {
   const [pendingProductsList, setPendingProductsList] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [notification, setNotification] = useState({});
   const [page, setPage] = useState(1);
   const [openAccept, setOpenAccept] = useState();
@@ -158,7 +158,7 @@ export const PendingProducts = () => {
                           <td>{product.id}</td>
                           <td>{product.productName.substring(0, 15)} ...</td>
                           <td className="text-center">
-                            <Link className="text-blue-500 underline">
+                            <Link className="text-blue-500 underline" to={`/store/storeData/${product.store.id}`}>
                               {product.store.storeName.substring(0, 15)} ...
                             </Link>
                           </td>

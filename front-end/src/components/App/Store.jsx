@@ -7,7 +7,7 @@ export const Store = ({ setSelectedStoreId, storeData, viewUser, setOpen, setOpe
   return (
     <div
       className="bg-dark my-3.5 px-3 py-2 rounded-md w-[100%] cursor-pointer lg:mb-0 lg:w-[48%] hover:bg-black duration-200"
-      onClick={() => navigate(`/store/${storeData.id}`)}
+      onClick={() => navigate(`/store/storeData/${storeData.id}`)}
     >
       <div className="flex gap-2 justify-between items-start">
         <div className="flex gap-2 items-center">

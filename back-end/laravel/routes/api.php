@@ -37,7 +37,6 @@ Route::prefix("user")->group(function () {
     Route::get("/getUserData", [UserController::class, "getUserData"])->middleware(CheckAuthentication::class);
     Route::get("/viewUser/{id}", [UserController::class, "viewUser"])->middleware(CheckAuthentication::class);  // view user data admin,users can see this
     Route::post("/editProfile", [UserController::class, "editProfile"])->middleware(CheckAuthentication::class); // only user authenticated can edit his profile
-
 });
 
 
@@ -68,7 +67,7 @@ Route::prefix("product")->group(function () {
     Route::put("/acceptPendingProduct/{id}", [ProductController::class, "acceptPendingProduct"])->middleware(CheckRole::class . ":admin,super admin"); // accept a pending product by admins
     Route::get("/reportedProducts", [ProductController::class, "getReportedProducts"])->middleware(CheckRole::class . ":admin,super admin");
     Route::get("/getProductfiltrer", [ProductController::class, "filterProducts"]);//  get filtred products
-
+    Route::get("getProductsByStore/{id}", [ProductController::class, "getProductsByStore"])->middleware(CheckAuthentication::class);
 });
 
 Route::prefix("store")->group(function () {
@@ -76,9 +75,9 @@ Route::prefix("store")->group(function () {
     Route::delete("/deleteStore/{id}", [StoreController::class, "deleteStore"])->middleware(CheckAuthentication::class); // delete a store
     Route::get("/searchStoresByName", [StoreController::class, "searchStoresByName"]); // search stores by name admins and users can do this
     Route::get("/getStoresUsers", [StoreController::class, "getStoresUsers"]); // this function is used to get the stores of the users
-    Route::get("/getStoresUser/{id}", [StoreController::class, "getStoresUser"]); // get store created for user. only user authenticated can edit his profile
+    Route::get("/getStoresData/{id}", [StoreController::class, "getStoresData"]); // get store created for user. only user authenticated can edit his profile
+    Route::get("/getStoresUser/{id}", [StoreController::class, "getStoresUser"]);
     Route::post("/createStore",[StoreController::class, "createStore"]);
-    Route::put("/updateStore", [StoreController::class, "updateStore"])->middleware(CheckAuthentication::class);
 });
 
 

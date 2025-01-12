@@ -1,8 +1,10 @@
 import { TrashIcon } from "@heroicons/react/24/outline";
 import storeLogo from "../../../public/assets/storeLogo.png";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
 
 export const Product = ({ productData, viewUser, deleteItem }) => {
+  const navigate = useNavigate()
   return (
     <div className="bg-dark p-3 rounded-md flex gap-5 cursor-pointer hover:bg-black duration-200">
       <div className="w-[25%]">
@@ -19,7 +21,7 @@ export const Product = ({ productData, viewUser, deleteItem }) => {
             className="w-8 h-8 rounded-full object-cover"
             alt="User Profile"
           />
-          <span className="font-semibold cursor-pointer hover:text-blue-300 duration-200">
+          <span className="font-semibold cursor-pointer hover:text-blue-300 duration-200" onClick={() => navigate(`/user/userData/${productData.store.user.id}`)}>
             {productData.store.user.username}
           </span>
         </div>
@@ -45,11 +47,12 @@ export const Product = ({ productData, viewUser, deleteItem }) => {
                 {productData.price} dh
               </span>
             </div>
-            {!viewUser ? null : (
+            {viewUser && (
               <div>
                 <TrashIcon
                   className="w-8 h-8 text-red-500 cursor-pointer hover:text-red-700 duration-200"
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
                     deleteItem(productData.id);
                   }}
                 />

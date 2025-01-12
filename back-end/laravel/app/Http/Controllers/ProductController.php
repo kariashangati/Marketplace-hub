@@ -289,4 +289,20 @@ class ProductController extends Controller
                 ], 500);
                 }
         }
+
+    public function getProductsByStore($id){
+        try{
+            $products = Product::where("store_id",$id)
+                                ->with("store.user")
+                                ->get();
+
+            return response()->json([
+                "products" => $products,
+            ]);
+        }catch(Exception $ex){
+            return response()->json([
+                "message" => $ex->getMessage(),
+            ]);
+        }
+    }
 }

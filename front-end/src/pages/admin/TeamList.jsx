@@ -12,7 +12,7 @@ import { DeleteModal } from "../../components/modals/DeleteModal";
 export const TeamList = () => {
 
     const [adminsList,setAdminsList] = useState([]);
-    const [loading,setLoading] = useState(false);
+    const [loading,setLoading] = useState(true);
     const [openAddAdmin,setOpenAddAdmin] = useState(false);
     const [addLoading,setAddLoading] = useState(false);
     const [notification, setNotification] = useState({});
