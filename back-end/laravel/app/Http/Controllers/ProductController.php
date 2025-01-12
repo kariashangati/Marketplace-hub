@@ -8,8 +8,10 @@ use App\Models\ReportedProduct;
 use App\Models\Save;
 use App\Models\Store;
 use Exception;
+use GuzzleHttp\Psr7\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PHPOpenSourceSaver\JWTAuth\Claims\JwtId;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
 class ProductController extends Controller
@@ -110,6 +112,39 @@ class ProductController extends Controller
             return response()->json([
                 "message" => $ex->getMessage(),
             ], 500);
+        }
+    }
+
+    public function addSavedProduct(Request $request)
+    {
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+            $request->validate([
+                'product_id' => 'required'
+            ]);
+
+            $user_id = $user->id;
+            $product_id = $request->input('product_id');
+
+            $save = Save::where('user_id', $user_id)->where('product_id', $product_id)->first();
+            if ($save) {
+                $save->delete();
+                return response()->json([
+                    'message' => 'product is seved deja this delete'
+                ]);
+            }
+
+            Save::create([
+                'user_id' => $user_id,
+                'product_id' => $product_id
+            ]);
+            return response()->json([
+                'message' => 'Product is saved'
+            ]);
+        } catch (Exception $ex) {
+            return response()->json([
+                "message" => $ex->getMessage()
+            ]);
         }
     }
 
@@ -250,17 +285,57 @@ class ProductController extends Controller
             ], 500);
         }
     }
-
-    public function getProductsByStore($id){
+    
+    public function filterProducts(Request $request){
         try{
-            $products = Product::where("store_id",$id)
-                                ->with("store.user")
-                                ->get();
+            $request->validate([
+                'category_id' => 'required',  
+                'price' => 'required|string',
+                'delivry' => 'required',  
+            ]);
+
+            
+            $category_id = $request->query('category_id');
+            $priceRange = explode('-', $request->query('price'));
+            $minPrice = $priceRange(0);
+            $maxPrice = $priceRange(1);
+            $delivry = $request->query('delivry');
+
+    
+            $filteredProducts = Product::where("category_id", $category_id)
+                ->whereBetween("price",[$minPrice,$maxPrice])
+                ->where('delivry',$delivry)
+                ->latest()
+                ->paginate(8);
+            if($filteredProducts) {
+                return response()->json([
+                    'products' => $filteredProducts,
+                    'message' => 'filter products successfully'
+                ]);
+            }else {
+                return response()->json([
+                    'message' => 'Product not found'
+                ], 400);
+            }
+        }
+            catch (Exception $ex) {
+                return response()->json([
+                    'message' => $ex->getMessage(),
+                ], 500);
+                }
+        }
+
+    public function getProductsByStore($id)
+    {
+        try {
+            $products = Product::where("store_id", $id)
+                ->with("store.user")
+                ->get();
 
             return response()->json([
                 "products" => $products,
             ]);
-        }catch(Exception $ex){
+        } catch (Exception $ex) {
             return response()->json([
                 "message" => $ex->getMessage(),
             ]);

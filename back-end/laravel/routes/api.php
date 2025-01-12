@@ -66,7 +66,9 @@ Route::prefix("product")->group(function () {
     Route::delete("/deleteSavedProduct/{product_id}", [ProductController::class, "deleteSavedProduct"])->middleware(CheckAuthentication::class); // delete a saved product
     Route::put("/acceptPendingProduct/{id}", [ProductController::class, "acceptPendingProduct"])->middleware(CheckRole::class . ":admin,super admin"); // accept a pending product by admins
     Route::get("/reportedProducts", [ProductController::class, "getReportedProducts"])->middleware(CheckRole::class . ":admin,super admin");
+    Route::get("/getProductfiltrer", [ProductController::class, "filterProducts"]);//  get filtred products
     Route::get("getProductsByStore/{id}", [ProductController::class, "getProductsByStore"])->middleware(CheckAuthentication::class);
+    Route::post("/addSavedProduct", [ProductController::class, "addSavedProduct"])->middleware(CheckAuthentication::class);
 });
 
 Route::prefix("store")->group(function () {
@@ -76,7 +78,7 @@ Route::prefix("store")->group(function () {
     Route::get("/getStoresUsers", [StoreController::class, "getStoresUsers"]); // this function is used to get the stores of the users
     Route::get("/getStoresData/{id}", [StoreController::class, "getStoresData"]); // get store created for user. only user authenticated can edit his profile
     Route::get("/getStoresUser/{id}", [StoreController::class, "getStoresUser"]);
-    Route::post("/createStore",[StoreController::class, "createStore"]);
+    Route::post("/createStore", [StoreController::class, "createStore"]);
 });
 
 
