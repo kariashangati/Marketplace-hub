@@ -285,45 +285,47 @@ class ProductController extends Controller
             ], 500);
         }
     }
-    
-    public function filterProducts(Request $request){
-        try{
+
+    public function filterProducts(Request $request)
+    {
+        try {
             $request->validate([
-                'category_id' => 'required',  
+                'category_id' => 'required',
                 'price' => 'required|string',
-                'delivry' => 'required',  
+                'delivry' => 'required',
             ]);
 
-            
+
             $category_id = $request->query('category_id');
-            $priceRange = explode('-', $request->query('price'));
-            $minPrice = $priceRange(0);
-            $maxPrice = $priceRange(1);
+            $prix = $request->query("price");
+            $priceRange = explode("-", $prix);
+            $minPrice = $priceRange[0];
+            $maxPrice = $priceRange[1];
             $delivry = $request->query('delivry');
 
-    
+
             $filteredProducts = Product::where("category_id", $category_id)
-                ->whereBetween("price",[$minPrice,$maxPrice])
-                ->where('delivry',$delivry)
+                ->whereBetween("price", [$minPrice, $maxPrice])
+                ->where('delivry', $delivry)
+                ->with('store.user')
                 ->latest()
                 ->paginate(8);
-            if($filteredProducts) {
+            if ($filteredProducts) {
                 return response()->json([
                     'products' => $filteredProducts,
                     'message' => 'filter products successfully'
                 ]);
-            }else {
+            } else {
                 return response()->json([
                     'message' => 'Product not found'
                 ], 400);
             }
+        } catch (Exception $ex) {
+            return response()->json([
+                'message' => $ex->getMessage(),
+            ], 500);
         }
-            catch (Exception $ex) {
-                return response()->json([
-                    'message' => $ex->getMessage(),
-                ], 500);
-                }
-        }
+    }
 
     public function getProductsByStore($id)
     {
