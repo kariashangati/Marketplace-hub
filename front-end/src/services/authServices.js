@@ -1,5 +1,4 @@
 import axios from "axios"
-
 export const checkUserLogin = async (data) =>{
     const response = await axios.post("http://localhost:8000/api/auth/login", data);
     return response;
@@ -22,5 +21,14 @@ export const forgotPassword = async (data) =>{
 
 export const resetPassword = async (data) =>{
     const response = await axios.post("http://localhost:8000/api/auth/resetPassword", data);
+    return response;
+}
+
+export const logout = async (token) =>{
+    const response = await axios.post("http://localhost:8000/api/auth/logout",null,{
+        headers : {
+            "Authorization" : `Bearer ${token}`
+        }
+    });
     return response;
 }

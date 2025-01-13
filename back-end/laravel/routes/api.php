@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\StoreController;
+use App\Http\Controllers\SuggetionsSearchController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\CheckAuthentication;
 use App\Http\Middleware\CheckIsSuperAdmin;
@@ -27,6 +28,7 @@ Route::prefix("auth")->group(function () {
     Route::post("/checkVerificationCode", [AuthController::class, "checkVerificationCode"]); // checks the verification code if correct
     Route::post("/forgotPassword", [AuthController::class, "sendForgotPasswordLink"]); // send a reset link for user who forgot password
     Route::post("/resetPassword", [AuthController::class, "resetPassword"]); // checks if the token is valid and reset the password
+    Route::post("/logout", [AuthController::class,"logout"]);
 });
 
 
@@ -88,4 +90,10 @@ Route::prefix("search")->middleware(CheckAuthentication::class)->group(function 
     Route::post("/postSearch", [SearchController::class, "postSearch"]); // save a searched query if user search for somthing
     Route::get("/getSearches", [SearchController::class, "getSearches"]); // get searched query's by users
     Route::delete("/deleteSearch/{id}", [SearchController::class, "deleteSearch"]); // delete a searched query
+});
+
+
+Route::prefix("suggesstion")->middleware(CheckAuthentication::class)->group(function(){
+    Route::get("/topUsers", [SuggetionsSearchController::class, "getTopUsers"]); // get top users posts products
+    Route::get("/searchByQuery", [SuggetionsSearchController::class, "searchByQuery"]); // search for users and products
 });

@@ -16,6 +16,8 @@ import {
   FolderIcon,
 } from "@heroicons/react/24/outline";
 
+
+
 export const ADMINLINKS = [
   {
     SVG: <Squares2X2Icon strokeWidth="1" className="w-10 h-10" />,
@@ -57,10 +59,6 @@ export const ADMINLINKS = [
     TEXT: "Profile",
     LINK: "/admin/profile",
   },
-  {
-    SVG: <ArrowRightOnRectangleIcon strokeWidth="1" className="w-10 h-10" />,
-    TEXT: "Logout",
-  },
 ];
 
 
@@ -87,11 +85,6 @@ export const USERLINKS = [
     LINK: "/user/messages",
   },
   {
-    SVG: <BuildingStorefrontIcon strokeWidth="1" className="w-10 h-10" />,
-    TEXT: "Stores",
-    LINK: "/user/stores",
-  },
-  {
     SVG: <FolderIcon strokeWidth="1" className="w-10 h-10" />,
     TEXT: "History",
     LINK: "/user/history",
@@ -105,9 +98,5 @@ export const USERLINKS = [
     SVG: <UserCircleIcon strokeWidth="1" className="w-10 h-10" />,
     TEXT: "Profile",
     LINK: "/user/profile",
-  },
-  {
-    SVG: <ArrowRightOnRectangleIcon strokeWidth="1" className="w-10 h-10" />,
-    TEXT: "Logout",
   },
 ];

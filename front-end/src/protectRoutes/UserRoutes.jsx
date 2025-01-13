@@ -12,7 +12,7 @@ const useAuth = () =>{
                     headers:{
                         "Authorization" : `Bearer ${localStorage.getItem("token")}`
                     }
-                })                
+                })
                 
                 if(response.status === 200){
                     if(response.data.role === "user" || response.data.role === 'admin' || response.data.role === 'super admin'){
