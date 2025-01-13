@@ -87,11 +87,6 @@ export const USERLINKS = [
     LINK: "/user/messages",
   },
   {
-    SVG: <BuildingStorefrontIcon strokeWidth="1" className="w-10 h-10" />,
-    TEXT: "Stores",
-    LINK: "/user/stores",
-  },
-  {
     SVG: <FolderIcon strokeWidth="1" className="w-10 h-10" />,
     TEXT: "History",
     LINK: "/user/history",
