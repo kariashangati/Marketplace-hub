@@ -59,3 +59,41 @@ export const getProductsByStore = async (token, id) => {
   );
   return response;
 };
+
+export const addSavedProduct = async (token, productId) => {
+  const response = await axios.post(
+    "http://localhost:8000/api/product/addSavedProduct",
+    { product_id: productId },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response;
+};
+
+export const addProductReported = async (token, productId) => {
+  const response = await axios.post(
+    "http://localhost:8000/api/product/addProductReported",
+    { product_id: productId },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response;
+};
+
+export const deleteProductReported = async (token, productId) => {
+  const response = await axios.delete(
+    `http://localhost:8000/api/product/deleteProductReported/${productId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response;
+};

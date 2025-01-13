@@ -1,24 +1,36 @@
 import { useEffect, useRef, useState } from "react";
 import { Product } from "../../components/App/Product";
 import { UserSideBar } from "../../layouts/UserSideBar";
-import { getAllProducts, getProductsBy } from "../../services/productServices";
+import {
+  addProductReported,
+  addSavedProduct,
+  deleteProductReported,
+  getAllProducts,
+  getProductsBy,
+} from "../../services/productServices";
 import { Button } from "../../components/ui/Button";
 import { ProductSkeleton } from "../../components/skeletons/ProductSkeleton";
 import { getCategoryList } from "../../services/categoryServices";
+import { Notification } from "../../components/ui/Notification";
+import { DeleteModal } from "../../components/modals/DeleteModal";
 export const Products = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [notification, setNotification] = useState({});
   const [page, setPage] = useState(1);
+  const [selectedProductId, setSelectedProductId] = useState(0);
+  const [selectedReportedProductId, setSelectedReportedProductId] = useState(0);
+  const [open, setOpen] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [messageAlert, setMessageAlert] = useState({});
   const filtered = useRef(false);
-
   const hasMore = useRef(true);
   const loadingRef = useRef(false);
   const [data, setData] = useState({
-    category_id: 4,
-    price: "0-100",
-    delivry: 1,
+    category_id: 0,
+    price: "",
+    delivry: null,
   });
 
   const handleChange = (e) => {
@@ -28,6 +40,7 @@ export const Products = () => {
       [name]: value,
     }));
   };
+
   const getProducts = async (page) => {
     if (loadingRef.current || !hasMore.current) return;
 
@@ -58,6 +71,7 @@ export const Products = () => {
       }
     }
   };
+
   const getCategories = async () => {
     try {
       const response = await getCategoryList(localStorage.getItem("token"));
@@ -103,7 +117,6 @@ export const Products = () => {
     filtered.current = true;
     if (loadingRef.current || !hasMore.current) return;
     loadingRef.current = true;
-
     try {
       const response = await getProductsBy(localStorage.getItem("token"), data);
       setLoading(false);
@@ -113,11 +126,87 @@ export const Products = () => {
         hasMore.current = false;
         return;
       }
-
       setProducts(() => [...response.data.products.data]);
     } catch (error) {
       setLoading(false);
       loadingRef.current = false;
+      if (error.response) {
+        setNotification({ type: "error", message: error.response.message });
+      } else {
+        setNotification({ type: "error", message: "Try again later" });
+      }
+    }
+  };
+
+  useEffect(() => {
+    const saveProduct = async (productId) => {
+      setNotification(null);
+      try {
+        const response = await addSavedProduct(
+          localStorage.getItem("token"),
+          productId
+        );
+        setNotification({ type: "success", message: response.data.message });
+      } catch (error) {
+        setLoading(false);
+        if (error.response) {
+          setNotification({ type: "error", message: error.response.message });
+        } else {
+          setNotification({ type: "error", message: "Try again later" });
+        }
+      }
+    };
+    if (selectedProductId !== 0) {
+      saveProduct(selectedProductId);
+      setSelectedProductId(0);
+    }
+  }, [selectedProductId]);
+
+  useEffect(() => {
+    const reportedProduct = async (productId) => {
+      setLoading(false);
+      setNotification(null);
+      try {
+        const response = await addProductReported(
+          localStorage.getItem("token"),
+          productId
+        );
+        if (response.status == 201) {
+          setOpen(true);
+          setMessageAlert(response.data);
+        } else {
+          setNotification({ type: "success", message: response.data.message });
+        }
+      } catch (error) {
+        setLoading(false);
+        if (error.response) {
+          setNotification({ type: "error", message: error.response.message });
+        } else {
+          setNotification({ type: "error", message: "Try again later" });
+        }
+      }
+    };
+
+    if (selectedReportedProductId !== 0) {
+      reportedProduct(selectedReportedProductId);
+    }
+  }, [selectedReportedProductId]);
+
+  const deleteReportedProduct = async (productId) => {
+    setDeleteLoading(true);
+    setNotification(null);
+    try {
+      const response = await deleteProductReported(
+        localStorage.getItem("token"),
+        productId
+      );
+      setDeleteLoading(false);
+      setOpen(false);
+      setNotification({ type: "success", message: response.data.message });
+      setSelectedReportedProductId(0);
+    } catch (error) {
+      setDeleteLoading(false);
+      setSelectedReportedProductId(0);
       if (error.response) {
         setNotification({ type: "error", message: error.response.message });
       } else {
@@ -182,7 +271,18 @@ export const Products = () => {
         <div className="flex flex-col gap-2 flex-wrap">
           {products && products.length
             ? products.map((product) => {
-                return <Product productData={product} />;
+                return (
+                  <Product
+                    viewUser
+                    methodReported={(productId) => {
+                      setSelectedReportedProductId(productId);
+                    }}
+                    methodSaved={(productId) => {
+                      setSelectedProductId(productId);
+                    }}
+                    productData={product}
+                  />
+                );
               })
             : "No products founded!"}
         </div>
@@ -199,6 +299,22 @@ export const Products = () => {
               <ProductSkeleton />
             </div>
           ) : null}
+          {notification && (
+            <Notification
+              type={notification.type}
+              message={notification.message}
+            />
+          )}
+          {open && (
+            <DeleteModal
+              loading={deleteLoading}
+              setOpen={setOpen}
+              contenuMessage={messageAlert.message}
+              deleteItem={() =>
+                deleteReportedProduct(selectedReportedProductId)
+              }
+            />
+          )}
         </div>
       </div>
     </div>

@@ -1,10 +1,33 @@
-import { EllipsisVerticalIcon, TrashIcon } from "@heroicons/react/24/outline";
+import {
+  BookmarkIcon,
+  BookmarkSlashIcon,
+  EllipsisHorizontalIcon,
+  EllipsisVerticalIcon,
+  FlagIcon,
+  HandThumbUpIcon,
+} from "@heroicons/react/24/outline";
 import storeLogo from "../../../public/assets/storeLogo.png";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
-export const Product = ({ productData, viewUser, deleteItem }) => {
-  const navigate = useNavigate()
+export const Product = ({
+  productData,
+  viewUser,
+  methodSaved,
+  methodReported,
+}) => {
+  const navigate = useNavigate();
+  const [viewMenu, setViewMenu] = useState(true);
+
+  const handleClick = () => {
+    if (viewMenu) {
+      setViewMenu(false);
+    } else {
+      setViewMenu(true);
+    }
+  };
+
   return (
     <div className="bg-dark p-3 rounded-md flex gap-5 cursor-pointer hover:bg-black duration-200">
       <div className="w-[25%]">
@@ -21,7 +44,12 @@ export const Product = ({ productData, viewUser, deleteItem }) => {
             className="w-8 h-8 rounded-full object-cover"
             alt="User Profile"
           />
-          <span className="font-semibold cursor-pointer hover:text-blue-300 duration-200" onClick={() => navigate(`/user/userData/${productData.store.user.id}`)}>
+          <span
+            className="font-semibold cursor-pointer hover:text-blue-300 duration-200"
+            onClick={() =>
+              navigate(`/user/userData/${productData.store.user.id}`)
+            }
+          >
             {productData.store.user.username}
           </span>
         </div>
@@ -47,17 +75,59 @@ export const Product = ({ productData, viewUser, deleteItem }) => {
                 {productData.price} dh
               </span>
             </div>
-            {viewUser && (
-              <div>
-                <TrashIcon
-                  className="w-8 h-8 text-red-500 cursor-pointer hover:text-red-700 duration-200"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    deleteItem(productData.id);
-                  }}
-                />
-              </div>
-            )}
+
+            <ul className="flex justify-between relative">
+              <li>
+                <HandThumbUpIcon className="w-8 h-8 cursor-pointer hover:text-gray-400 duration-200" />
+              </li>
+
+              <li>
+                {viewMenu ? (
+                  <EllipsisHorizontalIcon
+                    onClick={handleClick}
+                    className="w-8 h-8 cursor-pointer hover:text-gray-400 duration-200"
+                  />
+                ) : (
+                  <EllipsisVerticalIcon
+                    onClick={handleClick}
+                    className="w-8 h-8 cursor-pointer hover:text-gray-400 duration-200"
+                  />
+                )}
+              </li>
+
+              <ul className={viewMenu ? "hidden" : "flex justify-between "}>
+                <li>
+                  {viewUser ? (
+                    <BookmarkIcon
+                      className="w-8 h-8 cursor-pointer hover:text-gray-400 duration-200"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        methodSaved(productData.id);
+                      }}
+                    />
+                  ) : (
+                    <BookmarkSlashIcon
+                      className="w-8 h-8 cursor-pointer hover:text-gray-400 duration-200"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        methodSaved(productData.id);
+                      }}
+                    />
+                  )}
+                </li>
+                {viewUser && (
+                  <li>
+                    <FlagIcon
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        methodReported(productData.id);
+                      }}
+                      className="w-8 h-8 text-red-500 cursor-pointer hover:text-red-700 duration-200"
+                    />
+                  </li>
+                )}
+              </ul>
+            </ul>
           </div>
         </div>
       </div>

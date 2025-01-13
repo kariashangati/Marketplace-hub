@@ -130,7 +130,7 @@ class ProductController extends Controller
             if ($save) {
                 $save->delete();
                 return response()->json([
-                    'message' => 'product is seved deja this delete'
+                    'message' => 'This product is already save. He deleted something in the saves'
                 ]);
             }
 
@@ -279,6 +279,76 @@ class ProductController extends Controller
             return response()->json([
                 'reportedProducts' => $reportedProducts,
             ]);
+        } catch (Exception $ex) {
+            return response()->json([
+                'message' => $ex->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function addProductReported(Request $request)
+    {
+        try {
+
+            $user = JWTAuth::parseToken()->authenticate();
+
+            $request->validate([
+                'product_id' => 'required'
+            ]);
+
+            $user_id = $user->id;
+            $product_id = $request->input('product_id');
+
+            $product = ReportedProduct::where('user_id', $user_id)
+                ->where('product_id', $product_id)
+                ->first();
+
+            if ($product) {
+                return response()->json([
+                    'message' => 'This product is already reprorted'
+                ], 201);
+            }
+
+            ReportedProduct::create([
+                'user_id' => $user_id,
+                'product_id' => $product_id
+            ]);
+            return response()->json([
+                'message' => 'This product is reported'
+            ]);
+        } catch (Exception $ex) {
+            return response()->json([
+                'message' => $ex->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function deleteProductReported($product_id)
+    {
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+
+            $user_id = $user->id;
+            $productReported = ReportedProduct::where('user_id', $user_id)
+                ->where('product_id', $product_id)
+                ->first();
+
+            if ($productReported) {
+                if ($user->role == 'user') {
+                    $productReported->delete();
+                    return response()->json([
+                        'message' => 'Delete product is successfully'
+                    ]);
+                } else {
+                    return response()->json([
+                        'message' => 'Unauthorized'
+                    ], 401);
+                };
+            } else {
+                return response()->json([
+                    'message' => 'Product not found'
+                ], 404);
+            }
         } catch (Exception $ex) {
             return response()->json([
                 'message' => $ex->getMessage(),
