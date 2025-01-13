@@ -64,7 +64,7 @@ export const SavedProducts = () => {
 
   useEffect(() => {
     getSavedProducts(page);
-  }, [page]);
+  }, []);
 
   useEffect(() => {
     const deleteProductSaved = async (productId) => {

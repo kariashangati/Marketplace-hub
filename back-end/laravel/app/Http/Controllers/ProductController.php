@@ -313,12 +313,11 @@ class ProductController extends Controller
             if ($filteredProducts) {
                 return response()->json([
                     'products' => $filteredProducts,
-                    'message' => 'filter products successfully'
                 ]);
             } else {
                 return response()->json([
                     'message' => 'Product not found'
-                ], 400);
+                ], 404);
             }
         } catch (Exception $ex) {
             return response()->json([

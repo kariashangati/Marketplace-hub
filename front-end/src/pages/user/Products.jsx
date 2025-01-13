@@ -8,9 +8,10 @@ import { getCategoryList } from "../../services/categoryServices";
 export const Products = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [notification, setNotification] = useState({});
   const [page, setPage] = useState(1);
+  const filtered = useRef(false);
 
   const hasMore = useRef(true);
   const loadingRef = useRef(false);
@@ -79,7 +80,7 @@ export const Products = () => {
     const handleScroll = async () => {
       const isAtBottom =
         window.innerHeight + window.scrollY >= document.body.offsetHeight - 1;
-      if (isAtBottom && !loadingRef.current) {
+      if (isAtBottom && !loadingRef.current && !filtered.current) {
         const nextPage = page + 1;
         setPage(nextPage);
         await getProducts(nextPage);
@@ -94,10 +95,12 @@ export const Products = () => {
   useEffect(() => {
     getCategories();
     getProducts(page);
-  }, [page]);
+  }, []);
 
   const getProductsFiltrer = async (data) => {
+    setNotification(null);
     setLoading(true);
+    filtered.current = true;
     if (loadingRef.current || !hasMore.current) return;
     loadingRef.current = true;
 
@@ -105,8 +108,6 @@ export const Products = () => {
       const response = await getProductsBy(localStorage.getItem("token"), data);
       setLoading(false);
       loadingRef.current = false;
-
-      console.log(response);
 
       if (response.data.products.length === 0) {
         hasMore.current = false;
@@ -183,7 +184,7 @@ export const Products = () => {
             ? products.map((product) => {
                 return <Product productData={product} />;
               })
-            : null}
+            : "No products founded!"}
         </div>
         <div className="mt-4">
           {loading ? (

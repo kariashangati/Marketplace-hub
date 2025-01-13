@@ -1,4 +1,4 @@
-import { TrashIcon } from "@heroicons/react/24/outline";
+import { EllipsisVerticalIcon, TrashIcon } from "@heroicons/react/24/outline";
 import storeLogo from "../../../public/assets/storeLogo.png";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
