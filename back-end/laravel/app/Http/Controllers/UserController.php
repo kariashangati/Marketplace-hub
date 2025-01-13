@@ -89,6 +89,8 @@ class UserController extends Controller
                 'fullName' => 'required',
                 'username' => [
                     'required',
+                    'min:6',
+                    'max:14',
                     Rule::unique('users', 'username')->ignore($user->id),
                 ],
                 'birthday' => 'date',

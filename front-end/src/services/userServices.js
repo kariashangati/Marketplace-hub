@@ -72,3 +72,13 @@ export const viewSavedProducts = async (token, page) => {
   );
   return response;
 };
+
+
+export const getTopUsersSer = async (token) =>{
+    const response = await axios.get("http://localhost:8000/api/suggesstion/topUsers",{
+      headers:{
+        "Authorization" : `Bearer ${token}`,
+      }
+    });
+    return response;
+}

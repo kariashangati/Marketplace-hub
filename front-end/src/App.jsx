@@ -19,6 +19,7 @@ import { SavedProducts } from "./pages/user/SavedProducts";
 import { UserProfile } from "./pages/user/UserProfile";
 import { StoreData } from "./pages/user/StoreData";
 import { History } from "./pages/user/History";
+import { Search } from "./pages/user/Search";
 
 export const App = () => {
   return (
@@ -35,6 +36,7 @@ export const App = () => {
         <Route path="/user/profile" element={<UserProfile />} />
         <Route path="/store/storeData/:id" element={<StoreData />} />
         <Route path="/user/history" element={<History />} />
+        <Route path="/user/search" element={<Search />} />
       </Route>
 
       <Route element={<AdminRoutes />}>
