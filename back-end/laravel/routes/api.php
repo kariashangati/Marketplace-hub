@@ -28,6 +28,7 @@ Route::prefix("auth")->group(function () {
     Route::post("/checkVerificationCode", [AuthController::class, "checkVerificationCode"]); // checks the verification code if correct
     Route::post("/forgotPassword", [AuthController::class, "sendForgotPasswordLink"]); // send a reset link for user who forgot password
     Route::post("/resetPassword", [AuthController::class, "resetPassword"]); // checks if the token is valid and reset the password
+    Route::post("/logout", [AuthController::class,"logout"]);
 });
 
 
