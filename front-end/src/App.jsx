@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { Login } from "./pages/auth/Login";
 import { SignUp } from "./pages/auth/SignUp";
 import { ResetPassword } from "./pages/auth/ResetPassword";
@@ -21,9 +21,23 @@ import { StoreData } from "./pages/user/StoreData";
 import { History } from "./pages/user/History";
 import { Search } from "./pages/user/Search";
 
+const PageBasedOnRole = () =>{
+    
+  if(localStorage.getItem("role") === 'admin' || localStorage.getItem("role") === 'super admin'){
+    return <Navigate to={'/admin/dashboard'} />
+  }else if(localStorage.getItem("role") === 'user'){
+    return <Navigate to={'/user/products'} />
+  }
+
+  return <Navigate to={'/login'}/>
+}
+
 export const App = () => {
   return (
     <Routes>
+
+      <Route path="/" element={<PageBasedOnRole />} />
+
       <Route path={"/login"} element={<Login />} />
       <Route path={"/register"} element={<SignUp />} />
       <Route path={"/forgotPassword"} element={<ForgotPassword />} />

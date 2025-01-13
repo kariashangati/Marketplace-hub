@@ -7,6 +7,7 @@ import { Button } from "../../components/ui/Button";
 import { AddAdminModal } from "../../components/modals/AddAdminModal";
 import { Notification } from "../../components/ui/Notification";
 import { DeleteModal } from "../../components/modals/DeleteModal";
+import { useNavigate } from "react-router-dom";
 
 
 export const TeamList = () => {
@@ -19,7 +20,8 @@ export const TeamList = () => {
     const [open,setOpen] = useState(false);
     const [selectedUserId,setSelectedUserId] = useState();
     const [deleteLoading,setDeleteLoading] = useState(false);
-
+    const navigate = useNavigate()
+    
     const [formdata,setFormdata] = useState({
         fullName : '',
         email : '',
@@ -145,7 +147,7 @@ export const TeamList = () => {
                             </td>
                             <td>
                                 <div className="flex justify-center gap-2">
-                                <EyeIcon className="w-8 h-8 text-green-600 cursor-pointer hover:text-green-800 duration-200" />
+                                <EyeIcon className="w-8 h-8 text-green-600 cursor-pointer hover:text-green-800 duration-200" onClick={() => navigate(`/user/userData/${user.id}`)}/>
                                 <TrashIcon className="w-8 h-8 text-red-600 cursor-pointer hover:text-red-800 duration-200"
                                 onClick={() => {
                                     setOpen(true);
