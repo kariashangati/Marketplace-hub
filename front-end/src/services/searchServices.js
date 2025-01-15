@@ -17,3 +17,24 @@ export const postSearch = async (token,data) =>{
     });
     return response;
 }
+
+export const getSearchesBy = async (token) =>{
+    const response = await axios.get(`http://localhost:8000/api/search/getSearches`,{
+        headers :{
+            "Authorization" : `Bearer ${token}`
+        }
+    });
+    return response;
+}
+
+export const deleteSearchesBy = async (token, Id) => {
+    const response = await axios.delete(
+      `http://localhost:8000/api/search/deleteSearch/${Id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response;
+  };

@@ -15,7 +15,7 @@ class SearchController extends Controller
             $user = JWTAuth::parseToken()->authenticate();
             $searches = Search::where("user_id",$user->id)
                                 ->latest()
-                                ->paginate(8);
+                                ->get();
 
             return response()->json([
                 "searches" => $searches

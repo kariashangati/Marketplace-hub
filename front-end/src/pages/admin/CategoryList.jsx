@@ -111,7 +111,7 @@ export const CategoryList = () => {
           message: error.response.data.message,
         });
       } else {
-        setNotification({ type: "error", message: "Try again laterrrrr" });
+        setNotification({ type: "error", message: "Try again later" });
       }
     }
   };
