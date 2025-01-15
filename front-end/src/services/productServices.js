@@ -97,3 +97,15 @@ export const deleteProductReported = async (token, productId) => {
   );
   return response;
 };
+export const addNewProduct = async (token, data) => {
+  const response = await axios.post(
+    `http://localhost:8000/api/product/addProduct`,
+    data,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response;
+};

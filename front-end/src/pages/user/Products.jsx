@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Product } from "../../components/App/Product";
 import { UserSideBar } from "../../layouts/UserSideBar";
 import {
+  addNewProduct,
   addProductReported,
   addSavedProduct,
   deleteProductReported,
@@ -10,9 +11,13 @@ import {
 } from "../../services/productServices";
 import { Button } from "../../components/ui/Button";
 import { ProductSkeleton } from "../../components/skeletons/ProductSkeleton";
-import { getCategoryList } from "../../services/categoryServices";
+import { addNewCategory, getCategoryList } from "../../services/categoryServices";
 import { Notification } from "../../components/ui/Notification";
 import { DeleteModal } from "../../components/modals/DeleteModal";
+import addproduct from "../../../public/assets/addproduct.jpg";
+import { AddProduct } from "../../components/modals/AddProduct";
+import { getUserStoresList } from "../../services/storeServices";
+
 export const Products = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -27,12 +32,58 @@ export const Products = () => {
   const filtered = useRef(false);
   const hasMore = useRef(true);
   const loadingRef = useRef(false);
+  const [addProductLoading, setAddProductLoading] = useState(false);
+  const [openCreateProduct,setOpenCreateProduct] = useState(false);
+  const [stores,setStores] = useState({});
+
+
   const [data, setData] = useState({
     category_id: 0,
     price: "",
     delivry: null,
   });
+  
+  const [newProduct ,setNewProduct] = useState({
+    productName : "",
+    description : "",
+    category_id : 0,
+    store_id : 0,
+    price : 0,
+    location : "",
+    delivry : null,
+  })
+  const [profilePicture, setProfilePicture] = useState(null);
+    const handleChangeProfilePicture = (e) => {
+        setProfilePicture(e.target.files[0]);
+    };
 
+  const handleChangeProduct = (e) => {
+    const { name, value } = e.target;
+    setNewProduct((prevState) => ({
+          ...prevState,
+          [name]: value,
+      }));
+  };
+
+  const getUserStores = async () =>{
+    try{
+      const response = await getUserStoresList(localStorage.getItem("token"));
+      if(response.data.stores){
+          setStores(response.data.stores)
+      }
+    }catch(error){
+        if (error.response) {
+        setNotification({
+            type: "error",
+            message: error.response.data.message,
+        });
+        } else {
+        setNotification({ type: "error", message: "Try again later" });
+        }
+    }
+  }
+  
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setData((prevState) => ({
@@ -40,6 +91,47 @@ export const Products = () => {
       [name]: value,
     }));
   };
+
+  const handleSubmitProduct = async (e) => {
+      e.preventDefault();
+      setNotification(null);
+      setAddProductLoading(true);
+      try {
+        const dataNewProduct = new FormData();
+        dataNewProduct.append("productName", newProduct.productName);
+        dataNewProduct.append("description", newProduct.description);
+        dataNewProduct.append("category_id", newProduct.category_id);
+        dataNewProduct.append("store_id", newProduct.store_id);
+        dataNewProduct.append("price", newProduct.price);
+        dataNewProduct.append("location", newProduct.location);
+        dataNewProduct.append("delivry", newProduct.delivry);
+        
+
+        if (profilePicture !== null) {
+          dataNewProduct.append("image", profilePicture);
+        }
+        const response = await addNewProduct(
+          localStorage.getItem("token"),
+          dataNewProduct
+        );
+        setAddProductLoading(false);
+        if (response.status === 200 && response.data.message) {
+          setOpenCreateProduct(false)
+          setNotification({ type: "success", message: response.data.message });
+        }
+      } catch (error) {
+        setAddProductLoading(false)
+        setOpenCreateProduct(false)
+        if (error.response) {
+          setNotification({
+            type: "error",
+            message: error.response.data.message,
+          });
+        } else {
+          setNotification({ type: "error", message: "Try again later" });
+        }
+      }
+    };
 
   const getProducts = async (page) => {
     if (loadingRef.current || !hasMore.current) return;
@@ -222,6 +314,25 @@ export const Products = () => {
       </div>
 
       <div className="lg:ml-[21%] px-2 mt-8">
+        <div className="mt-6 w-[99%] h-52 mb-6 px-2 py-1">
+        <div className="relative bg-black">
+          <img
+            src={addproduct}
+            className="object-fill h-52 w-full"
+            alt="Add Product"
+          />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <Button
+              type="submit"
+              text="Add Product"
+              width="10"
+              onClick={() => {setOpenCreateProduct(true);
+                getUserStores();}
+              }
+            />
+          </div>
+        </div>
+        </div>
         <div>
           <h1 className="text-3xl font-semibold">Filter products by</h1>
           <div className="mt-2 flex gap-4">
@@ -230,6 +341,7 @@ export const Products = () => {
               name="category_id"
               onChange={handleChange}
             >
+              <option>select category</option>
               {categories && categories.length
                 ? categories.map((category) => {
                     return (
@@ -245,6 +357,7 @@ export const Products = () => {
               name="price"
               onChange={handleChange}
             >
+              <option>select price</option>
               <option value="0-100">{"0 -> 100"}</option>
               <option value="100-500">{"100 -> 500"}</option>
               <option value="500-9999">{"> 500"}</option>
@@ -254,6 +367,7 @@ export const Products = () => {
               name="delivry"
               onChange={handleChange}
             >
+              <option>Delivry</option>
               <option value={1}>possible delivry</option>
               <option value={0}>Impossible delivry</option>
             </select>
@@ -315,6 +429,19 @@ export const Products = () => {
               }
             />
           )}
+          {openCreateProduct && (
+            <AddProduct
+            handleSubmitProduct={handleSubmitProduct}
+            addProductLoading={addProductLoading}
+            setOpenCreateProduct={setOpenCreateProduct}
+            handleChangeProduct={handleChangeProduct}
+            handleChangeProfilePicture={handleChangeProfilePicture}
+            categorydata={categories}
+            storedata={stores}
+             />
+          )
+
+          }
         </div>
       </div>
     </div>
