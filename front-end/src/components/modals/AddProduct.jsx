@@ -5,7 +5,7 @@ import { Label } from "../ui/Label";
 
 export const AddProduct = ({ handleSubmitProduct,handleChangeProduct,handleChangeProfilePicture,setOpenCreateProduct,categorydata,addProductLoading,storedata }) => {
   return (
-    <div className="z-20 fixed inset-0 flex items-center text-gray-700 justify-center bg-black bg-opacity-50">
+    <div className="z-20 fixed inset-0 flex items-center text-gray-700 justify-center backdrop-blur-md bg-black bg-opacity-50 overflow-auto">
       <div className="bg-white w-full max-w-md px-8 py-6 rounded-lg shadow-xl">
         <div className="text-center">
           <h1 className="text-2xl font-semibold text-gray-800">Create New Product</h1>
@@ -56,37 +56,39 @@ export const AddProduct = ({ handleSubmitProduct,handleChangeProduct,handleChang
                         : null}
                 </select>
             </div>
-            <div>
-                <Label text={"stores"} />
-                <select
-                    className="bg-blue-500 mb-3 w-[100%] text-center py-2 px-2 cursor-pointer rounded-md text-white"
-                    name="store_id"
-                    onChange={handleChangeProduct}
-                    >
-                    <option>select store</option>
+            <div className="flex justify-between">
+              <div>
+                  <Label text={"stores"} />
+                  <select
+                      className="bg-blue-500 mb-3 w-[100%] text-center py-2 px-2 cursor-pointer rounded-md text-white"
+                      name="store_id"
+                      onChange={handleChangeProduct}
+                      >
+                      <option>select store</option>
 
-                    {storedata && storedata.length
-                        ? storedata.map((store) => {
-                            return (
-                            <option value={store.id}>
-                                {store.storeName}
-                            </option>
-                            );
-                        })
-                        : null}
-                </select>
-            </div>
-            <div>
-                <Label text={"stores"} />
-                <select
-                    className="bg-blue-500 mb-3 w-[100%] text-center py-2 px-2 cursor-pointer rounded-md text-white"
-                    name="delivry"
-                    onChange={handleChangeProduct}
-                    >
-                        <option>select delivry</option>
-                        <option value={1}>possible delivry</option>
-                        <option value={0}>Impossible delivry</option>
-                </select>
+                      {storedata && storedata.length
+                          ? storedata.map((store) => {
+                              return (
+                              <option value={store.id}>
+                                  {store.storeName}
+                              </option>
+                              );
+                          })
+                          : null}
+                  </select>
+              </div>
+              <div>
+                  <Label text={"Delivry"} />
+                  <select
+                      className="bg-blue-500 mb-3 w-[100%] text-center py-2 px-2 cursor-pointer rounded-md text-white"
+                      name="delivry"
+                      onChange={handleChangeProduct}
+                      >
+                          <option>select delivry</option>
+                          <option value={1}>possible delivry</option>
+                          <option value={0}>Impossible delivry</option>
+                  </select>
+              </div>
             </div>
             <div>
                 <Label text={"Product price"} />
