@@ -64,6 +64,7 @@ Route::prefix("product")->group(function () {
     Route::get("/getPendingProducts", [ProductController::class, "getPendingProducts"])->middleware(CheckRole::class . ":admin,super admin"); // get pending products only admins can see this
     Route::get("/getSavedProducts", [ProductController::class, "getSavedProducts"])->middleware(CheckAuthentication::class); // get the authenticated user saved products
     Route::delete("/deleteProduct/{id}", [ProductController::class, "deleteProduct"]); // delete a product
+    Route::get("/getProductDetails", [ProductController::class, "getProductDetails"])->middleware(CheckAuthentication::class);
     Route::post("/addProduct", [ProductController::class, "addProduct"])->middleware(CheckAuthentication::class); // add a product users and admins
     Route::delete("/deleteSavedProduct/{product_id}", [ProductController::class, "deleteSavedProduct"])->middleware(CheckAuthentication::class); // delete a saved product
     Route::put("/acceptPendingProduct/{id}", [ProductController::class, "acceptPendingProduct"])->middleware(CheckRole::class . ":admin,super admin"); // accept a pending product by admins
