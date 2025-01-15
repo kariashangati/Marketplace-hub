@@ -4,7 +4,7 @@ import { Label } from "../ui/Label";
 
 export const AddAdminModal = ({ handleSubmit,handleChange,setOpenAddAdmin, loading }) => {
   return (
-    <div className="z-20 fixed inset-0 flex items-center text-gray-700 justify-center bg-black bg-opacity-50">
+    <div className="z-20 fixed inset-0 flex items-center text-gray-700 justify-center bg-black bg-opacity-50 backdrop-blur-md">
       <div className="bg-white w-full max-w-md px-8 py-6 rounded-lg shadow-xl">
         <div className="text-center">
           <h1 className="text-2xl font-semibold text-gray-800">Add New Admin</h1>

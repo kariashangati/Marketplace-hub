@@ -412,4 +412,23 @@ class ProductController extends Controller
             ]);
         }
     }
+
+    public function getProductDetails(Request $request){
+        try{
+            $product = Product::where("id",$request->query("productId"))
+                    ->where("status","accepted")
+                    ->with("store.user")
+                    ->with("category")
+                    ->first();
+
+            return response()->json([
+                "product" => $product,
+            ]);
+
+        }catch(Exception $ex){
+            return response()->json([
+                "message" => $ex->getMessage(),
+            ]);
+        }
+    }
 }

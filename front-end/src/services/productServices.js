@@ -97,3 +97,13 @@ export const deleteProductReported = async (token, productId) => {
   );
   return response;
 };
+
+
+export const getProductDetails = async (token,id) => {
+  const response = await axios.get(`http://localhost:8000/api/product/getProductDetails?productId=${id}`,{
+    headers:{
+      Authorization : `Bearer ${token}`
+    }
+  });
+  return response;
+}

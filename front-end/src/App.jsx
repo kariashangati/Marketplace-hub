@@ -20,6 +20,7 @@ import { UserProfile } from "./pages/user/UserProfile";
 import { StoreData } from "./pages/user/StoreData";
 import { History } from "./pages/user/History";
 import { Search } from "./pages/user/Search";
+import { ProductDetails } from "./pages/user/ProductDetails";
 
 const PageBasedOnRole = () =>{
     
@@ -51,6 +52,7 @@ export const App = () => {
         <Route path="/store/storeData/:id" element={<StoreData />} />
         <Route path="/user/history" element={<History />} />
         <Route path="/user/search" element={<Search />} />
+        <Route path="/product/productDetails/:id" element={<ProductDetails />} />
       </Route>
 
       <Route element={<AdminRoutes />}>
