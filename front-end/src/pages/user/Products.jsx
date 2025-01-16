@@ -34,14 +34,11 @@ export const Products = () => {
 
   const filtered = useRef(false);
   const hasMore = useRef(true);
-<<<<<<< HEAD
-=======
   const loadingRef = useRef(false);
   const [addProductLoading, setAddProductLoading] = useState(false);
   const [openCreateProduct,setOpenCreateProduct] = useState(false);
   const [stores,setStores] = useState({});
 
->>>>>>> 1c6c95645642576dcb38f2dd0aabfb2163a7b5c5
 
   const [data, setData] = useState({
     category_id: 0,
