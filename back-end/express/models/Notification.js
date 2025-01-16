@@ -1,7 +1,10 @@
 const mongoose = require("mongoose");
 
 const notificationShema = new mongoose.Schema({
-    senderId : {type:Number, required:true},
+    senderId : {type:Number},
+    senderProfilePic : {type: String},
+    senderUsername : {type: String},
+    productId : {type: String, required:true},
     receiverId : {type:Number, required:true},
     notificationContent : {type:String, required:true},
 },{timestamps:true});

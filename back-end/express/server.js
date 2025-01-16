@@ -9,6 +9,8 @@ const server = express();
 dbConnect()
 
 server.use(express.json());
+server.use(express.urlencoded({ extended: true }));
+
 server.use(cors({
     origin : ["http://localhost:5173", "http://localhost:8000"],
     methods : ["GET","POST","PUT","DELETE"],
@@ -17,7 +19,6 @@ server.use(cors({
 server.delete("/api/deleteUserData",verifyAPIkey,deleteUserDeletedData);
 
 server.use(verifyToken);
-server.use("/api/notifications",require("./routes/notificationRoutes"));
 server.use("/api/comments", require("./routes/commentRoutes"));
 
 server.listen(3000,() =>{

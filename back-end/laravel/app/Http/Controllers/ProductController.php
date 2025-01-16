@@ -70,7 +70,7 @@ class ProductController extends Controller
             $products = Product::where("status", "accepted")
                 ->with("store.user")
                 ->with("category")
-                ->latest()
+                ->latest("updated_at")
                 ->paginate(8);
 
 
@@ -251,6 +251,7 @@ class ProductController extends Controller
             $user = JWTAuth::parseToken()->authenticate();
             $savedProducts = Save::where("user_id", $user->id)
                 ->with("product.store.user")
+                ->latest()
                 ->paginate(10);
 
             return response()->json([
