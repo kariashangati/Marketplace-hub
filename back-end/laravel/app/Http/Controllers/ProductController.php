@@ -195,7 +195,7 @@ class ProductController extends Controller
                 'category_id' => $category_id,
                 'store_id' => $store_id,
                 'price' => $price,
-                'productImage' => $productImage,
+                'product_image' => $productImage,
                 'location' => $location,
                 'delivry' => $delivry,
             ]);
@@ -251,7 +251,7 @@ class ProductController extends Controller
             $user = JWTAuth::parseToken()->authenticate();
             $savedProducts = Save::where("user_id", $user->id)
                 ->with("product.store.user")
-                ->paginate(5);
+                ->paginate(10);
 
             return response()->json([
                 'savedProducts' => $savedProducts,
@@ -413,19 +413,30 @@ class ProductController extends Controller
         }
     }
 
-    public function getProductDetails(Request $request)
-    {
-        try {
-            $product = Product::where("id", $request->query("productId"))
-                ->where("status", "accepted")
-                ->with("store.user")
-                ->with("category")
-                ->first();
+    public function getProductDetails(Request $request){
+        try{
+            $user = JWTAuth::parseToken()->authenticate();
+            $productDetailsForAdmin = Product::where("id",$request->query("productId"))
+                    ->with("store.user")
+                    ->with("category")
+                    ->first();
+
+            if($user->role === 'admin' || $user->role === 'super admin'){
+                return response()->json([
+                    "product" => $productDetailsForAdmin
+                ]);
+            }
+            $product = Product::where("id",$request->query("productId"))
+                    ->where("status","accepted")
+                    ->with("store.user")
+                    ->with("category")
+                    ->first();
 
             return response()->json([
                 "product" => $product,
             ]);
-        } catch (Exception $ex) {
+
+        }catch(Exception $ex){
             return response()->json([
                 "message" => $ex->getMessage(),
             ]);

@@ -20,6 +20,7 @@ export const Product = ({
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
+    event.stopPropagation();
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
@@ -27,10 +28,10 @@ export const Product = ({
   };
 
   return (
-    <div className="bg-dark p-3 rounded-md flex gap-5 cursor-pointer hover:bg-black duration-200">
+    <div className="bg-dark p-3 rounded-md flex gap-5 cursor-pointer hover:bg-black duration-200" >
       <div className="w-[25%]">
         <img
-          src={storeLogo}
+          src={productData.product_image}
           className="w-full h-[250px] rounded-md object-cover"
           alt="Store Logo"
         />
@@ -100,16 +101,12 @@ export const Product = ({
                   Remove
                 </MenuItem>
               )}
-
-              {/* <span className={!viewUser ? "hidden" : null}>
-                <MenuItem onClick={handleClose}>Report</MenuItem>
-              </span> */}
             </Menu>
           </div>
         </div>
 
         <div className="mt-2">
-          <h1 className="text-2xl font-semibold">{productData.productName}</h1>
+          <h1 className="text-2xl font-semibold hover:underline duration-200 hover:text-sky-500" onClick={() => navigate(`/product/productdetails/${productData.id}`)}>{productData.productName}</h1>
           <p>{productData.description}</p>
         </div>
         <div className="mt-1">

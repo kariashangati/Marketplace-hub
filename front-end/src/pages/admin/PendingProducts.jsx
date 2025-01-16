@@ -2,8 +2,8 @@ import { LinearProgress } from "@mui/material";
 import { AdminSideBar } from "../../layouts/AdminSideBar";
 import { useEffect, useState } from "react";
 import moment from "moment";
-import { CheckCircleIcon, TrashIcon } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
+import { CheckCircleIcon, EyeIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { Link, useNavigate } from "react-router-dom";
 import { ResultPagination } from "../../components/ui/ResultPagination";
 import { DeleteModal } from "../../components/modals/DeleteModal";
 import { deleteProductById } from "../../services/productServices";
@@ -25,6 +25,7 @@ export const PendingProducts = () => {
   const [open, setOpen] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState(0);
   const [deleteLoading, setDeleteLoading] = useState(false);
+  const navigate = useNavigate();
 
   const getProductsPending = async (page) => {
     setLoading(true);
@@ -179,6 +180,12 @@ export const PendingProducts = () => {
                                     setSelectedProductId(product.id);
                                 }}
                                 className="w-8 h-8 text-green-600 cursor-pointer hover:text-green-800 duration-200"
+                              />
+                               <EyeIcon 
+                                className="w-8 h-8 text-green-600 cursor-pointer hover:text-green-800 duration-200"
+                                onClick={() => {
+                                  navigate(`/product/productDetails/${product.id}`);
+                                }}
                               />
                               <TrashIcon
                                 onClick={() => {

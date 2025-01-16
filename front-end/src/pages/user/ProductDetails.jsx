@@ -2,7 +2,7 @@ import { AdminSideBar } from '../../layouts/AdminSideBar'
 import { UserSideBar } from '../../layouts/UserSideBar'
 import testImage from '../../../public/assets/storeLogo.png'
 import userImage from '../../../public/assets/userDefaultImage.jpg'
-import { ChatBubbleOvalLeftEllipsisIcon, ClipboardDocumentIcon, ClockIcon, HeartIcon, MapPinIcon, RocketLaunchIcon } from '@heroicons/react/24/outline'
+import { ChatBubbleOvalLeftEllipsisIcon, CheckBadgeIcon, ClipboardDocumentIcon, ClockIcon, HeartIcon, MapPinIcon, RocketLaunchIcon, XCircleIcon } from '@heroicons/react/24/outline'
 import { Button } from '../../components/ui/Button'
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
@@ -66,7 +66,7 @@ export const ProductDetails = () => {
             !loading ? <div className='bg-dark px-3 py-2'>
             <div className='w-[100%] flex md:flex-row flex-col justify-between'>
                 <div className='md:w-[40%]'>
-                    <img src={testImage} className='w-[100%] rounded-md'/>
+                    <img src={productDetails.product_image} className='w-[100%] rounded-md'/>
                 </div> 
                 <div className='md:w-[58%]'>
                     <div className='flex justify-between items-center mt-2 md:mt-0'>
@@ -91,7 +91,19 @@ export const ProductDetails = () => {
                     <div className='mt-5'>
                         <div>
                             <h1 className='text-2xl font-semibold'>{productDetails.productName} <span className='text-gray-500 font-semibold text-sm'>{productDetails.category.categoryName}</span> </h1>
-                            
+                            <div className='flex gap-2 items-center'>
+                                {
+                                    productDetails.status === 'Accepted by Admin'?
+                                    <div className='flex gap-1 items-center'>
+                                        <CheckBadgeIcon className='w-5 h-5 text-green-600' strokeWidth={'2'} />
+                                        <span className='text-sm text-green-600 font-semibold'>{productDetails.status}</span>
+                                    </div>
+                                    : <div className='flex gap-1 items-center'>
+                                        <XCircleIcon className='w-5 h-5 text-red-500' strokeWidth={'2'}/>
+                                        <span className='text-sm text-red-500 font-semibold'>{productDetails.status}</span>
+                                    </div>
+                                }
+                            </div>
                             <h3 className='text-lg font-semibold text-gray-300'><span className='text-4xl'>{productDetails.price}</span> DH</h3>
                             <div className='mt-2'>
                                 <span className='text-sm text-gray-300'>

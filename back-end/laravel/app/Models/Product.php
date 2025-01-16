@@ -14,7 +14,7 @@ class Product extends Model
         'description',
         'category_id',
         'store_id',
-        'productImage',
+        'product_image',
         'price',
         'likes',
         'status',
@@ -33,5 +33,16 @@ class Product extends Model
         return $value === 1?
             "Possible deleivry"
             :"Impossible deleivry";
+    }
+
+    public function getProductImageAttribute($value){
+        return $value ?
+            asset('storage/products/'.$value)
+            : asset("storage/products/productDefaultImage.png");
+    }
+
+    public function getStatusAttribute($value){
+        return $value === 'pending' ?
+            "Not accepted yet" : "Accepted by Admin";
     }
 }

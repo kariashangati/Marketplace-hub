@@ -117,6 +117,8 @@ export const Products = () => {
         localStorage.getItem("token"),
         dataNewProduct
       );
+      console.log(response);
+      
       setAddProductLoading(false);
       if (response.status === 200 && response.data.message) {
         setOpenCreateProduct(false);

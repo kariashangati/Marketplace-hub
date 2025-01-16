@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { AdminSideBar } from "../../layouts/AdminSideBar";
 import { LinearProgress } from "@mui/material";
-import { TrashIcon } from "@heroicons/react/24/outline";
+import { EyeIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { getreportProductsByPage } from "../../services/adminServices";
 import { ResultPagination } from "../../components/ui/ResultPagination";
 import { DeleteModal } from "../../components/modals/DeleteModal";
 import { Notification } from "../../components/ui/Notification";
 import { deleteProductById } from "../../services/productServices";
+import { useNavigate } from "react-router-dom";
 
 export const ReporteProducts = () => {
   const [reporteProductsList, setReporteProductsList] = useState([]);
@@ -18,6 +19,7 @@ export const ReporteProducts = () => {
   const [open, setOpen] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState();
   const [deleteLoading, setDeleteLoading] = useState(false);
+  const navigate = useNavigate()
 
   const getReporteProducts = async (page) => {
     setLoading(true);
@@ -126,6 +128,12 @@ export const ReporteProducts = () => {
                           <td>{product.totalReported}</td>
                           <td>
                             <div className="flex justify-center gap-2">
+                              <EyeIcon 
+                                className="w-8 h-8 text-green-600 cursor-pointer hover:text-green-800 duration-200"
+                                onClick={() => {
+                                  navigate(`/product/productDetails/${product.product_id}`);
+                                }}
+                              />
                               <TrashIcon
                                 className="w-8 h-8 text-red-600 cursor-pointer hover:text-red-800 duration-200"
                                 onClick={() => {
