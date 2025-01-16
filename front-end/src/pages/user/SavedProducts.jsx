@@ -13,33 +13,31 @@ export const SavedProducts = () => {
   const [notification, setNotification] = useState(null);
   const [selectedProductId, setSelectedProductId] = useState(0);
   const hasMore = useRef(true);
-  const loadingRef = useRef(false);
 
   const getSavedProducts = async (page) => {
-    if (loadingRef.current || !hasMore.current) return;
+    if (loading || !hasMore.current) return;
 
-    loadingRef.current = true;
     setLoading(true);
     try {
       const response = await viewSavedProducts(
         localStorage.getItem("token"),
         page
       );
-
       setLoading(false);
-      loadingRef.current = false;
 
-      if (response.data.savedProducts.data.length === 0) {
-        hasMore.current = false;
-        return;
-      }
       setSavedProductsList((prevSavedProductsList) => [
         ...prevSavedProductsList,
         ...response.data.savedProducts.data,
       ]);
+
+      if (response.data.savedProducts.last_page === page) {
+        console.log("hhhhh");
+        hasMore.current = false;
+        return;
+      }
     } catch (error) {
       setLoading(false);
-      loadingRef.current = false;
+
       if (error.response) {
         setNotification({ typeo: "error", message: error.response.message });
       }
@@ -50,7 +48,7 @@ export const SavedProducts = () => {
     const handleScroll = async () => {
       const isAtBottom =
         window.innerHeight + window.scrollY >= document.body.offsetHeight - 1;
-      if (isAtBottom && !loadingRef.current) {
+      if (isAtBottom && !loading && hasMore.current) {
         const nextPage = page + 1;
         setPage(nextPage);
         await getSavedProducts(nextPage);
@@ -60,10 +58,10 @@ export const SavedProducts = () => {
     window.addEventListener("scroll", handleScroll);
 
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [page]);
 
   useEffect(() => {
-    getSavedProducts(page);
+    getSavedProducts(1);
   }, []);
 
   useEffect(() => {

@@ -251,7 +251,7 @@ class ProductController extends Controller
             $user = JWTAuth::parseToken()->authenticate();
             $savedProducts = Save::where("user_id", $user->id)
                 ->with("product.store.user")
-                ->paginate(10);
+                ->paginate(5);
 
             return response()->json([
                 'savedProducts' => $savedProducts,
@@ -413,19 +413,19 @@ class ProductController extends Controller
         }
     }
 
-    public function getProductDetails(Request $request){
-        try{
-            $product = Product::where("id",$request->query("productId"))
-                    ->where("status","accepted")
-                    ->with("store.user")
-                    ->with("category")
-                    ->first();
+    public function getProductDetails(Request $request)
+    {
+        try {
+            $product = Product::where("id", $request->query("productId"))
+                ->where("status", "accepted")
+                ->with("store.user")
+                ->with("category")
+                ->first();
 
             return response()->json([
                 "product" => $product,
             ]);
-
-        }catch(Exception $ex){
+        } catch (Exception $ex) {
             return response()->json([
                 "message" => $ex->getMessage(),
             ]);
