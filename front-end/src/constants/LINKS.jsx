@@ -14,6 +14,7 @@ import {
   BookmarkIcon,
   MagnifyingGlassIcon,
   FolderIcon,
+  HomeIcon,
 } from "@heroicons/react/24/outline";
 
 
@@ -64,6 +65,11 @@ export const ADMINLINKS = [
 
 
 export const USERLINKS = [
+  {
+    SVG: <HomeIcon strokeWidth="1" className="w-10 h-10" />,
+    TEXT: "Home",
+    LINK: "/user/home",
+  },
   {
     SVG: <ShoppingBagIcon strokeWidth="1" className="w-10 h-10" />,
     TEXT: "Products",

@@ -13,7 +13,7 @@ export const AddProduct = ({ handleSubmitProduct,handleChangeProduct,handleChang
             Fill this inputs to create new product
           </p>
         </div>
-        <form onSubmit={handleSubmitProduct} className="mt-6 flex flex-col gap-3">
+        <form onSubmit={handleSubmitProduct} className="mt-6 flex flex-col gap-2">
             <div>
                 <Label text={"Product name"} />
                 <Input
@@ -90,27 +90,29 @@ export const AddProduct = ({ handleSubmitProduct,handleChangeProduct,handleChang
                   </select>
               </div>
             </div>
-            <div>
-                <Label text={"Product price"} />
-                <Input
-                    type="number"
-                    name={"price"}
-                    onChange={handleChangeProduct}
-                    placholder={'ex: 150 DH'}
-                    border="gray-300"
-                    text="black"
-                />
-            </div>
-            <div>
-                <Label text={"location"} />
-                <Input
-                    type="text"
-                    name={"location"}
-                    onChange={handleChangeProduct}
-                    placholder={'ex: Tiznit'}
-                    border="gray-300"
-                    text="black"
-                />
+            <div className="flex flex-row justify-between">
+              <div>
+                  <Label text={"Product price"} />
+                  <Input
+                      type="number"
+                      name={"price"}
+                      onChange={handleChangeProduct}
+                      placholder={'ex: 150 DH'}
+                      border="gray-300"
+                      text="black"
+                  />
+              </div>
+              <div>
+                  <Label text={"location"} />
+                  <Input
+                      type="text"
+                      name={"location"}
+                      onChange={handleChangeProduct}
+                      placholder={'ex: Tiznit'}
+                      border="gray-300"
+                      text="black"
+                  />
+              </div>
             </div>
           
           <div className="flex justify-end gap-4 mt-6">

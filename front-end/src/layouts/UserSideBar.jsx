@@ -5,6 +5,7 @@ import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline";
 import { logout } from "../services/authServices";
 import { useState } from "react";
 import { CircularProgress } from "@mui/material";
+import projectLogo from "../../public/assets/projectLogo.png";
 export const UserSideBar = () => {
   const navigate = useNavigate();
   const [loading,setLoading] = useState(false);
@@ -19,7 +20,8 @@ export const UserSideBar = () => {
     }
   }
   return (
-    <div className="flex flex-row w-[100%] py-2 gap-2 mx-auto flex-wrap justify-center z-10 bottom-0 lg:flex-col lg:justify-center lg:gap-2 lg:w-[20%] bg-dark lg:h-full fixed lg:px-6">
+    <div className="flex flex-row w-[100%] gap-2 flex-wrap justify-center z-10 bottom-0 lg:flex-col lg:justify-start lg:gap-2 lg:w-[20%] bg-dark lg:h-full fixed lg:px-6">
+      <img src={projectLogo} className="w-[100%] hidden lg:block mb-8"/>
       {USERLINKS && USERLINKS.length
         ? USERLINKS.map((link) => {
             return (

@@ -21,6 +21,7 @@ import { StoreData } from "./pages/user/StoreData";
 import { History } from "./pages/user/History";
 import { Search } from "./pages/user/Search";
 import { ProductDetails } from "./pages/user/ProductDetails";
+import { Home } from "./pages/user/Home";
 
 const PageBasedOnRole = () =>{
     
@@ -45,6 +46,7 @@ export const App = () => {
       <Route path={"/password-reset/:token"} element={<ResetPassword />} />
 
       <Route element={<UserRoutes />}>
+        <Route path="/user/home" element={<Home />} />
         <Route path="/user/products" element={<Products />} />
         <Route path="/user/userData/:id" element={<UserData />} />
         <Route path="/user/saves" element={<SavedProducts />} />
