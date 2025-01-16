@@ -15,7 +15,7 @@ const verifyToken = async (request,response,next) =>{
         })
 
         if(responseFromLaravel.status === 200){
-            request.id = responseFromLaravel.data.user.id;
+            request.userId = responseFromLaravel.data.user.id;
             next();
         }
     } catch (error) {

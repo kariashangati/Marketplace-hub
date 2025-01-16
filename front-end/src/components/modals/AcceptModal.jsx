@@ -7,7 +7,7 @@ export const AcceptModal = ({
   loading,
 }) => {
   return (
-    <div className="z-20 fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="z-20 fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-md">
       <div className="bg-white px-10 py-6 rounded-md shadow-lg">
         <div>
           <h1 className="text-2xl font-semibold text-black">

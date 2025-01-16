@@ -32,6 +32,6 @@ class Product extends Model
     public function getDelivryAttribute($value){
         return $value === 1?
             "Possible deleivry"
-            :"Impossible deleivy";
+            :"Impossible deleivry";
     }
 }
