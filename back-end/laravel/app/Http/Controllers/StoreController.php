@@ -16,9 +16,9 @@ class StoreController extends Controller
             $user = JWTAuth::parseToken()->authenticate();
 
             $store = Store::where("id", $id)
-                            ->with("user")
-                            ->with("products")
-                            ->first();
+                ->with("user")
+                ->with("products")
+                ->first();
 
             if ($store) {
                 return response()->json([
@@ -156,7 +156,8 @@ class StoreController extends Controller
     }
 
 
-    public function createStore(Request $request){
+    public function createStore(Request $request)
+    {
         try {
 
             $request->validate([
@@ -178,7 +179,34 @@ class StoreController extends Controller
             return response()->json([
                 "message" => "New store created successfully!",
             ]);
+        } catch (Exception $ex) {
+            return response()->json([
+                "message" => $ex->getMessage()
+            ]);
+        }
+    }
 
+    public function updateStore(Request $request, $id)
+    {
+        try {
+            $newStoreName = $request->input('storeName');
+            $newBio = $request->input('bio');
+
+            $store = Store::find($id);
+
+            if ($store) {
+                $store->storeName = $newStoreName;
+                $store->bio = $newBio;
+                $store->save();
+
+                return response()->json([
+                    "message" => "Update store is successfully!"
+
+                ]);
+            }
+            return response()->json([
+                "message" => "Store not found"
+            ]);
         } catch (Exception $ex) {
             return response()->json([
                 "message" => $ex->getMessage()

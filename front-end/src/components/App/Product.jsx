@@ -1,31 +1,29 @@
-import {
-  BookmarkIcon,
-  BookmarkSlashIcon,
-  EllipsisHorizontalIcon,
-  EllipsisVerticalIcon,
-  FlagIcon,
-  HandThumbUpIcon,
-} from "@heroicons/react/24/outline";
+import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
+
+import * as React from "react";
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+
 import storeLogo from "../../../public/assets/storeLogo.png";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 
 export const Product = ({
+  deleteSaved,
   productData,
   viewUser,
   methodSaved,
   methodReported,
 }) => {
   const navigate = useNavigate();
-  const [viewMenu, setViewMenu] = useState(true);
-
-  const handleClick = () => {
-    if (viewMenu) {
-      setViewMenu(false);
-    } else {
-      setViewMenu(true);
-    }
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   return (
@@ -38,21 +36,78 @@ export const Product = ({
         />
       </div>
       <div className="w-[75%]">
-        <div className="flex gap-1 items-center">
-          <img
-            src={productData.store.user.profile_picture}
-            className="w-8 h-8 rounded-full object-cover"
-            alt="User Profile"
-          />
-          <span
-            className="font-semibold cursor-pointer hover:text-blue-300 duration-200"
-            onClick={() =>
-              navigate(`/user/userData/${productData.store.user.id}`)
-            }
-          >
-            {productData.store.user.username}
-          </span>
+        <div className="flex justify-between">
+          <div className="flex gap-1 items-center">
+            <img
+              src={productData.store.user.profile_picture}
+              className="w-8 h-8 rounded-full object-cover"
+              alt="User Profile"
+            />
+            <span
+              className="font-semibold cursor-pointer hover:text-blue-300 duration-200"
+              onClick={() =>
+                navigate(`/user/userData/${productData.store.user.id}`)
+              }
+            >
+              {productData.store.user.username}
+            </span>
+          </div>
+          <div>
+            <Button
+              id="basic-button"
+              aria-controls={open ? "basic-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? "true" : undefined}
+              onClick={handleClick}
+            >
+              <EllipsisVerticalIcon className="w-8 h-8 text-white cursor-pointer hover:text-gray-400 duration-200" />
+            </Button>
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              MenuListProps={{
+                "aria-labelledby": "basic-button",
+              }}
+            >
+              {viewUser ? (
+                <span>
+                  <MenuItem
+                    onClick={() => {
+                      methodSaved(productData.id);
+                      handleClose();
+                    }}
+                  >
+                    Save
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      methodReported(productData.id);
+                      handleClose();
+                    }}
+                  >
+                    Report
+                  </MenuItem>
+                </span>
+              ) : (
+                <MenuItem
+                  onClick={() => {
+                    deleteSaved(productData.id);
+                    handleClose();
+                  }}
+                >
+                  Remove
+                </MenuItem>
+              )}
+
+              {/* <span className={!viewUser ? "hidden" : null}>
+                <MenuItem onClick={handleClose}>Report</MenuItem>
+              </span> */}
+            </Menu>
+          </div>
         </div>
+
         <div className="mt-2">
           <h1 className="text-2xl font-semibold">{productData.productName}</h1>
           <p>{productData.description}</p>
@@ -70,64 +125,9 @@ export const Product = ({
             <span className="text-gray-400">{productData.location}</span>
           </div>
           <div className="mt-2 flex justify-between ">
-            <div>
-              <span className="text-2xl font-semibold">
-                {productData.price} dh
-              </span>
-            </div>
-
-            <ul className="flex justify-between relative">
-              <li>
-                <HandThumbUpIcon className="w-8 h-8 cursor-pointer hover:text-gray-400 duration-200" />
-              </li>
-
-              <li>
-                {viewMenu ? (
-                  <EllipsisHorizontalIcon
-                    onClick={handleClick}
-                    className="w-8 h-8 cursor-pointer hover:text-gray-400 duration-200"
-                  />
-                ) : (
-                  <EllipsisVerticalIcon
-                    onClick={handleClick}
-                    className="w-8 h-8 cursor-pointer hover:text-gray-400 duration-200"
-                  />
-                )}
-              </li>
-
-              <ul className={viewMenu ? "hidden" : "flex justify-between "}>
-                <li>
-                  {viewUser ? (
-                    <BookmarkIcon
-                      className="w-8 h-8 cursor-pointer hover:text-gray-400 duration-200"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        methodSaved(productData.id);
-                      }}
-                    />
-                  ) : (
-                    <BookmarkSlashIcon
-                      className="w-8 h-8 cursor-pointer hover:text-gray-400 duration-200"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        methodSaved(productData.id);
-                      }}
-                    />
-                  )}
-                </li>
-                {viewUser && (
-                  <li>
-                    <FlagIcon
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        methodReported(productData.id);
-                      }}
-                      className="w-8 h-8 text-red-500 cursor-pointer hover:text-red-700 duration-200"
-                    />
-                  </li>
-                )}
-              </ul>
-            </ul>
+            <span className="text-2xl font-semibold">
+              {productData.price} dh
+            </span>
           </div>
         </div>
       </div>

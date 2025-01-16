@@ -28,7 +28,7 @@ Route::prefix("auth")->group(function () {
     Route::post("/checkVerificationCode", [AuthController::class, "checkVerificationCode"]); // checks the verification code if correct
     Route::post("/forgotPassword", [AuthController::class, "sendForgotPasswordLink"]); // send a reset link for user who forgot password
     Route::post("/resetPassword", [AuthController::class, "resetPassword"]); // checks if the token is valid and reset the password
-    Route::post("/logout", [AuthController::class,"logout"]);
+    Route::post("/logout", [AuthController::class, "logout"]);
 });
 
 
@@ -83,6 +83,7 @@ Route::prefix("store")->group(function () {
     Route::get("/getStoresData/{id}", [StoreController::class, "getStoresData"]); // get store created for user. only user authenticated can edit his profile
     Route::get("/getStoresUser/{id}", [StoreController::class, "getStoresUser"]);
     Route::post("/createStore", [StoreController::class, "createStore"]);
+    Route::put("/updateStore/{store_id}", [StoreController::class, "updateStore"])->middleware(CheckAuthentication::class);;
 });
 
 
@@ -93,7 +94,7 @@ Route::prefix("search")->middleware(CheckAuthentication::class)->group(function 
 });
 
 
-Route::prefix("suggesstion")->middleware(CheckAuthentication::class)->group(function(){
+Route::prefix("suggesstion")->middleware(CheckAuthentication::class)->group(function () {
     Route::get("/topUsers", [SuggetionsSearchController::class, "getTopUsers"]); // get top users posts products
     Route::get("/searchByQuery", [SuggetionsSearchController::class, "searchByQuery"]); // search for users and products
 });

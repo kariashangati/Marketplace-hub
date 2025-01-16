@@ -103,27 +103,16 @@ export const UserData = () => {
         )}
         {Sloading ? (
           <div className="py-2 flex flex-wrap justify-start gap-4">
-            <StoreSkeleton />
-            <StoreSkeleton />
-            <StoreSkeleton />
-            <StoreSkeleton />
-            <StoreSkeleton />
-            <StoreSkeleton />
-            <StoreSkeleton />
-            <StoreSkeleton />
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
+              <StoreSkeleton key={n} />
+            ))}
           </div>
         ) : null}
         {!Sloading && (
           <div className="py-2 flex flex-wrap gap-4 justify-start">
             {storesData && storesData.length
               ? storesData.map((storeData) => {
-                  return (
-                    <Store
-                      key={storeData.id}
-                      storeData={storeData}
-                      viewUser={true}
-                    />
-                  );
+                  return <Store key={storeData.id} storeData={storeData} />;
                 })
               : "This user doesn't any stores"}
           </div>

@@ -16,7 +16,7 @@ import { DeleteModal } from "../../components/modals/DeleteModal";
 export const Products = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [notification, setNotification] = useState({});
   const [page, setPage] = useState(1);
   const [selectedProductId, setSelectedProductId] = useState(0);
@@ -24,9 +24,12 @@ export const Products = () => {
   const [open, setOpen] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [messageAlert, setMessageAlert] = useState({});
+  const [counterReported, setCounterReported] = useState(0);
+  const [counterSaved, setCounterSaved] = useState(0);
+
   const filtered = useRef(false);
   const hasMore = useRef(true);
-  const loadingRef = useRef(false);
+
   const [data, setData] = useState({
     category_id: 0,
     price: "",
@@ -42,17 +45,14 @@ export const Products = () => {
   };
 
   const getProducts = async (page) => {
-    if (loadingRef.current || !hasMore.current) return;
+    if (loading || !hasMore.current) return;
 
-    loadingRef.current = true;
-    setLoading(true);
     try {
+      setLoading(true);
       const response = await getAllProducts(page);
       setLoading(false);
 
-      loadingRef.current = false;
-
-      if (response.data.products.data.length === 0) {
+      if (response.data.products.last_page === page) {
         hasMore.current = false;
         return;
       }
@@ -63,7 +63,7 @@ export const Products = () => {
       ]);
     } catch (error) {
       setLoading(false);
-      loadingRef.current = false;
+
       if (error.response) {
         setNotification({ type: "error", message: error.response.message });
       } else {
@@ -94,42 +94,45 @@ export const Products = () => {
     const handleScroll = async () => {
       const isAtBottom =
         window.innerHeight + window.scrollY >= document.body.offsetHeight - 1;
-      if (isAtBottom && !loadingRef.current && !filtered.current) {
+
+      if (isAtBottom && !loading && !filtered.current && hasMore.current) {
         const nextPage = page + 1;
-        setPage(nextPage);
-        await getProducts(nextPage);
+        setPage((prevState) => prevState + 1);
+        getProducts(nextPage);
       }
     };
 
     window.addEventListener("scroll", handleScroll);
 
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [page, loading]);
 
   useEffect(() => {
     getCategories();
-    getProducts(page);
+    getProducts(1);
   }, []);
 
   const getProductsFiltrer = async (data) => {
-    setNotification(null);
-    setLoading(true);
-    filtered.current = true;
-    if (loadingRef.current || !hasMore.current) return;
-    loadingRef.current = true;
+    hasMore.current = true;
+
+    if (loading || !hasMore.current) return;
+
     try {
+      setNotification(null);
+      setProducts([]);
+      setLoading(true);
       const response = await getProductsBy(localStorage.getItem("token"), data);
       setLoading(false);
-      loadingRef.current = false;
 
-      if (response.data.products.length === 0) {
+      setProducts(response.data.products.data);
+
+      if (response.data.products.last_page === page) {
         hasMore.current = false;
         return;
       }
-      setProducts(() => [...response.data.products.data]);
     } catch (error) {
       setLoading(false);
-      loadingRef.current = false;
+
       if (error.response) {
         setNotification({ type: "error", message: error.response.message });
       } else {
@@ -146,6 +149,7 @@ export const Products = () => {
           localStorage.getItem("token"),
           productId
         );
+
         setNotification({ type: "success", message: response.data.message });
       } catch (error) {
         setLoading(false);
@@ -156,11 +160,10 @@ export const Products = () => {
         }
       }
     };
-    if (selectedProductId !== 0) {
+    if (counterSaved !== 0) {
       saveProduct(selectedProductId);
-      setSelectedProductId(0);
     }
-  }, [selectedProductId]);
+  }, [counterSaved]);
 
   useEffect(() => {
     const reportedProduct = async (productId) => {
@@ -171,6 +174,7 @@ export const Products = () => {
           localStorage.getItem("token"),
           productId
         );
+
         if (response.status == 201) {
           setOpen(true);
           setMessageAlert(response.data);
@@ -187,10 +191,10 @@ export const Products = () => {
       }
     };
 
-    if (selectedReportedProductId !== 0) {
+    if (counterReported !== 0) {
       reportedProduct(selectedReportedProductId);
     }
-  }, [selectedReportedProductId]);
+  }, [counterReported]);
 
   const deleteReportedProduct = async (productId) => {
     setDeleteLoading(true);
@@ -258,7 +262,7 @@ export const Products = () => {
               <option value={0}>Impossible delivry</option>
             </select>
             <Button
-              type={"submit"}
+              type="button"
               width={"15%"}
               text={"Filter"}
               bg={"bg-green-700"}
@@ -269,22 +273,30 @@ export const Products = () => {
           </div>
         </div>
         <div className="flex flex-col gap-2 flex-wrap">
-          {products && products.length
-            ? products.map((product) => {
-                return (
-                  <Product
-                    viewUser
-                    methodReported={(productId) => {
-                      setSelectedReportedProductId(productId);
-                    }}
-                    methodSaved={(productId) => {
-                      setSelectedProductId(productId);
-                    }}
-                    productData={product}
-                  />
-                );
-              })
-            : "No products founded!"}
+          {products &&
+            products.length > 0 &&
+            products.map((product) => {
+              return (
+                <Product
+                  viewUser
+                  methodReported={(productId) => {
+                    setSelectedReportedProductId(productId);
+
+                    setCounterReported((preState) => {
+                      return (preState = preState + 1);
+                    });
+                  }}
+                  methodSaved={(productId) => {
+                    setSelectedProductId(productId);
+                    setCounterSaved((preState) => {
+                      return (preState = preState + 1);
+                    });
+                  }}
+                  productData={product}
+                />
+              );
+            })}
+          {!loading && products.length === 0 && <p>No products founded!</p>}
         </div>
         <div className="mt-4">
           {loading ? (
@@ -310,9 +322,9 @@ export const Products = () => {
               loading={deleteLoading}
               setOpen={setOpen}
               contenuMessage={messageAlert.message}
-              deleteItem={() =>
-                deleteReportedProduct(selectedReportedProductId)
-              }
+              deleteItem={() => {
+                deleteReportedProduct(selectedReportedProductId);
+              }}
             />
           )}
         </div>

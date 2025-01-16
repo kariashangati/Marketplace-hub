@@ -131,7 +131,7 @@ class ProductController extends Controller
                 $save->delete();
                 return response()->json([
                     'message' => 'This product is already save. He deleted something in the saves'
-                ]);
+                ], 201);
             }
 
             Save::create([

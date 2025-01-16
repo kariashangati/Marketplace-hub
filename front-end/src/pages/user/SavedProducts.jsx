@@ -115,7 +115,7 @@ export const SavedProducts = () => {
               ? savedProductsList.map((savedProduct) => {
                   return (
                     <Product
-                      deleteItem={(productId) => {
+                      deleteSaved={(productId) => {
                         setSelectedProductId(productId);
                       }}
                       viewUser={false}

@@ -1,9 +1,23 @@
-import { Cog6ToothIcon, TrashIcon } from "@heroicons/react/24/outline";
+import {
+  Cog6ToothIcon,
+  Cog8ToothIcon,
+  TrashIcon,
+} from "@heroicons/react/24/outline";
 import storeLogo from "../../../public/assets/storeLogo.png";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
-export const Store = ({ setSelectedStoreId, storeData, viewUser, setOpen, setOpenUpdate }) => {
+
+export const Store = ({
+  setSelectedStoreId,
+  storeData,
+  viewUser,
+  setOpen,
+
+  setupdateOpen,
+  setStoreData,
+}) => {
   const navigate = useNavigate();
+
   return (
     <div
       className="bg-dark my-3.5 px-3 py-2 rounded-md w-[100%] cursor-pointer lg:mb-0 lg:w-[48%] hover:bg-black duration-200"
@@ -21,12 +35,27 @@ export const Store = ({ setSelectedStoreId, storeData, viewUser, setOpen, setOpe
             </span>
           </div>
         </div>
-        {viewUser ? null : (
+        {viewUser ? (
           <div className="flex gap-1">
-            <TrashIcon className="w-8 h-8 text-red-500 cursor-pointer hover:text-red-700 duration-200" 
-            onClick={(e) => {e.stopPropagation(); setSelectedStoreId(storeData.id);setOpen(true)}}/>
+            <Cog8ToothIcon
+              onClick={(e) => {
+                e.stopPropagation();
+
+                setupdateOpen(true);
+                setStoreData(storeData);
+              }}
+              className="w-8 h-8 text-sky-500 cursor-pointer hover:text-sky-700 duration-200"
+            />
+            <TrashIcon
+              className="w-8 h-8 text-red-500 cursor-pointer hover:text-red-700 duration-200"
+              onClick={(e) => {
+                e.stopPropagation();
+                setSelectedStoreId(storeData.id);
+                setOpen(true);
+              }}
+            />
           </div>
-        )}
+        ) : null}
       </div>
       <div className="mt-2">
         <p className="text-gray-500 font-semibold text-sm">

@@ -15,64 +15,66 @@ import { ProductSkeleton } from "../../components/skeletons/ProductSkeleton";
 import { getProductsByStore } from "../../services/productServices";
 
 export const StoreData = () => {
-    const [storeData, setStoreData] = useState([]);
-    const [storeProducts,setStoreProducts] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [notification, setNotification] = useState({});
-    const { id } = useParams();
-    const navigate = useNavigate();
+  const [storeData, setStoreData] = useState([]);
+  const [storeProducts, setStoreProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [notification, setNotification] = useState({});
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-    const getStoreData = async () => {
-        setNotification(null);
-        setLoading(true);
-        try {
-            const response = await getStore(localStorage.getItem("token"), id);
-            setLoading(false);
-            
-            if(response.data.store){                
-                setStoreData(response.data.store);
-            }
-        } catch (error) {
-            setLoading(false)
-            if (error.response) {
-                setNotification({
-                type: "error",
-                message: error.response.data.message,
-                });
-            } else {
-                setNotification({ type: "error", message: "Try again later" });
-            }
-        }
-    };
+  const getStoreData = async () => {
+    setNotification(null);
+    setLoading(true);
+    try {
+      const response = await getStore(localStorage.getItem("token"), id);
+      setLoading(false);
 
-    const getProductsByStoreId = async () =>{
-      setNotification(null);
-      setLoading(true);
-      try {
-          const response = await getProductsByStore(localStorage.getItem("token"), id);
-          setLoading(false);
-          console.log(response);
-          
-          if(response.data.products){                
-              setStoreProducts(response.data.products);
-          }
-      } catch (error) {
-          setLoading(false)
-          if (error.response) {
-              setNotification({
-              type: "error",
-              message: error.response.data.message,
-              });
-          } else {
-              setNotification({ type: "error", message: "Try again later" });
-          }
+      if (response.data.store) {
+        setStoreData(response.data.store);
+      }
+    } catch (error) {
+      setLoading(false);
+      if (error.response) {
+        setNotification({
+          type: "error",
+          message: error.response.data.message,
+        });
+      } else {
+        setNotification({ type: "error", message: "Try again later" });
       }
     }
+  };
 
-    useEffect(() => {
-        getStoreData();
-        getProductsByStoreId()
-    }, []);
+  const getProductsByStoreId = async () => {
+    setNotification(null);
+    setLoading(true);
+    try {
+      const response = await getProductsByStore(
+        localStorage.getItem("token"),
+        id
+      );
+      setLoading(false);
+
+      if (response.data.products) {
+        setStoreProducts(response.data.products);
+      }
+    } catch (error) {
+      setLoading(false);
+      if (error.response) {
+        setNotification({
+          type: "error",
+          message: error.response.data.message,
+        });
+      } else {
+        setNotification({ type: "error", message: "Try again later" });
+      }
+    }
+  };
+
+  useEffect(() => {
+    getStoreData();
+    getProductsByStoreId();
+  }, []);
 
   return (
     <div>
@@ -96,20 +98,24 @@ export const StoreData = () => {
             <div>
               <div className="flex gap-4 items-center">
                 <div>
-                  <img
-                    src={storeLogo}
-                    className="w-20 h-20 rounded-md"
-                  />
+                  <img src={storeLogo} className="w-20 h-20 rounded-md" />
                 </div>
                 <div className="flex justify-start flex-col">
                   <span className="text-2xl font-semibold">
                     {storeData.storeName}
                   </span>
                   <span className="font-semibold text-gray-700">
-                    Created by <Link className="text-blue-600" to={`/user/userData/${storeData.user.id}`}>{storeData.user.username}</Link>
+                    Created by{" "}
+                    <Link
+                      className="text-blue-600"
+                      to={`/user/userData/${storeData.user.id}`}
+                    >
+                      {storeData.user.username}
+                    </Link>
                   </span>
                   <span className="font-semibold text-gray-700">
-                    Created at {moment(storeData.created_at).format("DD-MM-YYYY")}
+                    Created at{" "}
+                    {moment(storeData.created_at).format("DD-MM-YYYY")}
                   </span>
                 </div>
               </div>
@@ -138,6 +144,7 @@ export const StoreData = () => {
               ? storeProducts.map((productData) => {
                   return (
                     <Product
+                      viewUser
                       key={productData.id}
                       productData={productData}
                     />

@@ -73,12 +73,27 @@ export const viewSavedProducts = async (token, page) => {
   return response;
 };
 
+export const getTopUsersSer = async (token) => {
+  const response = await axios.get(
+    "http://localhost:8000/api/suggesstion/topUsers",
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response;
+};
 
-export const getTopUsersSer = async (token) =>{
-    const response = await axios.get("http://localhost:8000/api/suggesstion/topUsers",{
-      headers:{
-        "Authorization" : `Bearer ${token}`,
-      }
-    });
-    return response;
-}
+export const storeUpdate = async (token, data) => {
+  const response = await axios.put(
+    `http://localhost:8000/api/store/updateStore/${data.id}`,
+    { storeName: data.storeName, bio: data.bio },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response;
+};
