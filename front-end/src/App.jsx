@@ -22,13 +22,14 @@ import { History } from "./pages/user/History";
 import { Search } from "./pages/user/Search";
 import { ProductDetails } from "./pages/user/ProductDetails";
 import { Home } from "./pages/user/Home";
+import { Notifications } from "./pages/user/Notifications";
 
 const PageBasedOnRole = () =>{
     
   if(localStorage.getItem("role") === 'admin' || localStorage.getItem("role") === 'super admin'){
     return <Navigate to={'/admin/dashboard'} />
   }else if(localStorage.getItem("role") === 'user'){
-    return <Navigate to={'/user/products'} />
+    return <Navigate to={'/user/home'} />
   }
 
   return <Navigate to={'/login'}/>
@@ -55,6 +56,7 @@ export const App = () => {
         <Route path="/user/history" element={<History />} />
         <Route path="/user/search" element={<Search />} />
         <Route path="/product/productDetails/:id" element={<ProductDetails />} />
+        <Route path="/user/notifications" element={<Notifications />} />
       </Route>
 
       <Route element={<AdminRoutes />}>

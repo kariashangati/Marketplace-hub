@@ -13,6 +13,7 @@ import {
 } from "../../services/adminServices";
 import { Notification } from "../../components/ui/Notification";
 import { AcceptModal } from "../../components/modals/AcceptModal";
+import { postNotification } from "../../services/notificationServices";
 
 export const PendingProducts = () => {
   const [pendingProductsList, setPendingProductsList] = useState([]);
@@ -24,6 +25,7 @@ export const PendingProducts = () => {
   const [total, setTotal] = useState(0);
   const [open, setOpen] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState(0);
+  const [productOwnerId,setProductOwnerId] = useState(0);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -98,14 +100,23 @@ export const PendingProducts = () => {
     }
   };
 
-  const acceptPendingProduct = async (productId) => {
+  const acceptPendingProduct = async (productId,receiverId) => {
     setNotification(null);
     setDeleteLoading(true);
     try {
+
       const response = await acceptedPendingProduct(
         localStorage.getItem("token"),
         productId
       );
+      
+      const data = new FormData();
+      data.append("productId",productId);
+      data.append("notificationContent","Accepted your product!");
+      data.append("receiverId",receiverId);
+
+      await postNotification(localStorage.getItem('token'),data);
+
       setDeleteLoading(false);
       setOpenAccept(false);
       setNotification({ message: response.data.message, type: "success" });
@@ -177,7 +188,8 @@ export const PendingProducts = () => {
                               <CheckCircleIcon
                                 onClick={() => {
                                   setOpenAccept(true),
-                                    setSelectedProductId(product.id);
+                                    setSelectedProductId(product.id),
+                                    setProductOwnerId(product.store.user.id);
                                 }}
                                 className="w-8 h-8 text-green-600 cursor-pointer hover:text-green-800 duration-200"
                               />
@@ -190,7 +202,7 @@ export const PendingProducts = () => {
                               <TrashIcon
                                 onClick={() => {
                                   setOpen(true),
-                                    setSelectedProductId(product.id);
+                                    setSelectedProductId(product.id)
                                 }}
                                 className="w-8 h-8 text-red-600 cursor-pointer hover:text-red-800 duration-200"
                               />
@@ -228,7 +240,7 @@ export const PendingProducts = () => {
               itemType={"product"}
               loading={deleteLoading}
               deleteItem={() => {
-                acceptPendingProduct(selectedProductId);
+                acceptPendingProduct(selectedProductId,productOwnerId);
               }}
             />
           )}
