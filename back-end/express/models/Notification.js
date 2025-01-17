@@ -7,6 +7,7 @@ const notificationShema = new mongoose.Schema({
     productId : {type: String, required:true},
     receiverId : {type:Number, required:true},
     notificationContent : {type:String, required:true},
-},{timestamps:true});
+    createdAt: { type: Date, default: Date.now, index: { expires: '10d' } } // 10 days TTL
+});
 
 module.exports = mongoose.model("Notification",notificationShema);

@@ -1,8 +1,11 @@
 const express = require("express");
-const { getNotifications } = require("../controllers/notificationController");
-
+const multer = require("multer")
+const { getNotifications,postNotification } = require("../controllers/notificationController");
+const upload = multer();
 const router = express.Router()
 
+
 router.get("/getNotifications",getNotifications);
+router.post("/postNotification",upload.none(),postNotification);
 
 module.exports = router;
