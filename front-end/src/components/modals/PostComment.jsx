@@ -1,7 +1,7 @@
 import { Label } from '../ui/Label'
 import { Button } from '../ui/Button'
 
-export const PostComment = ({ handleSubmit,handleChange,setOpenPostComment, loading }) => {
+export const PostComment = ({ handleSubmit,comment,handleChange,setOpenPostComment, loading }) => {
   return (
     <div className="z-20 fixed inset-0 flex items-center text-gray-700 justify-center bg-black backdrop-blur-md bg-opacity-50">
       <div className="bg-white w-full max-w-md px-8 py-6 rounded-lg shadow-xl">
@@ -14,7 +14,7 @@ export const PostComment = ({ handleSubmit,handleChange,setOpenPostComment, load
         <form className="mt-6" onSubmit={handleSubmit}>
             <div>
                 <Label text={"Comment max:300chars"} /><br></br>
-                <textarea name="bio" placeholder='ex: I like this product!' maxLength={"ex: I like it!"} required={false} onChange={handleChange} className="w-[100%] px-3 py-1 outline-none border border-gray-300 resize-none"></textarea>
+                <textarea required value={comment} placeholder='ex: I like this product!' maxLength={"300"} onChange={handleChange} className="w-[100%] px-3 py-1 outline-none border border-gray-300 resize-none"></textarea>
             </div>
           
           <div className="flex justify-end gap-4 mt-6">

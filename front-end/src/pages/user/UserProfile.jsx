@@ -221,6 +221,7 @@ export const UserProfile = () => {
       setUpdateStoreLoading(false);
       setOpenUpdateStore(false);
       setNotification({ type: "success", message: response.data.message });
+      await getUserStores()
     } catch (error) {
       setUpdateStoreLoading(false);
       if (error.response) {

@@ -9,6 +9,7 @@ import { getSearchData, postSearch } from "../../services/searchServices";
 import { SearchedUser } from "../../components/App/SearchedUser";
 import { Product } from "../../components/App/Product";
 import { ProductSkeleton } from "../../components/skeletons/ProductSkeleton";
+import { LinearProgress } from "@mui/material";
 
 export const Search = () => {
   const [loading, setLoading] = useState(true);
@@ -74,13 +75,9 @@ export const Search = () => {
             />
           </form>
           {loading ? (
-            <>
-              <SingleUserDataSkeleton height={"16"} />
-              <SingleUserDataSkeleton height={"16"} />
-              <SingleUserDataSkeleton height={"16"} />
-              <SingleUserDataSkeleton height={"16"} />
-              <SingleUserDataSkeleton height={"16"} />
-            </>
+            <div className="mt-2">
+              <LinearProgress />
+            </div>
           ) : null}
           {!loading && !searched.current ? (
             <div className="mt-6">

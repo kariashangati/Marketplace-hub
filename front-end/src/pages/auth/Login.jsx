@@ -37,13 +37,11 @@ export const Login = () => {
         ) {
           localStorage.setItem("token", response.data.token);
           localStorage.setItem("role", response.data.role);
-          localStorage.setItem("user", JSON.stringify(response.data.userData));
           navigate("/admin/dashboard");
         } else if (response.data.role === "user") {
           localStorage.setItem("token", response.data.token);
           localStorage.setItem("role", response.data.role);
-          localStorage.setItem("user", JSON.stringify(response.data.userData));
-          navigate("/user/products");
+          navigate("/user/home");
         }
       }
     } catch (error) {

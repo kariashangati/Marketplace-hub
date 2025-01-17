@@ -9,19 +9,8 @@ const verifyToken = async (request,response,next) =>{
     const token = auth.split(' ')[1];
 
     try {
-        // const responseFromLaravel = await axios.get("http://localhost:8000/api/validateToken",{
-        //     headers:{
-        //         "Authorization" : `Bearer ${token}`
-        //     }
-        // })
         const decoded = jwt.verify(token,process.env.JWT_SECRET)
 
-        // if(responseFromLaravel.status === 200){
-        //     request.userId = responseFromLaravel.data.user.id;
-        //     request.username = responseFromLaravel.data.user.username;
-        //     request.profile_picture = responseFromLaravel.data.user.profile_picture;
-        //     next();
-        // }
         request.userId = decoded.sub;
         request.username = decoded.username;
         request.profile_picture = decoded.profilePicture;

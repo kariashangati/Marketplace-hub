@@ -8,7 +8,7 @@ import { SearchSkeleton } from "../../components/skeletons/SearchSkeleton";
 
 export const History = () => {
   const [searches , setSearches] = useState([]);
-  const [loading , setLoading] = useState(false);
+  const [loading , setLoading] = useState(true);
 
   
   
@@ -22,14 +22,6 @@ export const History = () => {
         }
       } catch (error) {
         setLoading(false)
-        if (error.response) {
-          setNotification({
-            type: "error",
-            message: error.response.data.message,
-          });
-        } else {
-          setNotification({ type: "error", message: "Try again later" });
-        }
       }
   };
   const deleteSearches = async (id) => {
@@ -69,21 +61,26 @@ export const History = () => {
             <h1 className="text-3xl font-semibold">Your history</h1>
             <div className="flex flex-col lg:flex-wrap lg:flex-row gap-[1%]">
               {
-                searches && searches.length ? 
-                searches.map((search)=>{
-                  return(
-                    <div className="mt-6  gap-4 bg-dark w-[100%] lg:w-[24%] mb-2 px-2 h-32 py-1">
-                      <div className=" flex justify-between items-center mt-6">
-                        <div><h2 key={search.id} className="text-white px-10 text-xl">{search.query}</h2></div>
-                        <div><TrashIcon className=" h-8 text-red-600 cursor-pointer hover:text-red-800 duration-200" onClick={()=>deleteSearches(search.id)}/></div>
-                      </div>
-                      <div className="w[100%] flex justify-end mt-9">
-                        <h6 className="text-sm text-gray-500 font-semibold">{moment(search.created_at).format("DD-MM-YYYY")}</h6>
-                      </div>
-                    </div>
-                  )
-                })
-                :null
+                !loading &&
+                <>
+                  {
+                    searches && searches.length ? 
+                      searches.map((search)=>{
+                        return(
+                          <div className="mt-6  gap-4 bg-dark w-[100%] lg:w-[24%] mb-2 px-2 h-32 py-1">
+                            <div className=" flex justify-between items-center mt-6">
+                              <div><h2 key={search.id} className="text-white text-xl">{search.query}</h2></div>
+                              <div><TrashIcon className=" h-8 text-red-600 cursor-pointer hover:text-red-800 duration-200" onClick={()=>deleteSearches(search.id)}/></div>
+                            </div>
+                            <div className="w[100%] flex justify-end mt-9">
+                              <h6 className="text-sm text-gray-500 font-semibold">{moment(search.created_at).format("DD-MM-YYYY")}</h6>
+                            </div>
+                          </div>
+                        )
+                      })
+                      :<p className="mt-2 font-semibold">No history goes here</p>
+                  }
+                </>
               }
               {
                 loading ?

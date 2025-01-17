@@ -2,7 +2,7 @@ import { AdminSideBar } from '../../layouts/AdminSideBar'
 import { UserSideBar } from '../../layouts/UserSideBar'
 import testImage from '../../../public/assets/storeLogo.png'
 import userImage from '../../../public/assets/userDefaultImage.jpg'
-import { ChatBubbleOvalLeftEllipsisIcon, CheckBadgeIcon, ClipboardDocumentIcon, ClockIcon, HeartIcon, MapPinIcon, RocketLaunchIcon, XCircleIcon } from '@heroicons/react/24/outline'
+import { ChatBubbleOvalLeftEllipsisIcon, CheckBadgeIcon, ClipboardDocumentIcon, ClockIcon, EllipsisVerticalIcon, HeartIcon, MapPinIcon, RocketLaunchIcon, TrashIcon, XCircleIcon } from '@heroicons/react/24/outline'
 import { Button } from '../../components/ui/Button'
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
@@ -11,6 +11,9 @@ import { ProductDataSkeleton } from '../../components/skeletons/ProductDataSkele
 import { Notification } from '../../components/ui/Notification'
 import { PostComment } from '../../components/modals/PostComment'
 import moment from 'moment'
+import { deleteComment, getProductComments, postAComment } from '../../services/commentServices'
+import { ButtonBase, Menu, MenuItem } from '@mui/material'
+import { ButtonGroup } from '@material-tailwind/react'
 
 export const ProductDetails = () => {
 
@@ -20,6 +23,10 @@ export const ProductDetails = () => {
     const {id} = useParams();
     const navigate = useNavigate();
     const [notification,setNotification] = useState({})
+    const [comment,setComment] = useState();
+    const [commentLoading,setCommentLoading] = useState(false);
+    const [productComments,setProductComments] = useState(false);
+
 
     const copyUrl = () =>{
         setNotification(null)
@@ -48,8 +55,80 @@ export const ProductDetails = () => {
         }
     }
 
+
+    const getComments = async () =>{
+        const response = await getProductComments(localStorage.getItem('token'),id);
+        
+        if(response.data.comments){
+            setProductComments(response.data.comments);
+        }
+    }
+
+
+    const handleDeleteComment = async (commentId) =>{
+        setNotification(null);
+        try{
+            const data = new FormData();
+            data.append("productId",id);
+            data.append("commentContent",comment);
+
+            const response = await deleteComment(localStorage.getItem("token"),commentId);
+            
+            setOpenPostComment(false)
+            setCommentLoading(false);
+            
+            if(response.status === 200){
+                setNotification({type:"success",message:response.data.message})
+                await getComments();
+            }
+        }catch(error){
+            setCommentLoading(false);
+            setOpenPostComment(false)
+            if (error.response) {
+                setNotification({
+                type: "error",
+                message: error.response.data.message,
+                });
+            } else {
+                setNotification({ type: "error", message: "Try again later" });
+            }
+        }
+    }
+
+    const postComment = async (e) =>{
+        e.preventDefault()
+        setNotification(null);
+        setCommentLoading(true);
+        try{
+            const data = new FormData();
+            data.append("productId",id);
+            data.append("commentContent",comment);
+
+            const response = await postAComment(localStorage.getItem("token"),data);
+            setComment('');            
+            setOpenPostComment(false)
+            setCommentLoading(false);
+            if(response.status === 200){
+                setNotification({type:"success",message:response.data.message})
+                await getComments();
+            }
+        }catch(error){
+            setCommentLoading(false);
+            setOpenPostComment(false)
+            if (error.response) {
+                setNotification({
+                type: "error",
+                message: error.response.data.message,
+                });
+            } else {
+                setNotification({ type: "error", message: "Try again later" });
+            }
+        }
+    }
+
     useEffect(() =>{
         getProductData();
+        getComments();
     },[])
   return (
     <div>
@@ -117,7 +196,7 @@ export const ProductDetails = () => {
                                 </div>
                                 <div className='flex gap-2 items-center'>
                                     <ChatBubbleOvalLeftEllipsisIcon className='w-5 h-5' strokeWidth={'2'}/>
-                                    <span className='font-semibold'>22 Commented on this product</span>
+                                    <span className='font-semibold'>{productComments.length} Commented on this product</span>
                                 </div>
                                 <div className='flex gap-2 items-center'>
                                     <MapPinIcon className='w-5 h-5' strokeWidth={'2'}/>
@@ -143,16 +222,29 @@ export const ProductDetails = () => {
             <div className='mt-5'>
                 <h2 className='text-2xl font-semibold'>Reviews</h2>    
                 <div className='flex flex-col mt-3'>
-                    <div>
-                        <div className='flex items-center gap-2'>
-                            <img src={userImage} className='rounded-full w-8 h-8'/>
-                            <span className='font-semibold'>Soufian boukir</span>
-                            <span className='text-gray-600 font-semibold text-sm'>a month ago</span>
-                        </div>
-                        <div className='pl-10'>
-                            <span className='text-sm'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi ut sint dolore voluptate accusantium facilis ipsa quasi obcaecati eveniet maxime sit officiis, enim quidem quis nihil perferendis quibusdam deleniti eius.</span>
-                        </div>
-                    </div>
+                    {
+                        productComments && productComments.length ?
+                            productComments.map((comment) =>{
+                                return <div className='mb-5'>
+                                            <div className='flex justify-between items-center gap-2'>
+                                                <div className='flex items-center gap-2'>
+                                                    <img src={comment.commenterProfilePic} className='rounded-full w-8 h-8'/>
+                                                    <span className='font-semibold cursor-pointer hover:text-sky-500 duration-200'>{comment.commenterUsername}</span>
+                                                    <span className='text-gray-600 font-semibold text-sm'>{moment(comment.createdAt).fromNow()}</span>
+                                                </div>
+
+
+                                                <div>
+                                                    <TrashIcon className='w-4 h-4 text-red-400 hover:text-red-500 cursor-pointer' onClick={() => handleDeleteComment(comment._id)} />
+                                                </div>
+                                            </div>
+                                            <div className='pl-10'>
+                                                <span className='text-sm'>{comment.commentContent}</span>
+                                            </div>
+                                        </div>
+                            })
+                        :<p className='font-semibold text-center'>No comments!, be the first one to comment On this product</p>
+                    }
                 </div>
             </div>  
         </div>:null
@@ -164,7 +256,7 @@ export const ProductDetails = () => {
             notification && <Notification type={notification.type} message={notification.message} />
         }
         {
-            openPostComment && <PostComment setOpenPostComment={setOpenPostComment} />
+            openPostComment && <PostComment setOpenPostComment={setOpenPostComment} comment={comment} handleChange={(e) => setComment(e.target.value)} loading={commentLoading} handleSubmit={postComment}/>
         }
       </div>
     </div>

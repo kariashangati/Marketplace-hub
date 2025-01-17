@@ -14,7 +14,7 @@ import { FaceFrownIcon } from '@heroicons/react/24/outline';
 export const Home = () => {
   return (
     <div>
-        <div className='bg-dark w-[100%] px-10 fixed z-10'>
+        <div className='bg-dark w-[100%] px-10 fixed z-20'>
           <img src={projectLogo} className="w-[15%] hidden lg:block mb-6"/>
         </div>
         <div className='w-[100%] flex justify-center items-center relative'>
@@ -25,13 +25,13 @@ export const Home = () => {
             <div className='mt-11 w-[100%] flex justify-center'><a href='/user/products'><Button text={'See Product'} type={'submit'} bg={'bg-white'} color={'black'} width={"100%"}/></a></div>    
           </div>
         </div>
-        <div className='mt-40 w-[100%] relative '>
-          <div className='w-[50%] bg-white px-36 py-40 ml-20'>
+        <div className='mt-40 w-[100%] relative py-5 mx-auto'>
+          <div className='w-[50%] bg-white px-10 py-20 relative left-20'>
             <h2 className='text-black text-5xl font-semibold'>About</h2>
             <p className='text-black mt-11 text-2xl w-[70%]'>As a trusted marketplace connecting buyers and sellers, we attribute our success to the strong relationships we've built within our community. We believe every user deserves a seamless and reliable experience, whether they're shopping for essentials or selling their products to a wider audience. Our commitment to quality, transparency, and innovation sets us apart. Explore our platform to discover endless possibilities, and feel free to reach out with any questions. Shopy SAS is here to make connections that matter.</p>
           </div>
-          <div className='absolute inset-0 flex justify-end right-48 top-10'>
-            <img src={mall} className="w-[50%] hidden lg:block mb-6"/>
+          <div className='absolute inset-0 flex justify-end top-32 z-10 right-20'>
+            <img src={mall} className="w-[50%] h-5/6 hidden lg:block mb-6"/>
           </div>
         </div>
         <div className='mt-20 flex justify-center w-[100%]'>

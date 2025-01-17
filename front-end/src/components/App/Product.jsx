@@ -28,7 +28,7 @@ export const Product = ({
   };
 
   return (
-    <div className="bg-dark p-3 rounded-md flex gap-5 cursor-pointer hover:bg-black duration-200" >
+    <div className="bg-dark p-3 w-[100%] rounded-md flex gap-5 cursor-pointer hover:bg-black duration-200" >
       <div className="w-[25%]">
         <img
           src={productData.product_image}
