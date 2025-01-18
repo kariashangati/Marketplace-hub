@@ -21,6 +21,8 @@ server.delete("/api/deleteUserData",verifyAPIkey,deleteUserDeletedData);
 server.use(verifyToken);
 server.use("/api/comments", require("./routes/commentRoutes"));
 server.use("/api/notifications", require("./routes/notificationRoutes"));
+server.use("/api/likes", require("./routes/likeRoutes"));
+
 
 server.listen(3000,() =>{
     console.log("running on port 3000");

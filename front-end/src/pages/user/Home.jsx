@@ -8,6 +8,7 @@ import product from "../../../public/assets/product.jpg";
 import store from "../../../public/assets/store.jpg";
 import { Button } from '../../components/ui/Button';
 import { FaceFrownIcon } from '@heroicons/react/24/outline';
+import { Link } from 'react-router-dom';
 
 
 
@@ -22,7 +23,7 @@ export const Home = () => {
           <div className='absolute inset-0 flex items-center justify-center flex-col'>
             <h1 className='text-8xl font-semibold'>Shopy SAS Welcomes You</h1>
             <h2 className='text-3xl font-semibold mt-16'>Connecting Buyers and Sellers the Right Way</h2>
-            <div className='mt-11 w-[100%] flex justify-center'><a href='/user/products'><Button text={'See Product'} type={'submit'} bg={'bg-white'} color={'black'} width={"100%"}/></a></div>    
+            <div className='mt-11 w-[100%] flex justify-center'><Link to='/user/products'><Button text={'See Product'} bg={'bg-white'} color={'black'} width={"100%"}/></Link></div>    
           </div>
         </div>
         <div className='mt-40 w-[100%] relative py-5 mx-auto'>
@@ -61,18 +62,14 @@ export const Home = () => {
           <div className='py-20 w-[40%]'>
             <h2 className='text-black text-5xl font-semibold'>Contact</h2>
             <h2 className='text-black text-xl font-normal mt-8'>Shopy SAS</h2>
-            <h2 className='text-black text-xl font-normal mt-2'>809 AIN ZERKA</h2>
+            <h2 className='text-black text-xl font-normal mt-2'>213 HAMMA</h2>
             <h2 className='text-black text-xl font-normal mt-2'>TIZNIT,MOROCCO</h2>
           </div>
           <div className='py-20 w-[40%]'>
             
             <h2 className='text-black text-xl font-normal mt-8'>TEL : +212-688-943313</h2>
             <h2 className='text-black text-xl font-normal mt-2'>ShopySAS@gmail.com</h2>
-            
-          </div>
-            
-
-        
+          </div>        
         </div>
     </div>
   )

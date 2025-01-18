@@ -1,8 +1,6 @@
 import { AdminSideBar } from '../../layouts/AdminSideBar'
 import { UserSideBar } from '../../layouts/UserSideBar'
-import testImage from '../../../public/assets/storeLogo.png'
-import userImage from '../../../public/assets/userDefaultImage.jpg'
-import { ChatBubbleOvalLeftEllipsisIcon, CheckBadgeIcon, ClipboardDocumentIcon, ClockIcon, EllipsisVerticalIcon, HeartIcon, MapPinIcon, RocketLaunchIcon, TrashIcon, XCircleIcon } from '@heroicons/react/24/outline'
+import { ChatBubbleOvalLeftEllipsisIcon, CheckBadgeIcon, ClipboardDocumentIcon, ClockIcon, HeartIcon, MapPinIcon, RocketLaunchIcon, TrashIcon, XCircleIcon } from '@heroicons/react/24/outline'
 import { Button } from '../../components/ui/Button'
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
@@ -12,9 +10,8 @@ import { Notification } from '../../components/ui/Notification'
 import { PostComment } from '../../components/modals/PostComment'
 import moment from 'moment'
 import { deleteComment, getProductComments, postAComment } from '../../services/commentServices'
-import { ButtonBase, Menu, MenuItem } from '@mui/material'
-import { ButtonGroup } from '@material-tailwind/react'
-
+import { postNotification } from '../../services/notificationServices'
+import { getProductLikes, likeAProduct } from '../../services/likeServices'
 export const ProductDetails = () => {
 
     const [loading,setLoading] = useState(true);
@@ -26,6 +23,7 @@ export const ProductDetails = () => {
     const [comment,setComment] = useState();
     const [commentLoading,setCommentLoading] = useState(false);
     const [productComments,setProductComments] = useState(false);
+    const [likesCount,setLikesCount] = useState(0);
 
 
     const copyUrl = () =>{
@@ -55,6 +53,31 @@ export const ProductDetails = () => {
         }
     }
 
+    const getProductLikesCount = async () =>{        
+        const response = await getProductLikes(localStorage.getItem('token'),id)        
+        if(response.data.likes){
+            setLikesCount(response.data.likes)
+        }
+    }
+
+    const likeProduct = async () =>{
+        setNotification(null);
+        const data = new FormData();
+        data.append('productId',id);
+        
+        const response = await likeAProduct(localStorage.getItem('token'),data);
+        
+        const formData = new FormData();
+        formData.append('productId',id);
+        formData.append("notificationContent","Liked your product");
+        formData.append("receiverId",productDetails.store.user.id);
+        await postNotification(localStorage.getItem("token"),formData)
+
+        if(response.data.success){
+            setNotification({type:'success',message:response.data.message});
+        }
+        await getProductLikesCount();
+    }
 
     const getComments = async () =>{
         const response = await getProductComments(localStorage.getItem('token'),id);
@@ -105,6 +128,12 @@ export const ProductDetails = () => {
             data.append("commentContent",comment);
 
             const response = await postAComment(localStorage.getItem("token"),data);
+
+            const formData = new FormData();
+            formData.append("productId",id);
+            formData.append("notificationContent","Commented on your product");
+            formData.append("receiverId",productDetails.store.user.id);
+            await postNotification(localStorage.getItem("token"),formData)
             setComment('');            
             setOpenPostComment(false)
             setCommentLoading(false);
@@ -129,6 +158,7 @@ export const ProductDetails = () => {
     useEffect(() =>{
         getProductData();
         getComments();
+        getProductLikesCount()
     },[])
   return (
     <div>
@@ -163,7 +193,7 @@ export const ProductDetails = () => {
                                 <ClipboardDocumentIcon className='w-7 h-7' onClick={copyUrl}/>
                             </div>
                             <div className='bg-gray-900 rounded-md p-1 cursor-pointer hover:bg-gray-700 duration-200'>
-                                <HeartIcon className='w-7 h-7'/>
+                                <HeartIcon className='w-7 h-7' onClick={likeProduct}/>
                             </div>
                         </div>
                     </div>
@@ -192,7 +222,7 @@ export const ProductDetails = () => {
                             <div className='mt-3 flex flex-col gap-1 text-gray-300'>
                                 <div className='flex gap-2 items-center'>
                                     <HeartIcon className='w-5 h-5' strokeWidth={'2'}/>
-                                    <span className='font-semibold'>{productDetails.likes} Liked this product</span>
+                                    <span className='font-semibold'>{likesCount} Liked this product</span>
                                 </div>
                                 <div className='flex gap-2 items-center'>
                                     <ChatBubbleOvalLeftEllipsisIcon className='w-5 h-5' strokeWidth={'2'}/>

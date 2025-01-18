@@ -8,7 +8,7 @@ const getNotifications = async (request,response) =>{
 
         if(notifications){
             return response.json({
-                "notification" : notifications ,
+                "notifications" : notifications ,
             })
         }else{
             return response.status(404).json({
@@ -33,7 +33,9 @@ const postNotification = async (request,response) =>{
             receiverId,
             notificationContent,
         });
-        await newNotification.save();
+        if(receiverId !== request.userId){
+            await newNotification.save();
+        }
 
         return response.json({
             "message" : "posted successfully"

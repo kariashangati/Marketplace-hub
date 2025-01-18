@@ -200,7 +200,7 @@ class ProductController extends Controller
                 'delivry' => $delivry,
             ]);
             return response()->json([
-                'message' => 'Product create successfully'
+                'message' => 'Waiting for admin to accept it'
             ]);
         } catch (Exception $ex) {
             return response()->json([

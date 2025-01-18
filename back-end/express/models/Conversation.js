@@ -8,7 +8,6 @@ const conversationShema = new mongoose.Schema({
     user2Id : {type:Number, required:true},
     user2ProfilePic : {type:String, required:true},
     user2Username : {type:String, required:true},
-    lastMessage : {type:String}
 },{timestamps:true});
 
 
