@@ -22,22 +22,24 @@ import { History } from "./pages/user/History";
 import { Search } from "./pages/user/Search";
 import { ProductDetails } from "./pages/user/ProductDetails";
 import { Home } from "./pages/user/Home";
+import { Message } from "./pages/user/Message";
 
-const PageBasedOnRole = () =>{
-    
-  if(localStorage.getItem("role") === 'admin' || localStorage.getItem("role") === 'super admin'){
-    return <Navigate to={'/admin/dashboard'} />
-  }else if(localStorage.getItem("role") === 'user'){
-    return <Navigate to={'/user/products'} />
+const PageBasedOnRole = () => {
+  if (
+    localStorage.getItem("role") === "admin" ||
+    localStorage.getItem("role") === "super admin"
+  ) {
+    return <Navigate to={"/admin/dashboard"} />;
+  } else if (localStorage.getItem("role") === "user") {
+    return <Navigate to={"/user/products"} />;
   }
 
-  return <Navigate to={'/login'}/>
-}
+  return <Navigate to={"/login"} />;
+};
 
 export const App = () => {
   return (
     <Routes>
-
       <Route path="/" element={<PageBasedOnRole />} />
 
       <Route path={"/login"} element={<Login />} />
@@ -54,7 +56,11 @@ export const App = () => {
         <Route path="/store/storeData/:id" element={<StoreData />} />
         <Route path="/user/history" element={<History />} />
         <Route path="/user/search" element={<Search />} />
-        <Route path="/product/productDetails/:id" element={<ProductDetails />} />
+        <Route
+          path="/product/productDetails/:id"
+          element={<ProductDetails />}
+        />
+        <Route path="/user/messages" element={<Message />} />
       </Route>
 
       <Route element={<AdminRoutes />}>
