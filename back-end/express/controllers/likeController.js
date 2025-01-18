@@ -24,7 +24,9 @@ const likeProduct = async (request,response) =>{
           
         if (alreadyLiked) {
             await Like.deleteOne({ productIdLiked: productId, likerId: request.userId});
-            return;
+            return response.json({
+                'message' : 'Already liked'
+            });
         }
 
         const newLike = new Like({

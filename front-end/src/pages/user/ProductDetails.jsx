@@ -75,8 +75,12 @@ export const ProductDetails = () => {
 
         if(response.data.success){
             setNotification({type:'success',message:response.data.message});
+            setLikesCount(likesCount + 1)
         }
-        await getProductLikesCount();
+
+        if(response.data.message === 'Already liked'){
+            setLikesCount(likesCount - 1);
+        }
     }
 
     const getComments = async () =>{
@@ -259,7 +263,7 @@ export const ProductDetails = () => {
                                             <div className='flex justify-between items-center gap-2'>
                                                 <div className='flex items-center gap-2'>
                                                     <img src={comment.commenterProfilePic} className='rounded-full w-8 h-8'/>
-                                                    <span className='font-semibold cursor-pointer hover:text-sky-500 duration-200'>{comment.commenterUsername}</span>
+                                                    <span className='font-semibold cursor-pointer hover:text-sky-500 duration-200' onClick={() => navigate(`/user/userData/${comment.commenterId}`)}>{comment.commenterUsername}</span>
                                                     <span className='text-gray-600 font-semibold text-sm'>{moment(comment.createdAt).fromNow()}</span>
                                                 </div>
 

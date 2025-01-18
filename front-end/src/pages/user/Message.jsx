@@ -1,5 +1,3 @@
-import React from "react";
-
 import { UserSideBar } from "../../layouts/UserSideBar";
 import {
   CheckIcon,
@@ -65,10 +63,6 @@ export const Message = () => {
         <div className="border-r  col-span-1  bg-white">
           <div className="flex justify-between items-center text-black p-8 border-b ">
             <h2 className="font-bold">Messages</h2>
-            <div className="flex justify-between items-center gap-1">
-              <PencilSquareIcon width={20} height={20} />
-              <EllipsisVerticalIcon width={20} height={20} />
-            </div>
           </div>
           <div className="text-black p-4 relative">
             <input
@@ -107,11 +101,6 @@ export const Message = () => {
                   said is typing
                 </p>
               </div>
-            </div>
-            <div className="text-black flex items-center gap-6">
-              <VideoCameraIcon width={20} height={20} />
-              <PhoneIcon width={20} height={20} />
-              <EllipsisHorizontalIcon width={20} height={20} />
             </div>
           </div>
           <div className="text-black flex items-center p-4 border-t ">
@@ -166,30 +155,30 @@ const MessageItem = ({ item }) => {
     </div>
   );
 };
-/*
-const Conversation = ({ item }) => {
-  return (
-    <div className="p-5 border-b flex justify-between items-center">
-      <div className="flex items-center gap-4">
-        <div>
-          <img
-            className="rounded-full w-14 h-14"
-            src="/assets/userDefaultImage.jpg"
-            alt=""
-          />
-        </div>
-        <div>
-          <p className="font-semibold text-black text-[20px]">
-            {item.userName}
-          </p>
-          <p className="text-green-500 text-[13px] italic">{`${item.userName} is typing...`}</p>
-        </div>
-      </div>
-      <div className="text-black flex items-center gap-6">
-        <VideoCameraIcon width={20} height={20} />
-        <PhoneIcon width={20} height={20} />
-        <EllipsisHorizontalIcon width={20} height={20} />
-      </div>
-    </div>
-  );
-};*/
+
+// const Conversation = ({ item }) => {
+//   return (
+//     <div className="p-5 border-b flex justify-between items-center">
+//       <div className="flex items-center gap-4">
+//         <div>
+//           <img
+//             className="rounded-full w-14 h-14"
+//             src="/assets/userDefaultImage.jpg"
+//             alt=""
+//           />
+//         </div>
+//         <div>
+//           <p className="font-semibold text-black text-[20px]">
+//             {item.userName}
+//           </p>
+//           <p className="text-green-500 text-[13px] italic">{`${item.userName} is typing...`}</p>
+//         </div>
+//       </div>
+//       <div className="text-black flex items-center gap-6">
+//         <VideoCameraIcon width={20} height={20} />
+//         <PhoneIcon width={20} height={20} />
+//         <EllipsisHorizontalIcon width={20} height={20} />
+//       </div>
+//     </div>
+//   );
+// };
