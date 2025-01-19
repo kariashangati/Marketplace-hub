@@ -12,6 +12,8 @@ import moment from 'moment'
 import { deleteComment, getProductComments, postAComment } from '../../services/commentServices'
 import { postNotification } from '../../services/notificationServices'
 import { getProductLikes, likeAProduct } from '../../services/likeServices'
+import { postConversation } from '../../services/conversationServices'
+import { postMessage } from '../../services/messageServices'
 export const ProductDetails = () => {
 
     const [loading,setLoading] = useState(true);
@@ -24,6 +26,7 @@ export const ProductDetails = () => {
     const [commentLoading,setCommentLoading] = useState(false);
     const [productComments,setProductComments] = useState(false);
     const [likesCount,setLikesCount] = useState(0);
+    const [messageLoading,setMessageLoading] = useState(false);
 
 
     const copyUrl = () =>{
@@ -159,6 +162,42 @@ export const ProductDetails = () => {
         }
     }
 
+    const sendMessage = async () =>{
+        setNotification(null)
+        try{
+            setMessageLoading(true)
+            const data = new FormData();
+            data.append("user2Id",productDetails.store.user.id)
+            data.append("user2Username",productDetails.store.user.username)
+            data.append("user2ProfilePic",productDetails.store.user.profile_picture)
+            const response = await postConversation(localStorage.getItem('token'),data);
+            console.log(response);
+            
+            if(response.status === 200){
+                const messageData = new FormData();
+                messageData.append("receiverId",productDetails.store.user.id);
+                messageData.append("conversationId",response.data.conversation._id);
+                messageData.append("messageContent","hello👋, Is this item available?");
+                const response2 = await postMessage(localStorage.getItem('token'),messageData);
+                console.log(response2);
+                
+                setMessageLoading(false)
+                if(response2.status === 200){
+                    console.log(response2.data.message);
+                    
+                    setNotification({type:'success',message:response2.data.message})
+                }
+            }   
+        }catch(error){
+            setMessageLoading(false)
+            if(error.response){
+                setNotification({type:"error",message:error.response.data.message});
+            }else{
+                setNotification({type:"error",message:"try again later"});
+            }
+        }
+    }
+
     useEffect(() =>{
         getProductData();
         getComments();
@@ -246,7 +285,7 @@ export const ProductDetails = () => {
                                 </div>
                             </div>
                             <div className='mt-2 flex flex-col gap-2'>
-                                <Button text={'Is that item available?'} />
+                                <Button text={'Is that item available?'} onClick={sendMessage} loading={messageLoading}/>
                                 <Button text={'Comment on this product'} bg={'bg-blue-500'} onClick={() => setOpenPostComment(true)}/>
                             </div>
                         </div>
