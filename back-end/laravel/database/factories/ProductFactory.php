@@ -24,7 +24,6 @@ class ProductFactory extends Factory
             'category_id' => Category::inRandomOrder()->value('id'),
             'store_id' => Store::inRandomOrder()->value('id'),
             'price' => fake()->randomFloat(2,100,1000),
-            'likes' => fake()->randomFloat(0,10,200),
             'status' => fake()->randomElement(['pending','accepted']),
             'location' => fake()->city(),
             'delivry' => fake()->boolean(),

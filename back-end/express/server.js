@@ -4,6 +4,7 @@ const cors = require("cors");
 const verifyToken = require("./middlewares/verifyToken");
 const verifyAPIkey = require("./middlewares/verifyAPIkey");
 const { deleteUserDeletedData } = require("./controllers/userDataController");
+const { deleteProductData } = require("./controllers/deleteProductData");
 
 const server = express();
 dbConnect()
@@ -17,6 +18,7 @@ server.use(cors({
 }));
 
 server.delete("/api/deleteUserData",verifyAPIkey,deleteUserDeletedData);
+server.delete("/api/deleteProductData",verifyAPIkey,deleteProductData);
 
 server.use(verifyToken);
 server.use("/api/comments", require("./routes/commentRoutes"));

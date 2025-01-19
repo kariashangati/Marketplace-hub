@@ -61,7 +61,7 @@ class User extends Authenticatable implements JWTSubject
         static::deleting(function ($user) {
             try {
                 Http::withHeaders([
-                    "Authorization" => "Bearer " . env("API_KEY")
+                    "Authorization" => env("API_KEY")
                 ])->delete("http://localhost:3000/api/deleteUserData",[
                     "userDeleted" => $user->id,
                 ]);

@@ -4,7 +4,7 @@ const verifyAPIkey = async (request,response,next) =>{
 
     if(!apikeyexists) return response.status(404).json({"message":"Api key is required"});
 
-    const APIKEY = apikeyexists.split(' ')[1];
+    const APIKEY = apikeyexists;
 
     if(APIKEY !== process.env.API_KEY){
         return response.status(200).json({
