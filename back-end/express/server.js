@@ -22,7 +22,8 @@ server.use(verifyToken);
 server.use("/api/comments", require("./routes/commentRoutes"));
 server.use("/api/notifications", require("./routes/notificationRoutes"));
 server.use("/api/likes", require("./routes/likeRoutes"));
-
+server.use("/api/conversations", require("./routes/conversationRoutes"));
+server.use("/api/messages", require("./routes/messageRoutes"));
 
 server.listen(3000,() =>{
     console.log("running on port 3000");
