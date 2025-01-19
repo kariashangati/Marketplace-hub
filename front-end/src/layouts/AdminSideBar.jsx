@@ -29,7 +29,7 @@ export const AdminSideBar = () => {
             );
           })
         : null}
-      <div onClick={logoutFromApp} className={`flex lg:gap-2 items-center cursor-pointer hover:bg-blue-700 duration-200 rounded-lg px-2 py-1`}>
+      <div onClick={logoutFromApp} className={`flex lg:gap-2 items-center cursor-pointer hover:bg-blue-700 duration-200 rounded-lg py-1`}>
           {
             !loading ? 
               <>
