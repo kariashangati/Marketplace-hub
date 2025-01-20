@@ -74,11 +74,11 @@ export const ProductDetails = () => {
         formData.append('productId',id);
         formData.append("notificationContent","Liked your product");
         formData.append("receiverId",productDetails.store.user.id);
-        await postNotification(localStorage.getItem("token"),formData)
 
         if(response.data.success){
             setNotification({type:'success',message:response.data.message});
             setLikesCount(likesCount + 1)
+            await postNotification(localStorage.getItem("token"),formData)
         }
 
         if(response.data.message === 'Already liked'){
@@ -177,6 +177,7 @@ export const ProductDetails = () => {
                 const messageData = new FormData();
                 messageData.append("receiverId",productDetails.store.user.id);
                 messageData.append("conversationId",response.data.conversation._id);
+                messageData.append("productId",id);
                 messageData.append("messageContent","hello👋, Is this item available?");
                 const response2 = await postMessage(localStorage.getItem('token'),messageData);
                 console.log(response2);

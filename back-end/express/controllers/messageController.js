@@ -15,12 +15,13 @@ const getMessages = async (request,response) =>{
 
 const postMessage = async (request,response) =>{
     try{
-        const { conversationId, receiverId, messageContent } = request.body;
+        const { conversationId, receiverId, productId, messageContent } = request.body;
         
         const message = new Message({
             conversationId,
             senderId : parseInt(request.userId),
             receiverId : parseInt(receiverId),
+            productId : parseInt(productId),
             messageContent,
         });
 

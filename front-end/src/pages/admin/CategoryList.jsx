@@ -139,7 +139,7 @@ export const CategoryList = () => {
         <div className="mt-5 pr-5">{loading && <LinearProgress />}</div>
         <div className="mt-6 pr-5">
           {!loading && (
-            <table className="w-[100%] border border-gray-400 h-[300px] overflow-auto">
+            <table className="w-[100%] border border-gray-400 overflow-auto">
               <thead>
                 <tr>
                   <th className="py-2">id</th>
