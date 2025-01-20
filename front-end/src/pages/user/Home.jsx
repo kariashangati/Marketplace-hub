@@ -6,6 +6,7 @@ import mall from "../../../public/assets/mall.jpg";
 import people from "../../../public/assets/people.jpg";
 import product from "../../../public/assets/product.jpg";
 import store from "../../../public/assets/store.jpg";
+import bg from "../../../public/assets/bg.jpg";
 import { Button } from '../../components/ui/Button';
 import { FaceFrownIcon } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
@@ -18,14 +19,31 @@ export const Home = () => {
         <div className='bg-dark w-[100%] px-10 fixed z-20'>
           <img src={projectLogo} className="w-[15%] hidden lg:block mb-6"/>
         </div>
-        <div className='w-[100%] flex justify-center items-center relative'>
-          <img src={seeProduct} className='w-[100%] h-[100vh] rounded-sm px-2 py-1 blur-sm'  />
+        <div className='w-[100%] h-[95vh] relative'>
+          <div 
+            className='absolute inset-0 bg-no-repeat bg-center bg-cover blur-sm'
+            style={{ backgroundImage: `url(${bg})` }}
+          ></div>
+
           <div className='absolute inset-0 flex items-center justify-center flex-col'>
+            <h1 className='text-8xl font-semibold'>Shopy SAS Welcomes You</h1>
+            <h2 className='text-3xl font-semibold mt-16'>Connecting Buyers and Sellers the Right Way</h2>
+            <div className='mt-11 w-[100%] flex justify-center'>
+              <Link to='/user/products'>
+                <Button text={'See Product'} bg={'bg-white'} color={'black'} width={"100%"}/>
+              </Link>
+            </div>
+          </div>
+        </div>
+        {/* <div className='w-[100%] flex justify-center items-center relative bg-no-repeat bg-center bg-cover h-[95vh]' style={{backgroundImage: `url(${bg})`}}> */}
+          {/* <img src={bg} className='w-[100%] h-[100vh] rounded-sm px-2 py-1 blur-sm'  /> */}
+          
+          {/* <div className='absolute inset-0 flex items-center justify-center flex-col'>
             <h1 className='text-8xl font-semibold'>Shopy SAS Welcomes You</h1>
             <h2 className='text-3xl font-semibold mt-16'>Connecting Buyers and Sellers the Right Way</h2>
             <div className='mt-11 w-[100%] flex justify-center'><Link to='/user/products'><Button text={'See Product'} bg={'bg-white'} color={'black'} width={"100%"}/></Link></div>    
           </div>
-        </div>
+        </div> */}
         {/* <div className='mt-40 w-[100%] relative py-5 mx-auto'>
           <div className='w-[50%] bg-white px-10 py-20 relative left-20'>
             <h2 className='text-black text-5xl font-semibold'>About</h2>
@@ -70,7 +88,7 @@ export const Home = () => {
             <h2 className='text-black text-xl font-normal mt-8'>TEL : +212-688-943313</h2>
             <h2 className='text-black text-xl font-normal mt-2'>ShopySAS@gmail.com</h2>
           </div>         */}
-        </div>
+        {/* </div> */}
     </div>
   )
 }
