@@ -12,7 +12,7 @@ import { getStore } from "../../services/storeServices";
 import storeLogo from "../../../public/assets/storeLogo.png";
 import { Product } from "../../components/App/Product";
 import { ProductSkeleton } from "../../components/skeletons/ProductSkeleton";
-import { getProductsByStore } from "../../services/productServices";
+import { deleteProductById, getProductsByStore } from "../../services/productServices";
 
 export const StoreData = () => {
   const [storeData, setStoreData] = useState([]);
@@ -45,6 +45,30 @@ export const StoreData = () => {
     }
   };
 
+
+  const deleteProduct = async (productId) =>{
+    setNotification(null);
+    try{
+      setLoading(true)
+      const response = await deleteProductById(localStorage.getItem('token'),productId);
+      setLoading(false)
+      
+      if(response.status === 200){
+        setNotification({type:'success',message:response.data.message})
+      }
+
+    }catch(error){
+      setLoading(false)
+      if (error.response) {
+        setNotification({
+          type: "error",
+          message: error.response.data.message,
+        });
+      } else {
+        setNotification({ type: "error", message: "Try again later" });
+      }
+    }
+  }
   const getProductsByStoreId = async () => {
     setNotification(null);
     setLoading(true);
@@ -147,6 +171,7 @@ export const StoreData = () => {
                       viewUser
                       key={productData.id}
                       productData={productData}
+                      deleteProduct={deleteProduct}
                     />
                   );
                 })

@@ -15,6 +15,7 @@ export const Product = ({
   viewUser,
   methodSaved,
   methodReported,
+  deleteProduct
 }) => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -26,6 +27,7 @@ export const Product = ({
   const handleClose = () => {
     setAnchorEl(null);
   };
+
 
   return (
     <div className="bg-dark p-3 w-[100%] rounded-md flex gap-5 cursor-pointer hover:bg-black duration-200" >
@@ -81,6 +83,14 @@ export const Product = ({
                     }}
                   >
                     Save
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      deleteProduct(productData.id);
+                      handleClose();
+                    }}
+                  >
+                    Delete
                   </MenuItem>
                   <MenuItem
                     onClick={() => {

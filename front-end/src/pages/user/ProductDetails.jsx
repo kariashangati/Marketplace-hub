@@ -1,8 +1,10 @@
 import { AdminSideBar } from '../../layouts/AdminSideBar'
 import { UserSideBar } from '../../layouts/UserSideBar'
-import { ChatBubbleOvalLeftEllipsisIcon, CheckBadgeIcon, ClipboardDocumentIcon, ClockIcon, HeartIcon, MapPinIcon, RocketLaunchIcon, TrashIcon, XCircleIcon } from '@heroicons/react/24/outline'
+import { ChatBubbleOvalLeftEllipsisIcon, CheckBadgeIcon, ClipboardDocumentIcon, ClockIcon, MapPinIcon, RocketLaunchIcon, TrashIcon, XCircleIcon } from '@heroicons/react/24/outline'
+import { HeartIcon as HeartSolid } from '@heroicons/react/16/solid';
+import { HeartIcon as HeartOutline} from '@heroicons/react/24/outline';
 import { Button } from '../../components/ui/Button'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { getProductDetails } from '../../services/productServices'
 import { ProductDataSkeleton } from '../../components/skeletons/ProductDataSkeleton'
@@ -27,7 +29,15 @@ export const ProductDetails = () => {
     const [productComments,setProductComments] = useState(false);
     const [likesCount,setLikesCount] = useState(0);
     const [messageLoading,setMessageLoading] = useState(false);
+    const likedProducts = JSON.parse(localStorage.getItem('likedProducts')) || [];
+    const alreadyLiked = useRef(false);
+    // console.log(likedProducts);
+    // console.log(alreadyLiked.current);
+    
 
+    if(likedProducts.includes(id.toString())){
+        alreadyLiked.current = true
+    }
 
     const copyUrl = () =>{
         setNotification(null)
@@ -73,15 +83,26 @@ export const ProductDetails = () => {
         const formData = new FormData();
         formData.append('productId',id);
         formData.append("notificationContent","Liked your product");
-        formData.append("receiverId",productDetails.store.user.id);
+        formData.append("receiverId",productDetails.store.user.id);        
 
         if(response.data.success){
-            setNotification({type:'success',message:response.data.message});
+            if (!likedProducts.includes(id)) {
+                likedProducts.push(id);
+                localStorage.setItem('likedProducts', JSON.stringify(likedProducts));
+            }
+    
+            console.log('it works');
+            
+            alreadyLiked.current = true
+            setNotification({type:'success',message:response.data.message})
             setLikesCount(likesCount + 1)
             await postNotification(localStorage.getItem("token"),formData)
         }
 
         if(response.data.message === 'Already liked'){
+            const likedProductsUpdated = likedProducts.filter(productId => productId !== id);
+            localStorage.setItem('likedProducts', JSON.stringify(likedProductsUpdated));
+            alreadyLiked.current = false
             setLikesCount(likesCount - 1);
         }
     }
@@ -237,7 +258,12 @@ export const ProductDetails = () => {
                                 <ClipboardDocumentIcon className='w-7 h-7' onClick={copyUrl}/>
                             </div>
                             <div className='bg-gray-900 rounded-md p-1 cursor-pointer hover:bg-gray-700 duration-200'>
-                                <HeartIcon className='w-7 h-7' onClick={likeProduct}/>
+                                {
+                                    alreadyLiked.current?
+                                    <HeartSolid className='w-7 h-7 text-red-600' onClick={likeProduct}/>
+                                     :
+                                    <HeartOutline className='w-7 h-7' onClick={likeProduct}/>
+                                }
                             </div>
                         </div>
                     </div>
@@ -265,7 +291,7 @@ export const ProductDetails = () => {
                             </div>
                             <div className='mt-3 flex flex-col gap-1 text-gray-300'>
                                 <div className='flex gap-2 items-center'>
-                                    <HeartIcon className='w-5 h-5' strokeWidth={'2'}/>
+                                    <HeartOutline className='w-5 h-5' strokeWidth={'2'}/>
                                     <span className='font-semibold'>{likesCount} Liked this product</span>
                                 </div>
                                 <div className='flex gap-2 items-center'>
