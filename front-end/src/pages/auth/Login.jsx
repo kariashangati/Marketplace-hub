@@ -41,6 +41,7 @@ export const Login = () => {
         } else if (response.data.role === "user") {
           localStorage.setItem("token", response.data.token);
           localStorage.setItem("role", response.data.role);
+          localStorage.setItem("id", response.data.userData.id);
           navigate("/user/home");
         }
       }

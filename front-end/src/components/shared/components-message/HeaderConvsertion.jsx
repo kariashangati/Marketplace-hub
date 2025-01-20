@@ -13,21 +13,21 @@ export const HeaderConvsertion = React.forwardRef(({ item }, ref) => {
         <div>
           <img
             className="rounded-full w-14 h-14"
-            src="/assets/userDefaultImage.jpg"
+            src={item.profilePic}
             alt=""
           />
         </div>
         <div>
           <p className="font-semibold text-black text-[20px]">
-            {item.userName}
+            {item.username}
           </p>
         </div>
       </div>
-      <div className="text-black flex items-center gap-6">
+      {/* <div className="text-black flex items-center gap-6">
         <VideoCameraIcon width={20} height={20} />
         <PhoneIcon width={20} height={20} />
         <EllipsisHorizontalIcon width={20} height={20} />
-      </div>
+      </div> */}
     </div>
   );
 });

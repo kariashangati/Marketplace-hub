@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { UserSideBar } from "../../layouts/UserSideBar";
 import {
@@ -10,64 +10,85 @@ import {
 import { MessageChats } from "../../components/shared/components-message/MessageChats";
 import { HeaderConvsertion } from "../../components/shared/components-message/HeaderConvsertion";
 import bgMessage from "../../../public/assets/bgMessage.png";
-
-const messages = [
-  {
-    id: 1,
-    userName: "said kachoud",
-    imageUrl: "/assets/userDefaultImage.jpg",
-    timeAgo: "4min",
-    messagesCount: 20,
-    enLinge: true,
-    redd: false,
-  },
-  {
-    id: 2,
-    userName: "ayoub mhainid",
-    imageUrl: "/assets/userDefaultImage.jpg",
-    timeAgo: "1h",
-    messagesCount: 17,
-    enLinge: false,
-    redd: true,
-  },
-  {
-    id: 3,
-    userName: "soufiane bouir",
-    imageUrl: "/assets/userDefaultImage.jpg",
-    timeAgo: "10min",
-    messagesCount: 1,
-    enLinge: true,
-    redd: false,
-  },
-  {
-    id: 4,
-    userName: "said kachoud",
-    imageUrl: "/assets/userDefaultImage.jpg",
-    timeAgo: "4min",
-    messagesCount: 5,
-    enLinge: true,
-    redd: true,
-  },
-];
-
-const chats = [
-  {
-    id: 1,
-    userName: " qdhkqdikachoud",
-  },
-];
+import { getConversations } from "../../services/conversationServices";
+import { getMessages, postMessage } from "../../services/messageServices";
+import { MessageItem } from "../../components/shared/components-message/MessageItem";
 
 export const MessageUser = () => {
-  const [height, setHeight] = useState(0);
+  const [conversations, setConversations] = useState([]);
+  const [messageContent, setMessageContent] = useState("");
+  const [chatInfo, setChatInfo] = useState({});
+  const [heightChat, setHeightChat] = useState(0);
+  const [heightBadyConversation, setHeightBadyConversation] = useState(0);
   const refHeader = useRef(null);
   const refFooter = useRef(null);
+  const refHeadeCahts = useRef(null);
+  const refSearchCahts = useRef(null);
+
+  useEffect(() => {
+    const viewConversations = async () => {
+      try {
+        const response = await getConversations(localStorage.getItem("token"));
+        setConversations(response.data.conversations);
+      } catch (error) {
+        if (error.response) {
+          setNotification({
+            type: "error",
+            message: error.response.data.message,
+          });
+        }
+      }
+    };
+
+    viewConversations();
+  }, []);
 
   useEffect(() => {
     const res =
       refHeader.current.clientHeight + refFooter.current.clientHeight + 6;
 
-    setHeight(`calc(100vh - ${res}px)`);
+    const result =
+      refHeadeCahts.current.clientHeight +
+      refSearchCahts.current.clientHeight +
+      6;
+
+    setHeightBadyConversation(`calc(100vh - ${res}px)`);
+    setHeightChat(`calc(100vh - ${result}px)`);
   }, []);
+
+  const getMessageByConversationId = async (item) => {
+    try {
+      const response = await getMessages(
+        localStorage.getItem("token"),
+        item.conversationId
+      );
+      console.log(item);
+      setChatInfo({
+        receiverId: item.userId,
+        conversationId: item.conversationId,
+        username: item.username,
+        profilePic: item.profilePic,
+        messages: response.data,
+      });
+    } catch (error) {}
+  };
+
+  const handleSendMessage = async () => {
+    try {
+      const response = await postMessage(localStorage.getItem("token"), {
+        conversationId: chatInfo.conversationId,
+        receiverId: chatInfo.receiverId,
+        // productId,
+        messageContent,
+      });
+
+      setChatInfo((curr) => {
+        const newMessages = [...curr.messages, response.data.messageCon];
+        return { ...curr, messages: newMessages };
+      });
+      setMessageContent("");
+    } catch (error) {}
+  };
 
   return (
     <div className="flex justify-normal">
@@ -76,14 +97,17 @@ export const MessageUser = () => {
       </div>
       <div className="border-r-[20px] border-t-[5px] border-b-[10px]  border-dark grid grid-cols-4 w-screen h-screen">
         <div className="border-r  col-span-1  bg-white">
-          <div className="flex justify-between items-center text-black p-9 border-b ">
+          <div
+            ref={refHeadeCahts}
+            className="flex justify-between items-center text-black p-9 border-b "
+          >
             <h2 className="font-bold">Messages</h2>
-            <div className="flex justify-between items-center gap-1">
+            {/* <div className="flex justify-between items-center gap-1">
               <PencilSquareIcon width={20} height={20} />
               <EllipsisVerticalIcon width={20} height={20} />
-            </div>
+            </div> */}
           </div>
-          <div className="text-black p-4 relative">
+          <div ref={refSearchCahts} className="text-black p-4 relative">
             <input
               className="border outline-none w-full p-1 rounded-xl pl-[27px]"
               placeholder="search"
@@ -94,119 +118,36 @@ export const MessageUser = () => {
               className="absolute top-6 left-5"
             />
           </div>
-          {messages.map((item) => (
-            <MessageChats key={item.id} item={item} />
-          ))}
+          <div
+            className="overflow-y-scroll h-full"
+            style={{ height: heightChat }}
+          >
+            {conversations.map((item) => (
+              <MessageChats
+                key={item.id}
+                item={item}
+                onClick={() => {
+                  getMessageByConversationId(item);
+                }}
+              />
+            ))}
+          </div>
         </div>
 
         <div className="col-span-3 bg-white">
-          {chats.map((itemConversation) => (
-            <HeaderConvsertion
-              ref={refHeader}
-              key={itemConversation.id}
-              item={itemConversation}
-            />
-          ))}
+          <HeaderConvsertion ref={refHeader} item={chatInfo} />
+
           <div
-            className="bg-gray-100 flex-1) text-black overflow-y-scroll h-full"
-            style={{ height, backgroundImage: `url(${bgMessage})` }}
+            className="bg-gray-100 flex flex-col gap-5 p-6 text-black overflow-y-scroll h-full"
+            style={{
+              height: heightBadyConversation,
+              backgroundImage: `url(${bgMessage})`,
+            }}
           >
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora
-              ducimus dolorem quisquam fugiat voluptates. Omnis, sed corporis
-              itaque adipisci eius quo veritatis impedit voluptatibus iste
-              explicabo odio ullam perferendis cumque?
-            </p>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora
-              ducimus dolorem quisquam fugiat voluptates. Omnis, sed corporis
-              itaque adipisci eius quo veritatis impedit voluptatibus iste
-              explicabo odio ullam perferendis cumque?
-            </p>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora
-              ducimus dolorem quisquam fugiat voluptates. Omnis, sed corporis
-              itaque adipisci eius quo veritatis impedit voluptatibus iste
-              explicabo odio ullam perferendis cumque?
-            </p>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora
-              ducimus dolorem quisquam fugiat voluptates. Omnis, sed corporis
-              itaque adipisci eius quo veritatis impedit voluptatibus iste
-              explicabo odio ullam perferendis cumque?
-            </p>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora
-              ducimus dolorem quisquam fugiat voluptates. Omnis, sed corporis
-              itaque adipisci eius quo veritatis impedit voluptatibus iste
-              explicabo odio ullam perferendis cumque?
-            </p>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora
-              ducimus dolorem quisquam fugiat voluptates. Omnis, sed corporis
-              itaque adipisci eius quo veritatis impedit voluptatibus iste
-              explicabo odio ullam perferendis cumque?
-            </p>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora
-              ducimus dolorem quisquam fugiat voluptates. Omnis, sed corporis
-              itaque adipisci eius quo veritatis impedit voluptatibus iste
-              explicabo odio ullam perferendis cumque?
-            </p>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora
-              ducimus dolorem quisquam fugiat voluptates. Omnis, sed corporis
-              itaque adipisci eius quo veritatis impedit voluptatibus iste
-              explicabo odio ullam perferendis cumque?
-            </p>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora
-              ducimus dolorem quisquam fugiat voluptates. Omnis, sed corporis
-              itaque adipisci eius quo veritatis impedit voluptatibus iste
-              explicabo odio ullam perferendis cumque?
-            </p>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora
-              ducimus dolorem quisquam fugiat voluptates. Omnis, sed corporis
-              itaque adipisci eius quo veritatis impedit voluptatibus iste
-              explicabo odio ullam perferendis cumque?
-            </p>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora
-              ducimus dolorem quisquam fugiat voluptates. Omnis, sed corporis
-              itaque adipisci eius quo veritatis impedit voluptatibus iste
-              explicabo odio ullam perferendis cumque?
-            </p>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora
-              ducimus dolorem quisquam fugiat voluptates. Omnis, sed corporis
-              itaque adipisci eius quo veritatis impedit voluptatibus iste
-              explicabo odio ullam perferendis cumque?
-            </p>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora
-              ducimus dolorem quisquam fugiat voluptates. Omnis, sed corporis
-              itaque adipisci eius quo veritatis impedit voluptatibus iste
-              explicabo odio ullam perferendis cumque?
-            </p>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora
-              ducimus dolorem quisquam fugiat voluptates. Omnis, sed corporis
-              itaque adipisci eius quo veritatis impedit voluptatibus iste
-              explicabo odio ullam perferendis cumque?
-            </p>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora
-              ducimus dolorem quisquam fugiat voluptates. Omnis, sed corporis
-              itaque adipisci eius quo veritatis impedit voluptatibus iste
-              explicabo odio ullam perferendis cumque?
-            </p>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora
-              ducimus dolorem quisquam fugiat voluptates. Omnis, sed corporis
-              itaque adipisci eius quo veritatis impedit voluptatibus iste
-              explicabo odio ullam perferendis cumque?
-            </p>
+            {chatInfo.messages?.map((m) => (
+              <MessageItem key={m._id} message={m} />
+            ))}
+            <AlwaysScrollToBottom />
           </div>
 
           <div
@@ -222,13 +163,19 @@ export const MessageUser = () => {
                 }}
               /> */}
               <input
-                type="text"
+                value={messageContent}
+                onChange={(e) => setMessageContent(e.target.value)}
                 className="border outline-none w-[90%] p-1 rounded-xl pl-[27px] z-30 bg-slate-300 "
                 placeholder="Type a message"
               />
             </div>
             <div>
-              <PlayIcon color="blue" width={20} height={20} />
+              <PlayIcon
+                color="blue"
+                width={20}
+                height={20}
+                onClick={handleSendMessage}
+              />
             </div>
           </div>
         </div>
@@ -237,29 +184,8 @@ export const MessageUser = () => {
   );
 };
 
-/*const Conversation = ({ itemConversation }) => {
-  return (
-    <div className="p-5 border-b flex justify-between items-center">
-      <div className="flex items-center gap-4">
-        <div>
-          <img
-            className="rounded-full w-14 h-14"
-            src="/assets/userDefaultImage.jpg"
-            alt=""
-          />
-        </div>
-        <div>
-          <p className="font-semibold text-black text-[20px]">
-            {itemConversation.userName}
-          </p>
-          <p className="text-green-500 text-[13px] italic">{`${itemConversation.userName} is typing...`}</p>
-        </div>
-      </div>
-      <div className="text-black flex items-center gap-6">
-        <VideoCameraIcon width={20} height={20} />
-        <PhoneIcon width={20} height={20} />
-        <EllipsisHorizontalIcon width={20} height={20} />
-      </div>
-    </div>
-  );
-};*/
+const AlwaysScrollToBottom = () => {
+  const elementRef = useRef();
+  useEffect(() => elementRef.current.scrollIntoView({ behavior: "smooth" }));
+  return <div ref={elementRef} />;
+};
