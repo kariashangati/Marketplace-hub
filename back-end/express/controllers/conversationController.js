@@ -4,7 +4,7 @@ const getConversations = async (request, response) => {
   try {
     const conversations = await Conversation.find({
       $or: [{ user1Id: request.userId }, { user2Id: request.userId }],
-    });
+    }).sort({createdAt:-1});
 
     if (conversations.length > 0) {
       const otherUsers = conversations.map((conversation) => {
@@ -40,6 +40,55 @@ const getConversations = async (request, response) => {
   }
 };
 
+
+const searchConversations = async (request,response) =>{
+  try{
+    const {username} = request.query;
+    const conversations = await Conversation.find({
+      $and:[
+        {
+          $or:[{user1Username:request.username},{user2Username:request.username}] 
+        },
+        {$or:[
+          {$and:[{user1Username:{$regex:username}},{user1Username:{$ne:username}}]},
+          {$and:[{user2Username:{$regex:username}},{user2Username:{$ne:username}}]},
+        ]}] 
+    }).sort({createdAt:-1});
+
+    if (conversations.length > 0) {
+      const otherUsers = conversations.map((conversation) => {
+        if (conversation.user1Id === parseInt(request.userId)) {
+          return {
+            userId: conversation.user2Id,
+            profilePic: conversation.user2ProfilePic,
+            username: conversation.user2Username,
+            conversationId: conversation._id,
+          };
+        } else {
+          return {
+            userId: conversation.user1Id,
+            profilePic: conversation.user1ProfilePic,
+            username: conversation.user1Username,
+            conversationId: conversation._id,
+          };
+        }
+      });
+
+      return response.json({
+        conversations: otherUsers,
+      });
+    } else {
+      return response.status(404).json({
+        message: "No conversations founded",
+      });
+    }
+    
+  }catch(error){
+    return response.status(500).json({
+      'message' : error.message || "Try again later"
+    })
+  }
+}
 const postConversation = async (request, response) => {
   try {
     const { user2Id, user2ProfilePic, user2Username } = request.body;
@@ -84,4 +133,4 @@ const postConversation = async (request, response) => {
   }
 };
 
-module.exports = { getConversations, postConversation };
+module.exports = { getConversations, postConversation, searchConversations };
