@@ -100,6 +100,11 @@ const postConversation = async (request, response) => {
       ],
     });
 
+    if(request.role === 'admin' || request.role === 'super admin'){
+      return response.status(401).json({
+        'message' : "Admins can't text users"
+      })
+    }
     if (conversationExists) {
       return response.status(401).json({
         message: "Already you contact this user!",

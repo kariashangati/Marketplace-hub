@@ -402,6 +402,7 @@ class ProductController extends Controller
         try {
             $products = Product::where("store_id", $id)
                 ->with("store.user")
+                ->latest()
                 ->get();
 
             return response()->json([

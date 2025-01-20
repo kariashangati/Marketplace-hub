@@ -14,6 +14,7 @@ const verifyToken = async (request,response,next) =>{
         request.userId = decoded.sub;
         request.username = decoded.username;
         request.profile_picture = decoded.profilePicture;
+        request.role = decoded.role;
         next();
 
     } catch (error) {
