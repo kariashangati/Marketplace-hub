@@ -1,11 +1,9 @@
 import React from 'react'
 import { UserSideBar } from '../../layouts/UserSideBar';
 import projectLogo from "../../../public/assets/projectLogo.png";
-import seeProduct from "../../../public/assets/seeProduct.jpg";
-import mall from "../../../public/assets/mall.jpg";
-import people from "../../../public/assets/people.jpg";
-import product from "../../../public/assets/product.jpg";
-import store from "../../../public/assets/store.jpg";
+import product1 from "../../../public/assets/product1.jpg";
+import product2 from "../../../public/assets/product2.jpg";
+import product3 from "../../../public/assets/product3.jpg";
 import bg from "../../../public/assets/bg.jpg";
 import { Button } from '../../components/ui/Button';
 import { FaceFrownIcon } from '@heroicons/react/24/outline';
@@ -15,80 +13,124 @@ import { Link } from 'react-router-dom';
 
 export const Home = () => {
   return (
-    <div>
-        <div className='bg-dark w-[100%] px-10 fixed z-20'>
-          <img src={projectLogo} className="w-[15%] hidden lg:block mb-6"/>
-        </div>
-        <div className='w-[100%] h-[95vh] relative'>
-          <div 
-            className='absolute inset-0 bg-no-repeat bg-center bg-cover blur-sm'
-            style={{ backgroundImage: `url(${bg})` }}
-          ></div>
+   
+    <div className="font-sans">
+      <div className="bg-dark w-full px-10 py-4 fixed z-20 flex justify-between items-center shadow-md">
+        <img src={projectLogo} alt="Logo" className="w-40 hidden lg:block"/>
+        <ul className="hidden lg:flex space-x-6 text-white text-lg">
+          <li><a href="#hero" className=" font-semibold cursor-pointer hover:text-blue-500">Home</a></li>
+          <li><a href="#features" className=" font-semibold cursor-pointer hover:text-blue-500">Features</a></li>
+          <li><a href="#products" className=" font-semibold cursor-pointer hover:text-blue-500">Products</a></li>
+          <li><a href="#contact" className=" font-semibold cursor-pointer hover:text-blue-500">Contact</a></li>
+        </ul>
+      </div>
 
-          <div className='absolute inset-0 flex items-center justify-center flex-col'>
-            <h1 className='text-8xl font-semibold'>Shopy SAS Welcomes You</h1>
-            <h2 className='text-3xl font-semibold mt-16'>Connecting Buyers and Sellers the Right Way</h2>
-            <div className='mt-11 w-[100%] flex justify-center'>
-              <Link to='/user/products'>
-                <Button text={'See Product'} bg={'bg-white'} color={'black'} width={"100%"}/>
-              </Link>
-            </div>
+      {/* Hero Section */}
+      <div id="hero" className="w-full h-screen relative">
+        <div 
+          className="absolute inset-0 bg-no-repeat bg-center bg-cover"
+          style={{ backgroundImage: `url(${bg})` }}
+        ></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/80"></div>
+        <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-white">
+          <h1 className="text-5xl lg:text-8xl font-bold">Shopy SAS Welcomes You</h1>
+          <h2 className="text-2xl lg:text-3xl font-medium mt-6">Connecting Buyers and Sellers the Right Way</h2>
+          <div className="mt-10">
+            <a 
+              href="#products" 
+              className="bg-white text-black py-3 px-8 rounded-md text-lg hover:bg-gray-200"
+            >
+              See Products
+            </a>
           </div>
         </div>
-        {/* <div className='w-[100%] flex justify-center items-center relative bg-no-repeat bg-center bg-cover h-[95vh]' style={{backgroundImage: `url(${bg})`}}> */}
-          {/* <img src={bg} className='w-[100%] h-[100vh] rounded-sm px-2 py-1 blur-sm'  /> */}
+      </div>
+
+      <div id="features" className="py-20 px-10 bg-gray-100 text-center">
+        <h2 className="text-4xl text-black font-bold mb-10">Why Choose Us?</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="bg-white p-6 rounded-md shadow-md">
+            <h3 className="text-2xl font-semibold text-black mb-4">Feature 1</h3>
+            <p className='text-black'>We carefully curate only the highest-quality products that are designed to meet your specific needs. Whether you're looking for the latest tech, home goods, or fashion, our marketplace offers a wide range of premium options to ensure you get the best value for your money.
+            </p>
+          </div>
+          <div className="bg-white p-6 rounded-md shadow-md">
+            <h3 className="text-2xl font-semibold text-black mb-4">Feature 2</h3>
+            <p className='text-black'>With secure and reliable transactions at the core of our marketplace, we guarantee that every purchase you make is safe. Our platform uses state-of-the-art encryption to protect your personal and financial data, giving you peace of mind with every order.
+            </p>
+          </div>
+          <div className="bg-white p-6 rounded-md shadow-md">
+            <h3 className="text-2xl font-semibold text-black mb-4">Feature 3</h3>
+            <p className='text-black'>Our dedicated customer support team is available 24/7 to ensure that you have a smooth and hassle-free shopping experience. Whether you have a question, need assistance with an order, or require product advice, we’re here to help at any time.
+            </p>
+          </div>
+        </div>
+      </div>
+
+
+      <div id="products" className="py-20 px-10 bg-white text-center">
+        <h2 className="text-4xl text-black font-bold mb-10">Best Products</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           
-          {/* <div className='absolute inset-0 flex items-center justify-center flex-col'>
-            <h1 className='text-8xl font-semibold'>Shopy SAS Welcomes You</h1>
-            <h2 className='text-3xl font-semibold mt-16'>Connecting Buyers and Sellers the Right Way</h2>
-            <div className='mt-11 w-[100%] flex justify-center'><Link to='/user/products'><Button text={'See Product'} bg={'bg-white'} color={'black'} width={"100%"}/></Link></div>    
+          {/* Product 1: Sunglasses */}
+          <div className="p-6 border rounded-md">
+            <img 
+              src={product1} 
+              alt="Sunglasses" 
+              className="w-full h-64 object-cover mb-4 rounded-md"
+            />
+            <h3 className="text-2xl font-semibold text-black">Sunglasses</h3>
+            <p className="mt-2 text-gray-600 text-xl font-semibold">$50</p>
+            <p className="mt-4 text-gray-800">Stylish sunglasses designed to protect your eyes while keeping you looking fashionable. Perfect for any sunny day.</p>
           </div>
-        </div> */}
-        {/* <div className='mt-40 w-[100%] relative py-5 mx-auto'>
-          <div className='w-[50%] bg-white px-10 py-20 relative left-20'>
-            <h2 className='text-black text-5xl font-semibold'>About</h2>
-            <p className='text-black mt-11 text-2xl w-[70%]'>As a trusted marketplace connecting buyers and sellers, we attribute our success to the strong relationships we've built within our community. We believe every user deserves a seamless and reliable experience, whether they're shopping for essentials or selling their products to a wider audience. Our commitment to quality, transparency, and innovation sets us apart. Explore our platform to discover endless possibilities, and feel free to reach out with any questions. Shopy SAS is here to make connections that matter.</p>
+
+          {/* Product 2: T-shirt */}
+          <div className="p-6 border rounded-md">
+            <img 
+              src={product2} 
+              alt="T-shirt" 
+              className="w-full h-64 object-cover mb-4 rounded-md"
+            />
+            <h3 className="text-2xl font-semibold text-black">T-shirt</h3>
+            <p className="mt-2 text-gray-600 text-xl font-semibold">$75</p>
+            <p className="mt-4 text-gray-800">A comfortable, high-quality cotton T-shirt that’s perfect for casual wear. Available in a variety of sizes and colors to suit your style.</p>
           </div>
-          <div className='absolute inset-0 flex justify-end top-32 z-10 right-20'>
-            <img src={mall} className="w-[50%] h-5/6 hidden lg:block mb-6"/>
+
+          {/* Product 3: iPhone 16 */}
+          <div className="p-6 border rounded-md">
+            <img 
+              src={product3}  
+              alt="iPhone 16" 
+              className="w-full h-64 object-cover mb-4 rounded-md"
+            />
+            <h3 className="text-2xl font-semibold text-black">iPhone 16</h3>
+            <p className="mt-2 text-gray-600 text-xl font-semibold">$1000</p>
+            <p className="mt-4 text-gray-800">The latest iPhone 16, offering cutting-edge technology, sleek design, and top-of-the-line performance for all your daily needs and more.</p>
           </div>
         </div>
-        <div className='mt-20 flex justify-center w-[100%]'>
-          <h2 className='text-white text-5xl font-semibold'>Services</h2>
+      </div>
+
+
+      <div id="contact" className="py-20 px-10 bg-white text-center">
+        <h2 className="text-4xl text-black font-bold mb-10">Get in Touch</h2>
+        <form className="max-w-lg mx-auto">
+          <input type="text" placeholder="Name" required className="w-full p-3 border rounded-md mb-4 text-black"/>
+          <input type="email" placeholder="Email" required className="w-full p-3 border rounded-md mb-4 text-black"/>
+          <textarea placeholder="Message" required className="w-full p-3 border rounded-md mb-4 text-black" rows="4"></textarea>
+          <button type="submit" className="bg-black text-white py-3 px-6 rounded-md hover:bg-gray-800">Send Message</button>
+        </form>
+      </div>
+
+      
+      <footer className="bg-dark text-white py-6 text-center">
+        <p>&copy; {new Date().getFullYear()} Shopy SAS. All rights reserved.</p>
+        <div className="flex justify-center space-x-6 mt-4">
+          <a href="#privacy-policy" className="hover:underline">Privacy Policy</a>
+          <a href="#terms-of-service" className="hover:underline">Terms of Service</a>
         </div>
-        <div className='w-[90%] flex flex-row mt-16 justify-between mx-20'>
-          <div className='w-[30%]'>
-              <img src={product} className="w-[100%] hidden lg:block mb-6"/>
-              <h2 className='text-white text-3xl font-semibold '>See Product</h2>
-              <hr  className='mt-6 mb-6 h-1'/>
-              <a href='/user/products'><Button text={"entrer"} bg={'bg-white'} color={'black'} width={'30%'} /></a>
-            </div>
-            <div className='w-[30%]'>
-              <img src={store} className="w-[100%] hidden lg:block mb-6"/>
-              <h2 className='text-white text-3xl font-semibold '>See Stores</h2>
-              <hr  className='mt-6 mb-6 h-1'/>
-              <a href='/user/profile'><Button text={"entrer"} bg={'bg-white'} color={'black'} width={'30%'}/></a>
-            </div>
-            <div className='w-[30%]'>
-              <img src={people} className="w-[100%] hidden lg:block mb-6"/>
-              <h2 className='text-white text-3xl font-semibold '>Searche user</h2>
-              <hr  className='mt-6 mb-6 h-1'/>
-              <a href='/user/search'><Button text={"entrer"} bg={'bg-white'} color={'black'} width={'30%'}/></a>
-            </div>
-        </div>
-        <div className='bg-white mt-28 px-20 w-[100%] flex flex-row'>
-          <div className='py-20 w-[40%]'>
-            <h2 className='text-black text-5xl font-semibold'>Contact</h2>
-            <h2 className='text-black text-xl font-normal mt-8'>Shopy SAS</h2>
-            <h2 className='text-black text-xl font-normal mt-2'>213 HAMMA</h2>
-            <h2 className='text-black text-xl font-normal mt-2'>TIZNIT,MOROCCO</h2>
-          </div>
-          <div className='py-20 w-[40%]'>
-            
-            <h2 className='text-black text-xl font-normal mt-8'>TEL : +212-688-943313</h2>
-            <h2 className='text-black text-xl font-normal mt-2'>ShopySAS@gmail.com</h2>
-          </div>         */}
-        {/* </div> */}
-    </div>
+      </footer>
+</div>
+
+
   )
 }
