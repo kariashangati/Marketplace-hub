@@ -26,7 +26,7 @@ export const Home = () => {
             <div className='mt-11 w-[100%] flex justify-center'><Link to='/user/products'><Button text={'See Product'} bg={'bg-white'} color={'black'} width={"100%"}/></Link></div>    
           </div>
         </div>
-        <div className='mt-40 w-[100%] relative py-5 mx-auto'>
+        {/* <div className='mt-40 w-[100%] relative py-5 mx-auto'>
           <div className='w-[50%] bg-white px-10 py-20 relative left-20'>
             <h2 className='text-black text-5xl font-semibold'>About</h2>
             <p className='text-black mt-11 text-2xl w-[70%]'>As a trusted marketplace connecting buyers and sellers, we attribute our success to the strong relationships we've built within our community. We believe every user deserves a seamless and reliable experience, whether they're shopping for essentials or selling their products to a wider audience. Our commitment to quality, transparency, and innovation sets us apart. Explore our platform to discover endless possibilities, and feel free to reach out with any questions. Shopy SAS is here to make connections that matter.</p>
@@ -69,7 +69,7 @@ export const Home = () => {
             
             <h2 className='text-black text-xl font-normal mt-8'>TEL : +212-688-943313</h2>
             <h2 className='text-black text-xl font-normal mt-2'>ShopySAS@gmail.com</h2>
-          </div>        
+          </div>         */}
         </div>
     </div>
   )
