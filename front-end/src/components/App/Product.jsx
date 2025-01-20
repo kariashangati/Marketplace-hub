@@ -34,8 +34,9 @@ export const Product = ({
       <div className="w-[25%]">
         <img
           src={productData.product_image}
-          className="w-full h-[250px] rounded-md object-cover"
+          className="w-full h-[250px] rounded-md object-cover transform transition-all duration-300 ease-in-out hover:scale-105"
           alt="Store Logo"
+          onClick={() => navigate(`/product/productdetails/${productData.id}`)}
         />
       </div>
       <div className="w-[75%]">
