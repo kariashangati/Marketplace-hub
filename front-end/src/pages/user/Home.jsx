@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { UserSideBar } from '../../layouts/UserSideBar';
 import projectLogo from "../../../public/assets/projectLogo.png";
 import product1 from "../../../public/assets/product1.jpg";
@@ -7,16 +7,26 @@ import product3 from "../../../public/assets/product3.jpg";
 import bg from "../../../public/assets/bg.jpg";
 import { Button } from '../../components/ui/Button';
 import { FaceFrownIcon } from '@heroicons/react/24/outline';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 
 export const Home = () => {
+  const navigate = useNavigate()
+  const [name , setName] = useState()
+  const [email , setEmail] = useState()
+  const [message , setMessage] = useState()
+  console.log(email)
+  const sendemail = ()=>{
+    const subject = "Message";
+    window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+  }
+
   return (
    
     <div className="font-sans">
-      <div className="bg-dark w-full px-10 py-4 fixed z-20 flex justify-between items-center shadow-md">
-        <img src={projectLogo} alt="Logo" className="w-40 hidden lg:block"/>
+      <div className="bg-dark w-full px-10 fixed z-20 flex justify-between items-center shadow-md">
+        <img src={projectLogo} alt="Logo" className="w-48 hidden lg:block mb-2"/>
         <ul className="hidden lg:flex space-x-6 text-white text-lg">
           <li><a href="#hero" className=" font-semibold cursor-pointer hover:text-blue-500">Home</a></li>
           <li><a href="#features" className=" font-semibold cursor-pointer hover:text-blue-500">Features</a></li>
@@ -25,7 +35,7 @@ export const Home = () => {
         </ul>
       </div>
 
-      {/* Hero Section */}
+
       <div id="hero" className="w-full h-screen relative">
         <div 
           className="absolute inset-0 bg-no-repeat bg-center bg-cover"
@@ -36,18 +46,13 @@ export const Home = () => {
           <h1 className="text-5xl lg:text-8xl font-bold">Shopy SAS Welcomes You</h1>
           <h2 className="text-2xl lg:text-3xl font-medium mt-6">Connecting Buyers and Sellers the Right Way</h2>
           <div className="mt-10">
-            <a 
-              href="#products" 
-              className="bg-white text-black py-3 px-8 rounded-md text-lg hover:bg-gray-200"
-            >
-              See Products
-            </a>
+            <Button type={'submet'} text={'See product'} bg={'bg-white'} color={'black'} onClick={()=>navigate('/user/products')}/>
           </div>
         </div>
       </div>
-
+    
       <div id="features" className="py-20 px-10 bg-gray-100 text-center">
-        <h2 className="text-4xl text-black font-bold mb-10">Why Choose Us?</h2>
+        <h2 className="text-4xl text-black font-bold mb-10 ">Why Choose Us?</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="bg-white p-6 rounded-md shadow-md">
             <h3 className="text-2xl font-semibold text-black mb-4">Feature 1</h3>
@@ -72,7 +77,7 @@ export const Home = () => {
         <h2 className="text-4xl text-black font-bold mb-10">Best Products</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           
-          {/* Product 1: Sunglasses */}
+      
           <div className="p-6 border rounded-md">
             <img 
               src={product1} 
@@ -84,7 +89,7 @@ export const Home = () => {
             <p className="mt-4 text-gray-800">Stylish sunglasses designed to protect your eyes while keeping you looking fashionable. Perfect for any sunny day.</p>
           </div>
 
-          {/* Product 2: T-shirt */}
+        
           <div className="p-6 border rounded-md">
             <img 
               src={product2} 
@@ -93,10 +98,10 @@ export const Home = () => {
             />
             <h3 className="text-2xl font-semibold text-black">T-shirt</h3>
             <p className="mt-2 text-gray-600 text-xl font-semibold">$75</p>
-            <p className="mt-4 text-gray-800">A comfortable, high-quality cotton T-shirt that’s perfect for casual wear. Available in a variety of sizes and colors to suit your style.</p>
+            <p className="mt-4 text-gray-800">A comfortable, high-quality cotton T-shirt that's perfect for casual wear. Available in a variety of sizes and colors to suit your style.</p>
           </div>
 
-          {/* Product 3: iPhone 16 */}
+      
           <div className="p-6 border rounded-md">
             <img 
               src={product3}  
@@ -114,10 +119,10 @@ export const Home = () => {
       <div id="contact" className="py-20 px-10 bg-white text-center">
         <h2 className="text-4xl text-black font-bold mb-10">Get in Touch</h2>
         <form className="max-w-lg mx-auto">
-          <input type="text" placeholder="Name" required className="w-full p-3 border rounded-md mb-4 text-black"/>
-          <input type="email" placeholder="Email" required className="w-full p-3 border rounded-md mb-4 text-black"/>
-          <textarea placeholder="Message" required className="w-full p-3 border rounded-md mb-4 text-black" rows="4"></textarea>
-          <button type="submit" className="bg-black text-white py-3 px-6 rounded-md hover:bg-gray-800">Send Message</button>
+          <input type="text" placeholder="Name" required onChange={(e)=>setName(e.target.value)} className="w-full p-3 border rounded-md mb-4 text-black"/>
+          <input type="email" placeholder="Email" required onChange={(e)=>setEmail(e.target.value)} className="w-full p-3 border rounded-md mb-4 text-black"/>
+          <textarea placeholder="Message" required onChange={(e)=>setMessage(e.target.value)} className="w-full p-3 border rounded-md mb-4 text-black" rows="4"></textarea>
+          <button type="submit" onClick={sendemail} className="bg-black text-white py-3 px-6 rounded-md hover:bg-gray-800">Send Message</button>
         </form>
       </div>
 
