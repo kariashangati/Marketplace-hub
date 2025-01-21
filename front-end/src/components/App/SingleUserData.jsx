@@ -5,7 +5,7 @@ export const SingleUserData = ({userData}) => {
     const navigate = useNavigate();
     
   return (
-    <div className="flex justify-between w-[100%] px-2 py-1 rounded-md items-center bg-dark hover:bg-black duration-200 cursor-pointer">
+    <div className="flex justify-between w-[100%] px-3 py-2 rounded-md items-center bg-gray-200 hover:bg-gray-200 duration-200 cursor-pointer">
         <div className="flex gap-2 items-center">
             <div>
                 <img src={userData.store.user.profile_picture} className='w-10 h-10 rounded-full'/>

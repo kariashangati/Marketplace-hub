@@ -178,7 +178,7 @@ export const MessageUser = () => {
       <div>
         <UserSideBar viewIcone />
       </div>
-      <div className="border-r-[20px] border-t-[5px] border-b-[10px]  border-dark grid grid-cols-4 w-screen h-screen">
+      <div className="border-r-[20px] border-t-[5px] border-b-[10px]  border-gray-200 grid grid-cols-4 w-screen h-screen">
         <div className="border-r  col-span-1  bg-white">
           <div
             ref={refHeadeCahts}

@@ -237,7 +237,7 @@ export const ProductDetails = () => {
       </div>
       <div className="lg:ml-[21%] px-2 mt-4">
         {
-            !loading ? <div className='bg-dark px-3 py-2'>
+            !loading ? <div className='bg-white px-3 py-2'>
             <div className='w-[100%] flex md:flex-row flex-col justify-between'>
                 <div className='md:w-[40%]'>
                     <img src={productDetails.product_image} className='w-[100%] rounded-md'/>
@@ -254,10 +254,10 @@ export const ProductDetails = () => {
                             </div>
                         </div>
                         <div className='flex gap-2'>
-                            <div className='bg-gray-900 rounded-md p-1 cursor-pointer hover:bg-gray-700 duration-200'>
+                            <div className='bg-white rounded-md p-1 cursor-pointer hover:bg-white duration-200'>
                                 <ClipboardDocumentIcon className='w-7 h-7' onClick={copyUrl}/>
                             </div>
-                            <div className='bg-gray-900 rounded-md p-1 cursor-pointer hover:bg-gray-700 duration-200'>
+                            <div className='bg-white rounded-md p-1 cursor-pointer hover:bg-white duration-200'>
                                 {
                                     alreadyLiked.current?
                                     <HeartSolid className='w-7 h-7 text-red-600' onClick={likeProduct}/>
@@ -283,13 +283,13 @@ export const ProductDetails = () => {
                                     </div>
                                 }
                             </div>
-                            <h3 className='text-lg font-semibold text-gray-300'><span className='text-4xl'>{productDetails.price}</span> DH</h3>
+                            <h3 className='text-lg font-semibold text-black'><span className='text-4xl'>{productDetails.price}</span> DH</h3>
                             <div className='mt-2'>
-                                <span className='text-sm text-gray-300'>
+                                <span className='text-sm text-black'>
                                     {productDetails.description}
                                 </span>
                             </div>
-                            <div className='mt-3 flex flex-col gap-1 text-gray-300'>
+                            <div className='mt-3 flex flex-col gap-1 text-black'>
                                 <div className='flex gap-2 items-center'>
                                     <HeartOutline className='w-5 h-5' strokeWidth={'2'}/>
                                     <span className='font-semibold'>{likesCount} Liked this product</span>
@@ -325,7 +325,7 @@ export const ProductDetails = () => {
                     {
                         productComments && productComments.length ?
                             productComments.map((comment) =>{
-                                return <div className='mb-5'>
+                                return <div className='mb-5 bg-gray-100 py-4 px-3 rounded-xl'>
                                             <div className='flex justify-between items-center gap-2'>
                                                 <div className='flex items-center gap-2'>
                                                     <img src={comment.commenterProfilePic} className='rounded-full w-8 h-8'/>
@@ -335,7 +335,7 @@ export const ProductDetails = () => {
 
 
                                                 <div>
-                                                    <TrashIcon className='w-4 h-4 text-red-400 hover:text-red-500 cursor-pointer' onClick={() => handleDeleteComment(comment._id)} />
+                                                    <TrashIcon className='w-5 h-5 text-red-400 hover:text-red-500 cursor-pointer' onClick={() => handleDeleteComment(comment._id)} />
                                                 </div>
                                             </div>
                                             <div className='pl-10'>

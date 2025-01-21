@@ -20,7 +20,7 @@ export const Store = ({
 
   return (
     <div
-      className="bg-dark my-3.5 px-3 py-2 rounded-md w-[100%] cursor-pointer lg:mb-0 lg:w-[48%] hover:bg-black duration-200"
+      className="bg-gray-100 my-3.5 px-4 py-4 rounded-md w-[100%] cursor-pointer lg:mb-0 lg:w-[48%] hover:bg-gray-200 duration-200"
       onClick={() => navigate(`/store/storeData/${storeData.id}`)}
     >
       <div className="flex gap-2 justify-between items-start">
