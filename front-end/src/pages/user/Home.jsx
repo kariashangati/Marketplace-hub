@@ -34,10 +34,10 @@ export const Home = () => {
           {
             !localStorage.getItem('token') ?
               <>
-                <button onClick={() => navigate('/login')} className='bg-black text-white rounded-3xl px-4 py-1 border-2 hover:bg-gray-300 duration-200 font-semibold'>
+                <button onClick={() => navigate('/login')} className='bg-black text-white rounded-3xl px-4 py-1 border-2 hover:bg-gray-200 hover:text-black hover:border-black duration-200 font-semibold'>
                   Login
                 </button>
-                <button onClick={() => navigate('/register')} className='bg-inherit text-black border-2 border-black rounded-3xl px-4 py-1 hover:bg-black duration-200 font-semibold'>
+                <button onClick={() => navigate('/register')} className='bg-inherit text-black border-2 border-black rounded-3xl px-4 py-1 hover:bg-black hover:text-white duration-200 font-semibold'>
                   Sign up
                 </button>
               </>
@@ -54,7 +54,7 @@ export const Home = () => {
         ></div>
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/80"></div>
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-white">
-          <h1 className="text-5xl lg:text-8xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-200 via-blue-400 to-sky-500 animate-fade animate-duration-[2000ms] animate-ease" >
+          <h1 className="text-5xl lg:text-8xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-white to-blue-500 animate-fade animate-duration-[2000ms] animate-ease" >
             Shopy SAS Welcomes You
           </h1>
           <h2 className="text-2xl lg:text-3xl font-medium mt-6 animate-fade animate-duration-[2000ms] animate-ease">Connecting Buyers and Sellers the Right Way</h2>
