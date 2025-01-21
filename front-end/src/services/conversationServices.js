@@ -24,3 +24,15 @@ export const postConversation = async (token, data) => {
   );
   return response;
 };
+
+export const searchConversation = async (token, username) => {
+  const response = await axios.get(
+    `http://localhost:3000/api/conversations/searchConversations?username=${username}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response;
+};

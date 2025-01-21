@@ -20,10 +20,10 @@ const postMessage = async (request, response) => {
     const { conversationId, receiverId, productId, messageContent } =
       request.body;
 
-    if(request.role === 'admin' || request.role === 'super admin'){
+    if (request.role === "admin" || request.role === "super admin") {
       return response.status(401).json({
-        'message' : "Admins can't text users"
-      })
+        message: "Admins can't text users",
+      });
     }
 
     const message = new Message({

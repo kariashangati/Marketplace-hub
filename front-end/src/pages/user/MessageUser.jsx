@@ -1,31 +1,56 @@
 import { useEffect, useRef, useState } from "react";
 
 import { UserSideBar } from "../../layouts/UserSideBar";
-import {
-  EllipsisVerticalIcon,
-  MagnifyingGlassIcon,
-  PencilSquareIcon,
-  PlayIcon,
-} from "@heroicons/react/24/outline";
+import { MagnifyingGlassIcon, PlayIcon } from "@heroicons/react/24/outline";
 import { MessageChats } from "../../components/shared/components-message/MessageChats";
 import { HeaderConvsertion } from "../../components/shared/components-message/HeaderConvsertion";
 import bgMessage from "../../../public/assets/bgMessage.png";
-import { getConversations } from "../../services/conversationServices";
-import { getMessages, postMessage } from "../../services/messageServices";
+import {
+  getConversations,
+  searchConversation,
+} from "../../services/conversationServices";
+import {
+  deleteMessage,
+  getMessages,
+  postMessage,
+} from "../../services/messageServices";
 import { MessageItem } from "../../components/shared/components-message/MessageItem";
+import { Notification } from "../../components/ui/Notification";
 
 export const MessageUser = () => {
   const [conversations, setConversations] = useState([]);
   const [messageContent, setMessageContent] = useState("");
+  const [search, setSearch] = useState("");
   const [chatInfo, setChatInfo] = useState({});
   const [heightChat, setHeightChat] = useState(0);
   const [heightBadyConversation, setHeightBadyConversation] = useState(0);
+  const [notification, setNotification] = useState({});
+  const [loading, setLoading] = useState(false);
+
   const refHeader = useRef(null);
   const refFooter = useRef(null);
   const refHeadeCahts = useRef(null);
   const refSearchCahts = useRef(null);
 
   useEffect(() => {
+    const searchItemConversation = async () => {
+      setNotification(null);
+      try {
+        const response = await searchConversation(
+          localStorage.getItem("token"),
+          search
+        );
+        setConversations(response.data.conversations);
+      } catch (error) {
+        if (error.response) {
+          setNotification({
+            type: "error",
+            message: error.response.data.message,
+          });
+        }
+      }
+    };
+
     const viewConversations = async () => {
       try {
         const response = await getConversations(localStorage.getItem("token"));
@@ -40,8 +65,13 @@ export const MessageUser = () => {
       }
     };
 
-    viewConversations();
-  }, []);
+    if (search != "") {
+      searchItemConversation();
+    }
+    {
+      viewConversations();
+    }
+  }, [search]);
 
   useEffect(() => {
     const res =
@@ -62,7 +92,7 @@ export const MessageUser = () => {
         localStorage.getItem("token"),
         item.conversationId
       );
-      console.log(item);
+      // console.log(item);
       setChatInfo({
         receiverId: item.userId,
         conversationId: item.conversationId,
@@ -70,7 +100,14 @@ export const MessageUser = () => {
         profilePic: item.profilePic,
         messages: response.data,
       });
-    } catch (error) {}
+    } catch (error) {
+      if (error.response) {
+        setNotification({
+          type: "error",
+          message: error.response.data.message,
+        });
+      }
+    }
   };
 
   const handleSendMessage = async () => {
@@ -87,7 +124,53 @@ export const MessageUser = () => {
         return { ...curr, messages: newMessages };
       });
       setMessageContent("");
-    } catch (error) {}
+    } catch (error) {
+      if (error.response) {
+        setNotification({
+          type: "error",
+          message: error.response.data.message,
+        });
+      }
+    }
+  };
+
+  const deleteItemMeassage = async (m) => {
+    setLoading(false);
+    setNotification(null);
+    try {
+      const messageId = m._id;
+      const response = await deleteMessage(
+        localStorage.getItem("token"),
+        messageId
+      );
+      setLoading(false);
+      setNotification({
+        type: "success",
+        message: response.data.message,
+      });
+
+      setChatInfo((curr) => {
+        const newMessages = curr.messages.filter(
+          (_message) => _message._id !== messageId
+        );
+
+        return { ...curr, messages: newMessages };
+      });
+    } catch (error) {
+      setLoading(false);
+      if (error.response) {
+        console.log(error.response);
+        setNotification({
+          type: "error",
+          message: error.response.data.message,
+        });
+      } else {
+        setNotification({
+          type: "error",
+          message: "try later again",
+        });
+      }
+    }
   };
 
   return (
@@ -109,8 +192,12 @@ export const MessageUser = () => {
           </div>
           <div ref={refSearchCahts} className="text-black p-4 relative">
             <input
+              value={search}
               className="border outline-none w-full p-1 rounded-xl pl-[27px]"
               placeholder="search"
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
             />
             <MagnifyingGlassIcon
               width={20}
@@ -145,7 +232,11 @@ export const MessageUser = () => {
             }}
           >
             {chatInfo.messages?.map((m) => (
-              <MessageItem key={m._id} message={m} />
+              <MessageItem
+                key={m._id}
+                message={m}
+                deleteItemMeassage={() => deleteItemMeassage(m)}
+              />
             ))}
             <AlwaysScrollToBottom />
           </div>
@@ -180,6 +271,9 @@ export const MessageUser = () => {
           </div>
         </div>
       </div>
+      {notification && (
+        <Notification type={notification.type} message={notification.message} />
+      )}
     </div>
   );
 };
