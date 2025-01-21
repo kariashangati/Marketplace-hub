@@ -1,7 +1,7 @@
 export const MessageChats = ({ item, onClick }) => {
   return (
     <div
-      className="border-b p-4 text-black flex items-center justify-between cursor-pointer"
+      className="border-b p-4 text-black flex items-center justify-between cursor-pointer hover:bg-gray-200 duration-200"
       onClick={onClick}
     >
       <div className="flex items-center gap-2 relative">

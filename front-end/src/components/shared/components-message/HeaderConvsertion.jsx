@@ -5,6 +5,7 @@ import {
   PhoneIcon,
   VideoCameraIcon,
 } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
 
 export const HeaderConvsertion = React.forwardRef(({ item }, ref) => {
   return (
@@ -18,9 +19,9 @@ export const HeaderConvsertion = React.forwardRef(({ item }, ref) => {
           />
         </div>
         <div>
-          <p className="font-semibold text-black text-[20px]">
+          <Link to={`/user/userData/${item.user2Id}`} className="font-semibold text-black text-[20px]">
             {item.username}
-          </p>
+          </Link>
         </div>
       </div>
       {/* <div className="text-black flex items-center gap-6">

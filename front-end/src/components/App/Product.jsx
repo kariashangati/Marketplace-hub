@@ -15,7 +15,7 @@ export const Product = ({
   viewUser,
   methodSaved,
   methodReported,
-  deleteProduct
+  deleteProduct,
 }) => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -28,9 +28,8 @@ export const Product = ({
     setAnchorEl(null);
   };
 
-
   return (
-    <div className="bg-dark p-3 w-[100%] rounded-md flex gap-5 cursor-pointer hover:bg-black duration-200" >
+    <div className="bg-dark p-3 w-[100%] rounded-md flex gap-5 cursor-pointer hover:bg-black duration-200">
       <div className="w-[25%]">
         <img
           src={productData.product_image}
@@ -117,7 +116,14 @@ export const Product = ({
         </div>
 
         <div className="mt-2">
-          <h1 className="text-2xl font-semibold hover:underline duration-200 hover:text-sky-500" onClick={() => navigate(`/product/productdetails/${productData.id}`)}>{productData.productName}</h1>
+          <h1
+            className="text-2xl font-semibold hover:underline duration-200 hover:text-sky-500"
+            onClick={() =>
+              navigate(`/product/productdetails/${productData.id}`)
+            }
+          >
+            {productData.productName}
+          </h1>
           <p>{productData.description}</p>
         </div>
         <div className="mt-1">

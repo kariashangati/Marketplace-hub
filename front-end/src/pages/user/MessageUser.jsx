@@ -243,28 +243,23 @@ export const MessageUser = () => {
 
           <div
             ref={refFooter}
-            className="text-black flex items-center p-2 border-t "
+            className="text-black flex items-center px-10 py-3 border-t justify-between"
           >
-            <div className="w-full">
-              {/* <textarea
-                className="border outline-none w-full p-1 rounded-xl pl-[27px] z-30 bg-slate-300 "
+            <div className="w-[95%]   ">
+              <textarea
+                value={messageContent}
+                onChange={(e) => setMessageContent(e.target.value)}
+                className="border outline-none w-full p-1 rounded-xl pl-[27px] z-30 bg-slate-100 overflow-hidden"
                 placeholder="Type a message"
                 style={{
                   resize: "none",
                 }}
-              /> */}
-              <input
-                value={messageContent}
-                onChange={(e) => setMessageContent(e.target.value)}
-                className="border outline-none w-[90%] p-1 rounded-xl pl-[27px] z-30 bg-slate-300 "
-                placeholder="Type a message"
               />
+             
             </div>
-            <div>
+            <div className="">
               <PlayIcon
-                color="blue"
-                width={20}
-                height={20}
+                className="w-[30px] h-[30px] text-blue-500 cursor-pointer hover:text-sky-300"
                 onClick={handleSendMessage}
               />
             </div>
