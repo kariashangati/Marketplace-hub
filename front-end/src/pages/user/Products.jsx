@@ -344,7 +344,7 @@ export const Products = () => {
           <h1 className="text-3xl font-semibold">Filter products by</h1>
           <div className="mt-2 flex gap-4">
             <select
-              className="bg-blue-500 mb-3 w-[20%] text-center py-2 px-2 cursor-pointer rounded-md"
+              className="bg-blue-500 mb-3 w-[20%] text-center py-2 px-2 cursor-pointer rounded-md text-white"
               name="category_id"
               onChange={handleChange}
             >
@@ -360,7 +360,7 @@ export const Products = () => {
                 : null}
             </select>
             <select
-              className="bg-blue-500 mb-3 w-[15%] text-center py-2 px-2 cursor-pointer rounded-md"
+              className="bg-blue-500 mb-3 w-[15%] text-center py-2 px-2 cursor-pointer rounded-md text-white"
               name="price"
               onChange={handleChange}
             >
@@ -370,7 +370,7 @@ export const Products = () => {
               <option value="500-9999">{"> 500"}</option>
             </select>
             <select
-              className="bg-blue-500 mb-3 w-[15%] text-center py-2 px-2 cursor-pointer rounded-md"
+              className="bg-blue-500 mb-3 w-[15%] text-center py-2 px-2 cursor-pointer rounded-md text-white"
               name="delivry"
               onChange={handleChange}
             >

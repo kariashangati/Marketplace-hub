@@ -58,8 +58,8 @@ export const Login = () => {
     }
   };
   return (
-    <div className="bg-black">
-      <div className="bg-dark w-[90%] md:w-[45%] mx-auto mt-32 px-6 py-8">
+    <div className="bg-white">
+      <div className="bg-white w-[90%] md:w-[45%] mx-auto mt-32 px-6 py-8 shadow-2xl border rounded-md border-gray-300">
         <h1 className="text-4xl mb-2">Sign in</h1>
         <h4 className="">
           D'ont have an account ?

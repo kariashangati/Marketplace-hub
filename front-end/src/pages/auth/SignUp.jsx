@@ -57,8 +57,8 @@ export const SignUp = () => {
         !sended
         ?
           <form onSubmit={handleSubmit}>
-            <div className="flex items-center mt-20">
-              <div className="bg-dark flex flex-col gap-5 justify-center p-5 pt-6 mx-auto">
+            <div className="flex items-center mt-20 ">
+              <div className="bg-white flex flex-col gap-5 justify-center p-5 pt-6 mx-auto shadow-2xl border rounded-md border-gray-300">
                 <div className="mb-6">
                   <h1 className="text-4xl mb-2">Sign up</h1>
                   <h4>

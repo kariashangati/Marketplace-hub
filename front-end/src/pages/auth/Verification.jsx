@@ -52,7 +52,7 @@ const Verification = ({formData}) => {
   return (
     <form onSubmit={handleSubmit}>
       <div className="flex items-center mt-32">
-        <div className="bg-dark flex flex-col gap-5 justify-center p-5 pt-6 w-[90%] md:w-[40%] mx-auto ">
+        <div className="bg-white flex flex-col gap-5 justify-center p-5 pt-6 w-[90%] md:w-[40%] mx-auto shadow-2xl border rounded-md border-gray-300">
           <div className="mb-6">
             <h1 className="text-4xl mb-2">Verification code</h1>
             <h4>
