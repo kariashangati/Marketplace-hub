@@ -9,6 +9,6 @@ export const Input = ({type,name,placholder,value,width,onChange,required=true,m
     onChange={onChange}
     required={required}
     maxLength={maxLength}
-    className={`border ${border ? `border-${border}` : 'border-white'} ${text ? `text-${text}` : 'text-white'} px-3 py-1 text-md bg-inherit rounded-sm outline-none ${width ? `w-[${width}]` : "w-[100%]"}`} />
+    className={`border ${border ? `border-${border}` : 'border-gray-600'} ${text ? `text-${text}` : 'text-black'} px-3 py-1 text-md bg-inherit rounded-sm outline-none ${width ? `w-[${width}]` : "w-[100%]"}`} />
   )
 }

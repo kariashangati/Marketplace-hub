@@ -25,12 +25,7 @@ const postNotification = async (request,response) =>{
     try{
         const {notificationContent,productId,receiverId} = request.body ;
 
-        const notificationExists = await Notification.findOne({senderId:request.userId,receiverId,productId,notificationContent});
-        if(notificationExists){
-            return response.status(400).json({
-                'message' : 'Could not send notifications'
-            })
-        }
+       
         const newNotification = new Notification({senderId:request.userId,
             senderProfilePic:request.profile_picture,
             senderUsername:request.username,

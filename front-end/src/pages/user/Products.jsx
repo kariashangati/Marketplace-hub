@@ -17,9 +17,10 @@ import {
 } from "../../services/categoryServices";
 import { Notification } from "../../components/ui/Notification";
 import { DeleteModal } from "../../components/modals/DeleteModal";
-import addproduct from "../../../public/assets/addproduct.jpg";
+import addproduct from "../../../public/assets/adinsertion_banner.jpg";
 import { AddProduct } from "../../components/modals/AddProduct";
 import { getUserStoresList } from "../../services/storeServices";
+import { PlusCircleIcon } from "@heroicons/react/24/outline";
 
 export const Products = () => {
   const [products, setProducts] = useState([]);
@@ -320,15 +321,16 @@ export const Products = () => {
       </div>
 
       <div className="lg:ml-[21%] px-2 mt-8">
-        <div className="mt-6 w-[99%] h-52 mb-6 px-2 py-1">
-          <div className="relative bg-black">
+        <div className="mt-6 w-full h-52 mb-6 px-2 py-1">
+          <div className="relative bg-white w-full">
             <img
               src={addproduct}
-              className="object-fill h-52 w-full"
+              className="object-fill h-52 w-full rounded-2xl"
               alt="Add Product"
             />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <Button
+            <div className="absolute inset-0 flex items-center text-center justify-center flex-col">
+              <span className="text-3xl font-semibold mb-6">It's the right time to make the sale.</span>
+              {/* <Button
                 type="submit"
                 text="Add Product"
                 width="10"
@@ -336,7 +338,14 @@ export const Products = () => {
                   setOpenCreateProduct(true);
                   getUserStores();
                 }}
-              />
+              /> */}
+              <button className="bg-blue-600 text-white lg:w-[15%] w-[80%] justify-center items-center flex py-2 rounded-md gap-1 font-semibold" onClick={() => {
+                  setOpenCreateProduct(true);
+                  getUserStores();
+                }}>
+                <PlusCircleIcon className="w-6 h-6 text-white" />
+                Add product
+              </button>
             </div>
           </div>
         </div>
@@ -344,7 +353,7 @@ export const Products = () => {
           <h1 className="text-3xl font-semibold">Filter products by</h1>
           <div className="mt-2 flex gap-4">
             <select
-              className="bg-blue-500 mb-3 w-[20%] text-center py-2 px-2 cursor-pointer rounded-md"
+              className="bg-blue-500 mb-3 w-[20%] text-center py-2 px-2 cursor-pointer rounded-md text-white"
               name="category_id"
               onChange={handleChange}
             >
@@ -360,7 +369,7 @@ export const Products = () => {
                 : null}
             </select>
             <select
-              className="bg-blue-500 mb-3 w-[15%] text-center py-2 px-2 cursor-pointer rounded-md"
+              className="bg-blue-500 mb-3 w-[15%] text-center py-2 px-2 cursor-pointer rounded-md text-white"
               name="price"
               onChange={handleChange}
             >
@@ -370,7 +379,7 @@ export const Products = () => {
               <option value="500-9999">{"> 500"}</option>
             </select>
             <select
-              className="bg-blue-500 mb-3 w-[15%] text-center py-2 px-2 cursor-pointer rounded-md"
+              className="bg-blue-500 mb-3 w-[15%] text-center py-2 px-2 cursor-pointer rounded-md text-white"
               name="delivry"
               onChange={handleChange}
             >

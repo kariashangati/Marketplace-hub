@@ -29,7 +29,7 @@ export const Product = ({
   };
 
   return (
-    <div className="bg-dark p-3 w-[100%] rounded-md flex gap-5 cursor-pointer hover:bg-black duration-200">
+    <div className="bg-gray-100 p-3 w-[100%] rounded-md flex gap-5 cursor-pointer hover:bg-white duration-200" >
       <div className="w-[25%]">
         <img
           src={productData.product_image}
@@ -63,7 +63,7 @@ export const Product = ({
               aria-expanded={open ? "true" : undefined}
               onClick={handleClick}
             >
-              <EllipsisVerticalIcon className="w-8 h-8 text-white cursor-pointer hover:text-gray-400 duration-200" />
+              <EllipsisVerticalIcon className="w-8 h-8 text-gray-600 cursor-pointer hover:text-gray-800 duration-200" />
             </Button>
             <Menu
               id="basic-menu"
@@ -127,16 +127,16 @@ export const Product = ({
           <p>{productData.description}</p>
         </div>
         <div className="mt-1">
-          <span className="bg-blue-500 px-3 rounded-3xl">
+          <span className="bg-blue-500 text-white px-3 rounded-3xl">
             {productData.delivry}
           </span>
           <br />
           <div className="mt-2">
-            <span className="text-gray-400">
+            <span className="text-gray-700">
               Posted {moment(productData.created_at).fromNow()}
             </span>
             <br />
-            <span className="text-gray-400">{productData.location}</span>
+            <span className="text-gray-700">{productData.location}</span>
           </div>
           <div className="mt-2 flex justify-between ">
             <span className="text-2xl font-semibold">

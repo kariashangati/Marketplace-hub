@@ -2,12 +2,12 @@ export const StoreSkeleton = () => {
   return (
     <div
       role="status"
-      className="bg-dark my-3.5 px-3 py-2 rounded-md w-[100%] lg:mb-0 lg:w-[48%]"
+      className="bg-gray-300 my-3.5 px-3 py-2 rounded-md w-[100%] lg:mb-0 lg:w-[48%]"
     >
       <div className="w-20 h-20 rounded-md flex items-center gap-2">
         <div>
           <svg
-            className="animate-pulse w-20 h-20 text-gray-400 dark:text-gray-600"
+            className="animate-pulse w-20 h-20 text-gray-200 dark:text-gray-400"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="currentColor"
@@ -17,14 +17,14 @@ export const StoreSkeleton = () => {
           </svg>
         </div>
         <div>
-          <div className="animate-pulse h-2 bg-gray-400 rounded-full dark:bg-gray-700 w-48 mb-2"></div>
-          <div className="animate-pulse h-2 bg-gray-400 rounded-full dark:bg-gray-700 w-48 mb-4"></div>
+          <div className="animate-pulse h-2 bg-gray-200 rounded-full dark:bg-gray-400 w-48 mb-2"></div>
+          <div className="animate-pulse h-2 bg-gray-200 rounded-full dark:bg-gray-400 w-48 mb-4"></div>
         </div>
       </div>
       <div className="w-full">
-        <div className="animate-pulse h-2 bg-gray-400 rounded-full dark:bg-gray-700 max-w-[480px] mb-2.5"></div>
-        <div className="animate-pulse h-2 bg-gray-400 rounded-full dark:bg-gray-700 mb-2.5"></div>
-        <div className="animate-pulse h-2 bg-gray-400 rounded-full dark:bg-gray-700 max-w-[440px] mb-2.5"></div>
+        <div className="animate-pulse h-2 bg-gray-200 rounded-full dark:bg-gray-400 max-w-[480px] mb-2.5"></div>
+        <div className="animate-pulse h-2 bg-gray-200 rounded-full dark:bg-gray-400 mb-2.5"></div>
+        <div className="animate-pulse h-2 bg-gray-200 rounded-full dark:bg-gray-400 max-w-[440px] mb-2.5"></div>
       </div>
     </div>
   );

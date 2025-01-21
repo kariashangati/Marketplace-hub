@@ -42,7 +42,7 @@ export const Notifications = () => {
                     !loading && (
                         notifications && notifications.length ?
                             notifications.map((notification) =>{
-                                return <div className="flex w-[100%] mb-2 justify-between bg-dark rounded-sm py-5 px-3 hover:bg-black duration-200 cursor-pointer" onClick={() => navigate(`/product/productDetails/${notification.productId}`)}>
+                                return <div className="flex w-[100%] mb-2 justify-between bg-gray-200 rounded-xl py-6 px-3 hover:bg-gray-300 duration-200 cursor-pointer" onClick={() => navigate(`/product/productDetails/${notification.productId}`)}>
                                         <div className="flex items-center gap-2">
                                             <img src={notification.senderProfilePic} className="w-6 h-6 rounded-full"/>
                                             <span className="font-semibold hover:text-sky-500" onClick={(e) =>{navigate(`/user/userData/${notification.senderId}`),e.stopPropagation()}}>{notification.senderUsername}</span>

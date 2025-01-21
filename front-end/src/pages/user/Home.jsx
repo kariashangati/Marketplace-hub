@@ -24,9 +24,9 @@ export const Home = () => {
   return (
    
     <div className="font-sans">
-      <div className="bg-dark w-full px-10 fixed z-20 flex justify-between items-center shadow-md">
+      <div className="bg-gray-200 w-full px-10 fixed z-20 flex justify-between items-center shadow-md">
         <img src={projectLogo} alt="Logo" className="w-48 hidden lg:block mb-2"/>
-        <ul className="hidden lg:flex gap-6 items-center text-white text-md">
+        <ul className="hidden lg:flex gap-6 items-center text-black text-md">
           <li><a href="#hero" className=" font-semibold cursor-pointer hover:text-blue-400 duration-200">Home</a></li>
           <li><a href="#features" className=" font-semibold cursor-pointer hover:text-blue-400 duration-200">Features</a></li>
           <li><a href="#products" className=" font-semibold cursor-pointer hover:text-blue-400 duration-200">Products</a></li>
@@ -34,10 +34,10 @@ export const Home = () => {
           {
             !localStorage.getItem('token') ?
               <>
-                <button onClick={() => navigate('/login')} className='bg-white text-black rounded-3xl px-4 py-1 border-2 hover:bg-gray-300 duration-200 font-semibold'>
+                <button onClick={() => navigate('/login')} className='bg-black text-white rounded-3xl px-4 py-1 border-2 hover:bg-gray-300 duration-200 font-semibold'>
                   Login
                 </button>
-                <button onClick={() => navigate('/register')} className='bg-inherit text-white border-2 border-white rounded-3xl px-4 py-1 hover:bg-black duration-200 font-semibold'>
+                <button onClick={() => navigate('/register')} className='bg-inherit text-black border-2 border-black rounded-3xl px-4 py-1 hover:bg-black duration-200 font-semibold'>
                   Sign up
                 </button>
               </>
