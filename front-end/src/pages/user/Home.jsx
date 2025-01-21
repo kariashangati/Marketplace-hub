@@ -1,25 +1,24 @@
-import React, { useState } from 'react'
-import { UserSideBar } from '../../layouts/UserSideBar';
+import { useState } from 'react'
 import projectLogo from "../../../public/assets/projectLogo.png";
 import product1 from "../../../public/assets/product1.jpg";
 import product2 from "../../../public/assets/product2.jpg";
 import product3 from "../../../public/assets/product3.jpg";
 import bg from "../../../public/assets/bg.jpg";
 import { Button } from '../../components/ui/Button';
-import { FaceFrownIcon } from '@heroicons/react/24/outline';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 
 export const Home = () => {
-  const navigate = useNavigate()
-  const [name , setName] = useState()
-  const [email , setEmail] = useState()
-  const [message , setMessage] = useState()
-  console.log(email)
-  const sendemail = ()=>{
-    const subject = "Message";
-    window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+    const navigate = useNavigate()
+    const [name , setName] = useState()
+    const [email , setEmail] = useState()
+    const [message , setMessage] = useState()
+
+    const sendemail = (e)=>{
+      e.preventDefault()
+      const subject = 'Feedbacked from Shopy SAS';
+      window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
   }
 
   return (
@@ -27,11 +26,23 @@ export const Home = () => {
     <div className="font-sans">
       <div className="bg-dark w-full px-10 fixed z-20 flex justify-between items-center shadow-md">
         <img src={projectLogo} alt="Logo" className="w-48 hidden lg:block mb-2"/>
-        <ul className="hidden lg:flex space-x-6 text-white text-lg">
-          <li><a href="#hero" className=" font-semibold cursor-pointer hover:text-blue-500">Home</a></li>
-          <li><a href="#features" className=" font-semibold cursor-pointer hover:text-blue-500">Features</a></li>
-          <li><a href="#products" className=" font-semibold cursor-pointer hover:text-blue-500">Products</a></li>
-          <li><a href="#contact" className=" font-semibold cursor-pointer hover:text-blue-500">Contact</a></li>
+        <ul className="hidden lg:flex gap-6 items-center text-white text-md">
+          <li><a href="#hero" className=" font-semibold cursor-pointer hover:text-blue-400 duration-200">Home</a></li>
+          <li><a href="#features" className=" font-semibold cursor-pointer hover:text-blue-400 duration-200">Features</a></li>
+          <li><a href="#products" className=" font-semibold cursor-pointer hover:text-blue-400 duration-200">Products</a></li>
+          <li><a href="#contact" className=" font-semibold cursor-pointer hover:text-blue-400 duration-200">Contact</a></li>
+          {
+            !localStorage.getItem('token') ?
+              <>
+                <button onClick={() => navigate('/login')} className='bg-white text-black rounded-3xl px-4 py-1 border-2 hover:bg-gray-300 duration-200 font-semibold'>
+                  Login
+                </button>
+                <button onClick={() => navigate('/register')} className='bg-inherit text-white border-2 border-white rounded-3xl px-4 py-1 hover:bg-black duration-200 font-semibold'>
+                  Sign up
+                </button>
+              </>
+            :null
+          }
         </ul>
       </div>
 
@@ -43,10 +54,12 @@ export const Home = () => {
         ></div>
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/80"></div>
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-white">
-          <h1 className="text-5xl lg:text-8xl font-bold">Shopy SAS Welcomes You</h1>
-          <h2 className="text-2xl lg:text-3xl font-medium mt-6">Connecting Buyers and Sellers the Right Way</h2>
-          <div className="mt-10">
-            <Button type={'submet'} text={'See product'} bg={'bg-white'} color={'black'} onClick={()=>navigate('/user/products')}/>
+          <h1 className="text-5xl lg:text-8xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-200 via-blue-400 to-sky-500 animate-fade animate-duration-[2000ms] animate-ease" >
+            Shopy SAS Welcomes You
+          </h1>
+          <h2 className="text-2xl lg:text-3xl font-medium mt-6 animate-fade animate-duration-[2000ms] animate-ease">Connecting Buyers and Sellers the Right Way</h2>
+          <div className="mt-10 animate-fade animate-duration-[2000ms] animate-ease">
+            <Button text={'See products'} bg={'bg-white'} color={'black'} onClick={()=>navigate('/user/products')}/>
           </div>
         </div>
       </div>
@@ -118,11 +131,11 @@ export const Home = () => {
 
       <div id="contact" className="py-20 px-10 bg-white text-center">
         <h2 className="text-4xl text-black font-bold mb-10">Get in Touch</h2>
-        <form className="max-w-lg mx-auto">
-          <input type="text" placeholder="Name" required onChange={(e)=>setName(e.target.value)} className="w-full p-3 border rounded-md mb-4 text-black"/>
-          <input type="email" placeholder="Email" required onChange={(e)=>setEmail(e.target.value)} className="w-full p-3 border rounded-md mb-4 text-black"/>
-          <textarea placeholder="Message" required onChange={(e)=>setMessage(e.target.value)} className="w-full p-3 border rounded-md mb-4 text-black" rows="4"></textarea>
-          <button type="submit" onClick={sendemail} className="bg-black text-white py-3 px-6 rounded-md hover:bg-gray-800">Send Message</button>
+        <form className="max-w-lg mx-auto" onSubmit={sendemail}>
+          <input type="text" placeholder="Name" required onChange={(e)=>setName(e.target.value)} className="w-full p-3 border rounded-md mb-4 text-black border-gray-400"/>
+          <input type="email" placeholder="Email" required onChange={(e)=>setEmail(e.target.value)} className="w-full p-3 border rounded-md mb-4 text-black border-gray-400"/>
+          <textarea placeholder="Message" required onChange={(e)=>setMessage(e.target.value)} className="w-full p-3 border rounded-md mb-4 text-black resize-none border-gray-400" rows="4"></textarea>
+          <button type="submit" className="bg-black text-white py-3 px-6 rounded-md hover:bg-gray-800">Send Message</button>
         </form>
       </div>
 

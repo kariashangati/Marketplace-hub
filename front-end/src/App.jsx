@@ -22,18 +22,9 @@ import { History } from "./pages/user/History";
 import { Search } from "./pages/user/Search";
 import { ProductDetails } from "./pages/user/ProductDetails";
 import { Home } from "./pages/user/Home";
-
 import { Notifications } from "./pages/user/Notifications";
 import { MessageUser } from "./pages/user/MessageUser";
 
-/*const PageBasedOnRole = () => {
-  if (
-    localStorage.getItem("role") === "admin" ||
-    localStorage.getItem("role") === "super admin"
-  ) {
-    return <Navigate to={"/admin/dashboard"} />;
-  } else if (localStorage.getItem("role") === "user") {
-    return <Navigate to={"/user/products"} />;*/
 
 const PageBasedOnRole = () => {
   if (
@@ -45,7 +36,7 @@ const PageBasedOnRole = () => {
     return <Navigate to={"/user/home"} />;
   }
 
-  return <Navigate to={"/login"} />;
+  return <Navigate to={"/user/home"} />;
 };
 
 export const App = () => {
@@ -57,9 +48,10 @@ export const App = () => {
       <Route path={"/register"} element={<SignUp />} />
       <Route path={"/forgotPassword"} element={<ForgotPassword />} />
       <Route path={"/password-reset/:token"} element={<ResetPassword />} />
+      
+      <Route path="/user/home" element={<Home />} />
 
       <Route element={<UserRoutes />}>
-        <Route path="/user/home" element={<Home />} />
         <Route path="/user/products" element={<Products />} />
         <Route path="/user/userData/:id" element={<UserData />} />
         <Route path="/user/saves" element={<SavedProducts />} />
