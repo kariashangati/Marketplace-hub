@@ -158,6 +158,9 @@ Change the name from .env.example to .env,
 Make you smtp email informations in the .env laravel file, make the databasename as 'marketplace' and setup the username and password and host and DB_CONNECTION=mysql not sqllite
 also make sure that the .env file of laravel have the same API_KEY and SECRET_KEY like express if it's not add it.
 
+4. Note!! for betterExperience
+   Install a product default image name it productDefaultImage.png and set it in public/storage/products
+   Install a user default image userDefaultImage.jpg and set it in public/storage/users
 ### Setup the express backend app
 1. express backend setup
    ```
