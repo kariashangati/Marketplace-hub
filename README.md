@@ -14,7 +14,7 @@ This platform ensures a secure and dynamic marketplace experience, fostering a v
 ### Dashboard
 ![Screenshot (137)](https://github.com/user-attachments/assets/c41ef99d-05f6-468f-a00e-d239d1cb9971)
 1. Total Products Posted in the Last 7 Months  
-2. Total Products Posted  
+2. Total Products Posted by categories
 3. Recently Joined Users  
 4. Recently Posted Products
 
