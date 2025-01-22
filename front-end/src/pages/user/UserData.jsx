@@ -89,6 +89,13 @@ export const UserData = () => {
                   <span className="font-semibold text-gray-700">
                     {userData.username}
                   </span>
+                  {
+                    userData.role === "admin" || userData.role === "super admin" ? (
+                      <span className="font-semibold bg-blue-500 text-white w-[60%] text-center rounded-md">
+                        {userData.role}
+                      </span>
+                    ):null
+                  }
                   <span className="font-semibold text-gray-700">
                     Joined at {moment(userData.created_at).format("DD-MM-YYYY")}
                   </span>

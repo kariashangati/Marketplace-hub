@@ -1,83 +1,88 @@
 export const PRODUCTS_GRAPH_DATA = {
-    type: "line",
-    height: 280,
-    series: [
-      {
-        name: "Posted products",
-        data: [],
-      },
-    ],
-    options: {
-      chart: {
-        toolbar: {
-          show: false,
-        },
-      },
-      title: {
-        show: "",
-      },
-      dataLabels: { 
-        enabled: false,
-      },
-      colors: ["#296b29"],
-      stroke: {
-        lineCap: "round",
-        curve: "smooth",
-        width: 2
-      },
-      markers: {
-        size: 0,
-      },
-      xaxis: {
-        axisTicks: {
-          show: false,
-        },
-        axisBorder: {
-          show: false,
-        },
-        labels: {
-          style: {
-            colors: "#262436",
-            fontSize: "12px",
-            fontFamily: "inherit",
-            fontWeight: 400,
-          },
-        },
-        categories: [
-        ],
-      },
-      yaxis: {
-        labels: {
-          style: {
-            colors: "#262436",
-            fontSize: "12px",
-            fontFamily: "inherit",
-            fontWeight: 400,
-          },
-        },
-      },
-      grid: {
-        show: true,
-        borderColor: "#dddddd",
-        strokeDashArray: 5,
-        xaxis: {
-          lines: {
-            show: true,
-          },
-        },
-        padding: {
-          top: 5,
-          right: 20,
-        },
-      },
-      fill: {
-        opacity: 0.8,
-      },
-      tooltip: {
-        theme: "dark",
+  type: "line",
+  height: 280,
+  series: [
+    {
+      name: "Posted products",
+      data: [],
+    },
+  ],
+  options: {
+    chart: {
+      toolbar: {
+        show: false,
       },
     },
+    title: {
+      show: true,
+      text: "Total Posted Products in the Last 7 Months",
+      align: "center",
+      style: {
+        fontSize: "16px",
+        fontWeight: "bold",
+        fontFamily: "inherit",
+        color: "#333",
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      lineCap: "round",
+      curve: "smooth",
+      width: 2,
+    },
+    markers: {
+      size: 0,
+    },
+    xaxis: {
+      axisTicks: {
+        show: false,
+      },
+      axisBorder: {
+        show: false,
+      },
+      labels: {
+        style: {
+          fontSize: "12px",
+          fontFamily: "inherit",
+          fontWeight: 400,
+        },
+      },
+      categories: [], 
+    },
+    yaxis: {
+      labels: {
+        style: {
+          fontSize: "12px",
+          fontFamily: "inherit",
+          fontWeight: 400,
+        },
+      },
+    },
+    grid: {
+      show: true,
+      borderColor: "#dddddd",
+      strokeDashArray: 5,
+      xaxis: {
+        lines: {
+          show: true,
+        },
+      },
+      padding: {
+        top: 5,
+        right: 20,
+      },
+    },
+    fill: {
+      opacity: 0.8,
+    },
+    tooltip: {
+      theme: "dark",
+    },
+  },
 };
+
 
 export const CATEGORIES_GRAPH_DATA = {
   type: "pie",

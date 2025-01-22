@@ -38,16 +38,15 @@ server.use("/api/conversations", require("./routes/conversationRoutes"));
 server.use("/api/messages", require("./routes/messageRoutes"));
 
 io.on("connection", (socket) => {
-    console.log("A user connected");
-
-  socket.on("joinConversation", (conversationId) => {
-    socket.join(conversationId);
-    io.to(conversationId).emit("userJoined", conversationId);
-    console.log(`User joined conversation: ${conversationId}`);
-  });
+    socket.on("joinConversation", ({ selectedConversation, userId }) => {
+        socket.join(selectedConversation);
+        console.log(`User ${userId} joined conversation: ${selectedConversation}`);
+    
+        socket.to(selectedConversation).emit("userOnline", { userId });
+    });
 
   socket.on("sendMessage", (data) => {
-    io.to(data.conversationId).emit("newMessage", data);
+    io.to(data.selectedConversation).emit("newMessage", data);
   });
 
   socket.on("disconnect", () => {

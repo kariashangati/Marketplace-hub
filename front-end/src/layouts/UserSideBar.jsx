@@ -25,7 +25,7 @@ export const UserSideBar = ({ viewIcone }) => {
       className={
         viewIcone
           ? "flex z-10 flex-col justify-normal gap-2 w-20  bg-gray-200 h-[100vh] px-2 flex-wrap"
-          : "flex flex-row w-[100%] gap-2 flex-wrap justify-center z-10 bottom-0 lg:flex-col lg:justify-start lg:gap-2 lg:w-[20%] bg-gray-200 lg:h-full fixed lg:px-6"
+          : "flex pt-4 flex-row w-[100%] gap-2 flex-wrap justify-center z-10 bottom-0 lg:flex-col lg:justify-start lg:gap-2 lg:w-[20%] bg-gray-200 lg:h-full fixed lg:px-6"
       }
     >
       <img
@@ -73,7 +73,7 @@ export const UserSideBar = ({ viewIcone }) => {
           </>
         ) : (
           <div className="flex justify-center items-center h-full w-full">
-            <CircularProgress size={"40px"} color="blue" />
+            <CircularProgress size={"40px"} className="text-blue-700"/>
           </div>
         )}
       </div>

@@ -109,7 +109,7 @@ export const Profile = () => {
           <Button
             text={"Edit profile Data"}
             onClick={() => setOpenEditProfile(true)}
-            width={"20%"}
+            width={"15%"}
           />
         </div>
         <div className="mt-5 pr-5">{loading && <LinearProgress />}</div>

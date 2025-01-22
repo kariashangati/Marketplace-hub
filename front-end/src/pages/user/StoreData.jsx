@@ -12,13 +12,25 @@ import { getStore } from "../../services/storeServices";
 import storeLogo from "../../../public/assets/storeLogo.png";
 import { Product } from "../../components/App/Product";
 import { ProductSkeleton } from "../../components/skeletons/ProductSkeleton";
-import { deleteProductById, getProductsByStore } from "../../services/productServices";
+import {
+  addProductReported,
+  addSavedProduct,
+  deleteProductById,
+  deleteProductReported,
+  getProductsByStore,
+} from "../../services/productServices";
+import { DeleteModal } from "../../components/modals/DeleteModal";
 
 export const StoreData = () => {
   const [storeData, setStoreData] = useState([]);
   const [storeProducts, setStoreProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [notification, setNotification] = useState({});
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [messageAlert, setMessageAlert] = useState({});
+  const [selectedReportedProductId, setSelectedReportedProductId] = useState(0);
+
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -45,20 +57,21 @@ export const StoreData = () => {
     }
   };
 
-
-  const deleteProduct = async (productId) =>{
+  const deleteProduct = async (productId) => {
     setNotification(null);
-    try{
-      setLoading(true)
-      const response = await deleteProductById(localStorage.getItem('token'),productId);
-      setLoading(false)
-      
-      if(response.status === 200){
-        setNotification({type:'success',message:response.data.message})
-      }
+    try {
+      setLoading(true);
+      const response = await deleteProductById(
+        localStorage.getItem("token"),
+        productId
+      );
+      setLoading(false);
 
-    }catch(error){
-      setLoading(false)
+      if (response.status === 200) {
+        setNotification({ type: "success", message: response.data.message });
+      }
+    } catch (error) {
+      setLoading(false);
       if (error.response) {
         setNotification({
           type: "error",
@@ -68,7 +81,7 @@ export const StoreData = () => {
         setNotification({ type: "error", message: "Try again later" });
       }
     }
-  }
+  };
   const getProductsByStoreId = async () => {
     setNotification(null);
     setLoading(true);
@@ -91,6 +104,74 @@ export const StoreData = () => {
         });
       } else {
         setNotification({ type: "error", message: "Try again later" });
+      }
+    }
+  };
+
+  const saveProduct = async (productId) => {
+    setLoading(false);
+    setNotification(null);
+    try {
+      const response = await addSavedProduct(
+        localStorage.getItem("token"),
+        productId
+      );
+
+      setNotification({ type: "success", message: response.data.message });
+    } catch (error) {
+      setLoading(false);
+      if (error.response) {
+        setNotification({ type: "error", message: error.response.message });
+      } else {
+        setNotification({ type: "error", message: "Try again later" });
+      }
+    }
+  };
+
+  const reportedProduct = async (productId) => {
+    setLoading(false);
+    setNotification(null);
+    try {
+      const response = await addProductReported(
+        localStorage.getItem("token"),
+        productId
+      );
+
+      if (response.status == 201) {
+        setOpen(true);
+        setMessageAlert(response.data);
+      } else {
+        setNotification({ type: "success", message: response.data.message });
+      }
+    } catch (error) {
+      setLoading(false);
+      if (error.response) {
+        setNotification({ type: "error", message: error.response.message });
+      } else {
+        setNotification({ type: "error", message: "Try again later" });
+      }
+    }
+  };
+
+  const deleteReportedProduct = async (productId) => {
+    setDeleteLoading(true);
+    setNotification(null);
+    try {
+      const response = await deleteProductReported(
+        localStorage.getItem("token"),
+        productId
+      );
+      setDeleteLoading(false);
+      setOpen(false);
+      setNotification({ type: "success", message: response.data.message });
+      setSelectedReportedProductId(0);
+    } catch (error) {
+      setDeleteLoading(false);
+      setSelectedReportedProductId(0);
+      if (error.response) {
+        setNotification({ type: "error", message: error.response.message });
+      } else {
+        setNotification({ type: "error", message: "Try again latereee" });
       }
     }
   };
@@ -172,6 +253,11 @@ export const StoreData = () => {
                       key={productData.id}
                       productData={productData}
                       deleteProduct={deleteProduct}
+                      methodSaved={saveProduct}
+                      methodReported={(productId) => {
+                        reportedProduct(productId);
+                        setSelectedReportedProductId(productId);
+                      }}
                     />
                   );
                 })
@@ -183,6 +269,17 @@ export const StoreData = () => {
           <Notification
             type={notification.type}
             message={notification.message}
+          />
+        )}
+
+        {open && (
+          <DeleteModal
+            loading={deleteLoading}
+            setOpen={setOpen}
+            contenuMessage={messageAlert.message}
+            deleteItem={() => {
+              deleteReportedProduct(selectedReportedProductId);
+            }}
           />
         )}
       </div>

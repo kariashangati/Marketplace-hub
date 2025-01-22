@@ -31,7 +31,7 @@ export const SavedProducts = () => {
       ]);
 
       if (response.data.savedProducts.last_page === page) {
-        console.log("hhhhh");
+        
         hasMore.current = false;
         return;
       }

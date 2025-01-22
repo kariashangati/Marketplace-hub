@@ -143,14 +143,13 @@ export const AdminDashboard = () => {
                         </div>
                         <div className="w-[100%] lg:w-[100%] mt-6 lg:flex justify-between">
                           <div className="lg:w-[65%]">
-                            <Card className="bg-gray-100 h-80">
+                            <Card className="bg-gray-100 h-80 text-black">
                               <CardHeader
                                 floated={false}
                                 shadow={false}
                                 color="transparent"
                                 className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
                               >
-                                <span className="text-black font-semibold pl-2">Total posted products on the last 7 months</span>
                               </CardHeader>
                               <CardBody className="px-2">
                                 <Chart {...firstGraphData} />

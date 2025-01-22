@@ -5,6 +5,8 @@ import { logout } from "../services/authServices";
 import { useState } from "react";
 import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline";
 import { CircularProgress } from "@mui/material";
+import projectLogo from "../../public/assets/projectLogo.png";
+
 export const AdminSideBar = () => {
   const navigate = useNavigate();
   const [loading,setLoading] = useState(false);
@@ -19,7 +21,11 @@ export const AdminSideBar = () => {
     }
   }
   return (
-    <div className="flex flex-row w-[100%] py-2 gap-2 mx-auto flex-wrap justify-center z-10 bottom-0 lg:flex-col lg:justify-center lg:gap-2 lg:w-[20%] bg-gray-200 lg:h-full fixed lg:px-6">
+    <div className="flex pt-4 flex-row w-[100%] gap-2 flex-wrap justify-center z-10 bottom-0 lg:flex-col lg:justify-start lg:gap-2 lg:w-[20%] bg-gray-200 lg:h-full fixed lg:px-6">
+       <img
+          src={projectLogo}
+          className="w-[100%] hidden lg:block mb-8"
+        />
       {ADMINLINKS && ADMINLINKS.length
         ? ADMINLINKS.map((link) => {
             return (
@@ -40,7 +46,7 @@ export const AdminSideBar = () => {
                     <span className="text-lg font-normal hidden lg:block">{"Logout"}</span>
                 </div> 
               </>:<div className="flex justify-center items-center h-full w-full">
-                  <CircularProgress size={"40px"} color="blue" />
+                  <CircularProgress size={"40px"} className="text-blue-700"/>
                 </div>
           }
       </div>

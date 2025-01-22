@@ -31,33 +31,22 @@ export const MessageUser = () => {
   const [loading, setLoading] = useState(false);
   const [selectedConversation,setSelectedConversation] = useState(null);
   const [messages,setMessages] = useState([]);
-  const [isUserOnline,setIsUserOnline] = useState(false);
-
+    
   const refHeader = useRef(null);
   const refFooter = useRef(null);
   const refHeadeCahts = useRef(null);
-  const refSearchCahts = useRef(null);
-
-
-  console.log(messages);
-  
+  const refSearchCahts = useRef(null);  
+      
   useEffect(() => {
     if(selectedConversation !== null){
-      socket.emit("joinConversation", selectedConversation);
+      socket.emit("joinConversation", { selectedConversation, userId: localStorage.getItem('id') });
 
-      socket.on('userJoined', (data) => {
-        console.log(data);
-      })
-      socket.on("newMessage", (data) => {
-        console.log(data);
-        
+      socket.on("newMessage", (data) => {        
         if (data !== null) {
           setMessages((curr) => {
             const newMessages = [...curr, data];
             return newMessages;
-          })
-          console.log(messages);
-          
+          })          
         }
       });
     }
@@ -71,7 +60,6 @@ export const MessageUser = () => {
     try {
       const response = await getConversations(localStorage.getItem("token"));
       setConversations(response.data.conversations);
-      console.log(response);
       
     } catch (error) {
       if (error.response) {
@@ -130,6 +118,7 @@ export const MessageUser = () => {
         localStorage.getItem("token"),
         item.conversationId
       );
+      
       setChatInfo({
         receiverId: item.userId,
         conversationId: item.conversationId,
@@ -208,7 +197,7 @@ export const MessageUser = () => {
     } catch (error) {
       setLoading(false);
       if (error.response) {
-        console.log(error.response);
+        
         setNotification({
           type: "error",
           message: error.response.data.message,

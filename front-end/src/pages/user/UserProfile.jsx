@@ -271,7 +271,7 @@ export const UserProfile = () => {
                 </div>
               </div>
               <div className="mt-2">
-                <span className="text-gray-500">{userData.bio}</span>
+                <span className="text-gray-600">{userData.bio}</span>
               </div>
               <div className="border border-gray-700 w-[100%] mt-2"></div>
             </>

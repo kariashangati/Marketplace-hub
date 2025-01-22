@@ -118,8 +118,7 @@ export const Products = () => {
         localStorage.getItem("token"),
         dataNewProduct
       );
-      console.log(response);
-      
+
       setAddProductLoading(false);
       if (response.status === 200 && response.data.message) {
         setOpenCreateProduct(false);
@@ -329,20 +328,17 @@ export const Products = () => {
               alt="Add Product"
             />
             <div className="absolute inset-0 flex items-center text-center justify-center flex-col">
-              <span className="text-3xl font-semibold mb-6">It's the right time to make the sale.</span>
-              {/* <Button
-                type="submit"
-                text="Add Product"
-                width="10"
+              <span className="text-3xl font-semibold mb-6">
+                It's the right time to make the sale.
+              </span>
+
+              <button
+                className="bg-blue-600 text-white lg:w-[15%] w-[80%] justify-center items-center flex py-2 rounded-md gap-1 font-semibold"
                 onClick={() => {
                   setOpenCreateProduct(true);
                   getUserStores();
                 }}
-              /> */}
-              <button className="bg-blue-600 text-white lg:w-[15%] w-[80%] justify-center items-center flex py-2 rounded-md gap-1 font-semibold" onClick={() => {
-                  setOpenCreateProduct(true);
-                  getUserStores();
-                }}>
+              >
                 <PlusCircleIcon className="w-6 h-6 text-white" />
                 Add product
               </button>
@@ -361,7 +357,7 @@ export const Products = () => {
               {categories && categories.length
                 ? categories.map((category) => {
                     return (
-                      <option value={category.id}>
+                      <option key={category.id} value={category.id}>
                         {category.categoryName}
                       </option>
                     );
@@ -404,6 +400,7 @@ export const Products = () => {
             products.map((product) => {
               return (
                 <Product
+                  key={product.id}
                   viewUser
                   methodReported={(productId) => {
                     setSelectedReportedProductId(productId);

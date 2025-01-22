@@ -47,4 +47,25 @@ const likeProduct = async (request,response) =>{
     }
 }
 
-module.exports = {getProductLikes,likeProduct};
+const productAlreadyLiked = async (request,response) =>{
+    try{
+        const productId = parseInt(request.query.productId);
+        const alreadyLiked = await Like.findOne({productIdLiked:productId,likerId:request.userId});
+        if(alreadyLiked){
+            return response.json({
+                'message' : 'Already liked',
+            })
+        }else{
+            return response.json({
+                'message' : 'Not liked yet',
+            })
+        }
+
+    }catch(error){
+        return response.status(500).json({
+            "message" : error.message || "Try again later"
+        })
+    }
+}
+
+module.exports = {getProductLikes,likeProduct,productAlreadyLiked};
