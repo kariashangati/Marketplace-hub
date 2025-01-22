@@ -69,17 +69,17 @@ export const Home = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="bg-white p-6 rounded-md shadow-md">
             <h3 className="text-2xl font-semibold text-black mb-4">Feature 1</h3>
-            <p className='text-black'>We carefully curate only the highest-quality products that are designed to meet your specific needs. Whether you're looking for the latest tech, home goods, or fashion, our marketplace offers a wide range of premium options to ensure you get the best value for your money.
+            <p className='text-black'>We carefully curate only the highest-quality products that are designed to meet your specific needs. Whether you're looking for the latest tech, home goods, or fashion, our marketplace offers a wide range of premium options to ensure you get the best value for your money
             </p>
           </div>
           <div className="bg-white p-6 rounded-md shadow-md">
             <h3 className="text-2xl font-semibold text-black mb-4">Feature 2</h3>
-            <p className='text-black'>With secure and reliable transactions at the core of our marketplace, we guarantee that every purchase you make is safe. Our platform uses state-of-the-art encryption to protect your personal and financial data, giving you peace of mind with every order.
+            <p className='text-black'>With secure and reliable transactions at the core of our marketplace, we guarantee that every purchase you make is safe. Our platform uses state-of-the-art encryption to protect your personal and financial data, giving you peace of mind with every order
             </p>
           </div>
           <div className="bg-white p-6 rounded-md shadow-md">
             <h3 className="text-2xl font-semibold text-black mb-4">Feature 3</h3>
-            <p className='text-black'>Our dedicated customer support team is available 24/7 to ensure that you have a smooth and hassle-free shopping experience. Whether you have a question, need assistance with an order, or require product advice, we’re here to help at any time.
+            <p className='text-black'>Our dedicated customer support team is available 24/7 to ensure that you have a smooth and hassle-free shopping experience. Whether you have a question, need assistance with an order, or require product advice, we’re here to help at any time
             </p>
           </div>
         </div>
