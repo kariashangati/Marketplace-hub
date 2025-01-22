@@ -1,54 +1,11 @@
 import { UserSideBar } from "../../layouts/UserSideBar";
 import {
-  CheckIcon,
   ChevronDoubleDownIcon,
-  EllipsisHorizontalIcon,
-  EllipsisVerticalIcon,
   MagnifyingGlassIcon,
-  PencilSquareIcon,
-  PhoneIcon,
   PlayIcon,
-  VideoCameraIcon,
 } from "@heroicons/react/24/outline";
 
-const messages = [
-  {
-    id: 1,
-    userName: "said kachoud",
-    imageUrl: "/assets/userDefaultImage.jpg",
-    timeAgo: "4min",
-    messagesCount: 20,
-    enLinge: true,
-    redd: false,
-  },
-  {
-    id: 2,
-    userName: "ayoub mhainid",
-    imageUrl: "/assets/userDefaultImage.jpg",
-    timeAgo: "1h",
-    messagesCount: 17,
-    enLinge: false,
-    redd: true,
-  },
-  {
-    id: 3,
-    userName: "soufiane bouir",
-    imageUrl: "/assets/userDefaultImage.jpg",
-    timeAgo: "10min",
-    messagesCount: 1,
-    enLinge: true,
-    redd: false,
-  },
-  {
-    id: 4,
-    userName: "said kachoud",
-    imageUrl: "/assets/userDefaultImage.jpg",
-    timeAgo: "4min",
-    messagesCount: 5,
-    enLinge: true,
-    redd: true,
-  },
-];
+
 const itemMessage = messages.filter((item) => {
   return item.id === 2;
 });

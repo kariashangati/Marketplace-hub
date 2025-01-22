@@ -68,7 +68,7 @@ export const MessageItem = ({ message, deleteItemMeassage }) => {
         }`}
       >
         {message.messageContent}
-        <span className={`self-end text-xs font-semibold ${isMe ? 'text-gray-200' : 'text-gray-500'}`}>{moment(message.createdAt).format("HH:MM")}</span>
+        <span className={`self-end text-xs font-semibold ${isMe ? 'text-gray-200' : 'text-gray-500'}`}>{moment(message.createdAt).format("HH:mm")}</span>
       </p>
     </div>
   );

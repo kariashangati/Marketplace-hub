@@ -143,14 +143,14 @@ export const AdminDashboard = () => {
                         </div>
                         <div className="w-[100%] lg:w-[100%] mt-6 lg:flex justify-between">
                           <div className="lg:w-[65%]">
-                            <Card className="bg-dark h-80">
+                            <Card className="bg-gray-100 h-80">
                               <CardHeader
                                 floated={false}
                                 shadow={false}
                                 color="transparent"
                                 className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
                               >
-                                <span className="text-white font-semibold pl-2">Total posted products on the last 7 months</span>
+                                <span className="text-black font-semibold pl-2">Total posted products on the last 7 months</span>
                               </CardHeader>
                               <CardBody className="px-2">
                                 <Chart {...firstGraphData} />
@@ -158,14 +158,14 @@ export const AdminDashboard = () => {
                             </Card>
                           </div>
                           <div className="lg:w-[30%] mt-4 mb-32 lg:mt-0">
-                            <Card className="bg-dark h-80">
+                            <Card className="bg-gray-100 h-80">
                             <CardHeader
                               floated={false}
                               shadow={false}
                               color="transparent"
                               className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
                             >
-                              <span className="text-white font-semibold pl-2">Poducts by categories</span>
+                              <span className="text-black font-semibold pl-2">Poducts by categories</span>
                             </CardHeader>
                             <CardBody className="mt-4 grid place-items-center px-2">
                               <Chart {...secondGraphData} />
@@ -174,7 +174,7 @@ export const AdminDashboard = () => {
                           </div>
                         </div>
                         <div className="flex mt-[-60px] gap-6 lg:gap-0 flex-col lg:flex-row lg:justify-between mb-32 lg:mb-10">
-                          <div className="bg-dark px-4 py-2 w-[100%] lg:w-[38%]">
+                          <div className="bg-gray-100 px-4 py-2 w-[100%] lg:w-[38%]">
                             <h1 className="text-2xl font-semibold">Recently joined users</h1>
                             <br></br>
                             {
@@ -185,7 +185,7 @@ export const AdminDashboard = () => {
                               :null
                             }
                           </div>
-                          <div className="bg-dark px-4 py-2 w-[100%] lg:w-[60%]">
+                          <div className="bg-gray-100 px-4 py-2 w-[100%] lg:w-[60%]">
                             <h1 className="text-2xl font-semibold">Recently Posted Products</h1>
                             <br></br>
                             {

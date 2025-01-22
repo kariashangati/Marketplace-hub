@@ -19,7 +19,7 @@ export const AdminSideBar = () => {
     }
   }
   return (
-    <div className="flex flex-row w-[100%] py-2 gap-2 mx-auto flex-wrap justify-center z-10 bottom-0 lg:flex-col lg:justify-center lg:gap-2 lg:w-[20%] bg-dark lg:h-full fixed lg:px-6">
+    <div className="flex flex-row w-[100%] py-2 gap-2 mx-auto flex-wrap justify-center z-10 bottom-0 lg:flex-col lg:justify-center lg:gap-2 lg:w-[20%] bg-gray-200 lg:h-full fixed lg:px-6">
       {ADMINLINKS && ADMINLINKS.length
         ? ADMINLINKS.map((link) => {
             return (
@@ -29,7 +29,7 @@ export const AdminSideBar = () => {
             );
           })
         : null}
-      <div onClick={logoutFromApp} className={`flex lg:gap-2 items-center cursor-pointer hover:bg-blue-700 duration-200 rounded-lg py-1`}>
+      <div onClick={logoutFromApp} className={`flex lg:gap-2 items-center cursor-pointer hover:text-blue-700 duration-200 rounded-lg py-1`}>
           {
             !loading ? 
               <>
@@ -40,7 +40,7 @@ export const AdminSideBar = () => {
                     <span className="text-lg font-normal hidden lg:block">{"Logout"}</span>
                 </div> 
               </>:<div className="flex justify-center items-center h-full w-full">
-                  <CircularProgress size={"40px"} color="white" />
+                  <CircularProgress size={"40px"} color="blue" />
                 </div>
           }
       </div>

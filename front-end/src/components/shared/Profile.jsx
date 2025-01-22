@@ -136,7 +136,7 @@ export const Profile = () => {
                 </div>
               </div>
               <div className="mt-2">
-                <span className="text-gray-500">{userData.bio}</span>
+                <span className="text-gray-700">{userData.bio}</span>
               </div>
               <div className="border border-gray-700 w-[100%] mt-2"></div>
               <div className="mt-4">
@@ -147,10 +147,10 @@ export const Profile = () => {
                   <table className="w-[100%] border-2 border-gray-600">
                     <thead>
                       <tr>
-                        <th className="py-2 bg-dark text-lg">Username</th>
-                        <th className="py-2 bg-dark text-lg">Email</th>
-                        <th className="py-2 bg-dark text-lg">Password</th>
-                        <th className="py-2 bg-dark text-lg">Created at</th>
+                        <th className="py-2 bg-gray-200 text-lg">Username</th>
+                        <th className="py-2 bg-gray-200 text-lg">Email</th>
+                        <th className="py-2 bg-gray-200 text-lg">Password</th>
+                        <th className="py-2 bg-gray-200 text-lg">Created at</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -167,8 +167,8 @@ export const Profile = () => {
                   <table className="w-[100%] border-2 border-gray-600">
                     <thead>
                       <tr>
-                        <th className="py-2 bg-dark text-lg">Role</th>
-                        <th className="py-2 bg-dark text-lg w-[70%]">Privileges</th>
+                        <th className="py-2 bg-gray-200 text-lg">Role</th>
+                        <th className="py-2 bg-gray-200 text-lg w-[70%]">Privileges</th>
                       </tr>
                     </thead>
                     <tbody>

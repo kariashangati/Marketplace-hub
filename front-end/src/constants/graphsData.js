@@ -19,7 +19,7 @@ export const PRODUCTS_GRAPH_DATA = {
       dataLabels: { 
         enabled: false,
       },
-      colors: ["#00ff00"],
+      colors: ["#296b29"],
       stroke: {
         lineCap: "round",
         curve: "smooth",
@@ -37,7 +37,7 @@ export const PRODUCTS_GRAPH_DATA = {
         },
         labels: {
           style: {
-            colors: "#bfbfbf",
+            colors: "#262436",
             fontSize: "12px",
             fontFamily: "inherit",
             fontWeight: 400,
@@ -49,7 +49,7 @@ export const PRODUCTS_GRAPH_DATA = {
       yaxis: {
         labels: {
           style: {
-            colors: "#bfbfbf",
+            colors: "#262436",
             fontSize: "12px",
             fontFamily: "inherit",
             fontWeight: 400,

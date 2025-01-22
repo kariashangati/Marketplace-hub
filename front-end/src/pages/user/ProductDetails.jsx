@@ -191,6 +191,7 @@ export const ProductDetails = () => {
             data.append("user2Id",productDetails.store.user.id)
             data.append("user2Username",productDetails.store.user.username)
             data.append("user2ProfilePic",productDetails.store.user.profile_picture)
+            data.append("productId",id);
             const response = await postConversation(localStorage.getItem('token'),data);
             console.log(response);
             
@@ -198,7 +199,6 @@ export const ProductDetails = () => {
                 const messageData = new FormData();
                 messageData.append("receiverId",productDetails.store.user.id);
                 messageData.append("conversationId",response.data.conversation._id);
-                messageData.append("productId",id);
                 messageData.append("messageContent","hello👋, Is this item available?");
                 const response2 = await postMessage(localStorage.getItem('token'),messageData);
                 console.log(response2);

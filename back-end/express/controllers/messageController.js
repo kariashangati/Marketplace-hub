@@ -1,3 +1,4 @@
+const Conversation = require("../models/Conversation");
 const Message = require("../models/Message");
 const mongoose = require("mongoose");
 
@@ -34,7 +35,15 @@ const postMessage = async (request, response) => {
       messageContent,
     });
 
+
+    await Conversation.findByIdAndUpdate(conversationId, {lastMessage:messageContent});
     await message.save();
+
+    
+    const io = request.app.get("io");
+    io.to(conversationId).emit("newMessage", {messageContent, senderId: message.senderId, receiverId: message.receiverId, productId: message.productId, createdAt: message.createdAt});
+
+
     return response.status(200).json({
       message: "Message sent successfully",
       messageCon: message,

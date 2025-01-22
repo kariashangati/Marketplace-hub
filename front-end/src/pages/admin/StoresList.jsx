@@ -12,6 +12,7 @@ import { ResultPagination } from "../../components/ui/ResultPagination";
 import { DeleteModal } from "../../components/modals/DeleteModal";
 import { Notification } from "../../components/ui/Notification";
 import Layout from "../../components/Layout";
+import { AdminSideBar } from "../../layouts/AdminSideBar";
 
 export const StoresList = () => {
   const [storesList, setStoresList] = useState([]);
@@ -135,8 +136,11 @@ export const StoresList = () => {
   };
 
   return (
-    <Layout>
-      <div className="lg:ml-[21%] px-2">
+      <div>
+        <div>
+          <AdminSideBar />
+        </div>
+        <div className="lg:ml-[21%] px-2">
         <div className="pt-6">
           <h1 className="text-3xl font-semibold">Stores List</h1>
           <div className="w-[60%] pt-6">
@@ -225,6 +229,6 @@ export const StoresList = () => {
           )}
         </div>
       </div>
-    </Layout>
-  );
+      </div>
+        );
 };

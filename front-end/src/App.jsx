@@ -60,10 +60,7 @@ export const App = () => {
         <Route path="/user/history" element={<History />} />
         <Route path="/user/search" element={<Search />} />
         <Route path="/user/messages" element={<MessageUser />} />
-        <Route
-          path="/product/productDetails/:id"
-          element={<ProductDetails />}
-        />
+        <Route path="/product/productDetails/:id" element={<ProductDetails />}/>
         <Route path="/user/notifications" element={<Notifications />} />
       </Route>
 
