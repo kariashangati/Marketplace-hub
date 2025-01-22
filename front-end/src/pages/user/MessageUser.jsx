@@ -92,7 +92,7 @@ export const MessageUser = () => {
         localStorage.getItem("token"),
         item.conversationId
       );
-      // console.log(item);
+      
       setChatInfo({
         receiverId: item.userId,
         conversationId: item.conversationId,
@@ -159,7 +159,7 @@ export const MessageUser = () => {
     } catch (error) {
       setLoading(false);
       if (error.response) {
-        console.log(error.response);
+        
         setNotification({
           type: "error",
           message: error.response.data.message,
