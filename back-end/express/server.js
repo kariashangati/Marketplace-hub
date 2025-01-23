@@ -7,6 +7,7 @@ const { deleteUserDeletedData } = require("./controllers/userDataController");
 const { deleteProductData } = require("./controllers/deleteProductData");
 const http = require("http");
 const { Server } = require("socket.io"); 
+require("dotenv").config();
 
 const server = express();
 const httpServer = http.createServer(server);
@@ -56,6 +57,6 @@ io.on("connection", (socket) => {
 
 server.set("io", io);
 
-httpServer.listen(3000, () => {
+httpServer.listen(process.env.PORT, () => {
   console.log("Server running on port 3000");
 });
